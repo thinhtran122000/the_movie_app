@@ -16,19 +16,6 @@ class FetchData extends TrailerEvent {
   });
 }
 
-class FetchDataTrailer extends TrailerEvent {
-  final String language;
-  final int page;
-  final String region;
-  final String? includeVideoLanguage;
-  FetchDataTrailer({
-    required this.language,
-    required this.page,
-    required this.region,
-    this.includeVideoLanguage,
-  });
-}
-
 class ChangeType extends TrailerEvent {
   final bool isActive;
   ChangeType({
@@ -64,12 +51,5 @@ class StopTrailer extends TrailerEvent {
     required this.isActive,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
-  });
-}
-
-class ChangeSoundStatus extends TrailerEvent {
-  final bool enabledSound;
-  ChangeSoundStatus({
-    required this.enabledSound,
   });
 }

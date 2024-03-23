@@ -60,6 +60,7 @@ flutter:
     - lib/shared_ui/assets/icons/genre_icon.svg
     - lib/shared_ui/assets/icons/backward_icon.svg
     - lib/shared_ui/assets/icons/forward_icon.svg
+    - lib/shared_ui/assets/icons/playback_speed_icon.svg
     - lib/shared_ui/assets/icons/eye_open_icon.png
     - lib/shared_ui/assets/icons/eye_close_icon.png
     - lib/shared_ui/assets/images/corgi.jpg

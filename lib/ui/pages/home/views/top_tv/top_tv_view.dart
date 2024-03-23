@@ -82,6 +82,7 @@ class TopTvView extends StatelessWidget {
     final list = state.listTopTv;
     final item = index < list.length ? list[index] : null;
     return TertiaryItem(
+      heroTag: '${AppConstants.topTvHeroTag}-$index',
       index: index,
       itemCount: list.length,
       title: item?.name,
@@ -91,7 +92,7 @@ class TopTvView extends StatelessWidget {
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
-          page: const DetailsPage(),
+          page: DetailsPage(heroTag: '${AppConstants.topTvHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

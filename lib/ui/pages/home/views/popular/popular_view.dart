@@ -96,13 +96,14 @@ class PopularView extends StatelessWidget {
     final state = BlocProvider.of<PopularBloc>(context).state;
     final item = state.listPopular.isNotEmpty ? state.listPopular[index] : null;
     return SliderItem(
+      heroTag: '${AppConstants.popularMovieHeroTag}-$index',
       isBackdrop: true,
       imageUrlBackdrop: item?.backdropPath == null
           ? ''
           : '${AppConstants.kImagePathBackdrop}${item?.backdropPath}',
       onTap: () => Navigator.of(context).push(
         CustomPageRoute(
-          page: const DetailsPage(),
+          page: DetailsPage(heroTag: '${AppConstants.popularMovieHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

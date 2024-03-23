@@ -16,10 +16,9 @@ class NonaryItem extends StatefulWidget {
   final ObjectKey? youtubeKey;
   final bool enableVideo;
   final String videoId;
-  final bool? enableSound;
+  final String heroTag;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapVideo;
-  final VoidCallback? onTapSound;
   final VoidCallback? onTapFullScreen;
   final YoutubePlayerController controller;
   final Function(YoutubeMetaData)? onEnded;
@@ -32,13 +31,12 @@ class NonaryItem extends StatefulWidget {
     this.onEnded,
     this.onTapVideo,
     this.youtubeKey,
-    this.onTapSound,
     this.onTapFullScreen,
-    this.enableSound,
     required this.videoId,
     required this.controller,
     required this.imageUrl,
     required this.enableVideo,
+    required this.heroTag,
   });
 
   @override
@@ -48,7 +46,7 @@ class NonaryItem extends StatefulWidget {
 class _NonaryItemState extends State<NonaryItem> {
   int remaningDuration = 0;
   int currentPosition = 0;
-  double width = 325.w;
+  bool enabledSound = true;
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
@@ -60,7 +58,7 @@ class _NonaryItemState extends State<NonaryItem> {
             onTap: widget.enableVideo ? null : widget.onTapVideo,
             behavior: HitTestBehavior.deferToChild,
             child: Container(
-              width: width,
+              width: 325.w,
               height: 180.h,
               margin: EdgeInsets.fromLTRB(0, 5.h, 0, 5.h),
               clipBehavior: Clip.antiAlias,
@@ -75,163 +73,191 @@ class _NonaryItemState extends State<NonaryItem> {
                 ],
               ),
               child: widget.enableVideo
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(15.r),
-                      child: YoutubePlayer(
-                        width: width,
-                        onEnded: widget.onEnded,
-                        key: widget.youtubeKey,
-                        controller: widget.controller
-                          ..addListener(
-                            () => setState(() {
-                              remaningDuration =
-                                  widget.controller.value.metaData.duration.inMilliseconds;
-                              currentPosition = widget.controller.value.position.inMilliseconds;
-                            }),
+                  ? Hero(
+                      tag: widget.heroTag,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.r),
+                        child: YoutubePlayer(
+                          width: 325.w,
+                          onEnded: widget.onEnded,
+                          key: widget.youtubeKey,
+                          controller: enabledSound
+                              ? (widget.controller
+                                ..addListener(
+                                  () => setState(
+                                    () {
+                                      remaningDuration =
+                                          widget.controller.value.metaData.duration.inMilliseconds;
+                                      currentPosition =
+                                          widget.controller.value.position.inMilliseconds;
+                                    },
+                                  ),
+                                )
+                                ..unMute())
+                              : (widget.controller
+                                ..addListener(
+                                  () => setState(
+                                    () {
+                                      remaningDuration =
+                                          widget.controller.value.metaData.duration.inMilliseconds;
+                                      currentPosition =
+                                          widget.controller.value.position.inMilliseconds;
+                                    },
+                                  ),
+                                )
+                                ..mute()),
+                          progressColors: ProgressBarColors(
+                            playedColor: whiteColor,
+                            handleColor: whiteColor,
+                            backgroundColor: greyColor,
+                            bufferedColor: greyColor.withOpacity(0.5),
                           ),
-                        progressColors: ProgressBarColors(
-                          playedColor: whiteColor,
-                          handleColor: whiteColor,
-                          backgroundColor: greyColor,
-                          bufferedColor: greyColor.withOpacity(0.5),
-                        ),
-                        bottomActions: [
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: 310.w,
-                                child: ProgressBar(
-                                  controller: widget.controller,
-                                  colors: ProgressBarColors(
-                                    playedColor: whiteColor,
-                                    handleColor: whiteColor,
-                                    backgroundColor: greyColor,
-                                    bufferedColor: greyColor.withOpacity(0.5),
+                          bottomActions: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 310.w,
+                                  child: ProgressBar(
+                                    controller: widget.controller,
+                                    colors: ProgressBarColors(
+                                      playedColor: whiteColor,
+                                      handleColor: whiteColor,
+                                      backgroundColor: whiteColor.withOpacity(0.2),
+                                      bufferedColor: greyColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: widget.onTapSound,
-                                      child: Icon(
-                                        (widget.enableSound ?? false)
-                                            ? Icons.volume_off
-                                            : Icons.volume_up,
-                                        color: whiteColor,
-                                        size: 20.sp,
-                                      ),
-                                    ),
-                                    SizedBox(width: 20.w),
-                                    GestureDetector(
-                                      onTap: () => widget.controller.seekTo(
-                                        Duration(milliseconds: currentPosition - 10000),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        IconsPath.backwardIcon.assetName,
-                                        width: 14.w,
-                                        height: 14.h,
-                                      ),
-                                    ),
-                                    SizedBox(width: 15.w),
-                                    GestureDetector(
-                                      onTap: () => widget.controller.seekTo(
-                                        Duration(milliseconds: currentPosition + 10000),
-                                      ),
-                                      child: SvgPicture.asset(
-                                        IconsPath.forwardIcon.assetName,
-                                        width: 15.w,
-                                        height: 15.h,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    SizedBox(
-                                      width: 80.w,
-                                      child: Text(
-                                        '${AppUtils().durationFormatter(currentPosition)} / ${AppUtils().durationFormatter(remaningDuration)}',
-                                        textAlign: TextAlign.center,
-                                        textScaleFactor: 1,
-                                        style: TextStyle(
-                                          fontSize: 13.sp,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() => enabledSound = !enabledSound);
+                                          enabledSound
+                                              ? widget.controller.setVolume(100)
+                                              : widget.controller.setVolume(0);
+                                        },
+                                        child: Icon(
+                                          enabledSound ? Icons.volume_up : Icons.volume_off,
                                           color: whiteColor,
+                                          size: 20.sp,
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 50.w),
-                                    SizedBox(
-                                      width: 30.w,
-                                      height: 30.h,
-                                      child: PlaybackSpeedButton(
-                                        controller: widget.controller,
+                                      SizedBox(width: 20.w),
+                                      GestureDetector(
+                                        onTap: () => widget.controller.seekTo(
+                                          Duration(milliseconds: currentPosition - 10000),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          IconsPath.backwardIcon.assetName,
+                                          width: 14.w,
+                                          height: 14.h,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 15.w),
-                                    GestureDetector(
-                                      onTap: widget.onTapFullScreen,
-                                      child: Icon(
-                                        Icons.zoom_in_map_rounded,
-                                        size: 19.sp,
-                                        color: whiteColor,
+                                      SizedBox(width: 15.w),
+                                      GestureDetector(
+                                        onTap: () => widget.controller.seekTo(
+                                          Duration(milliseconds: currentPosition + 10000),
+                                        ),
+                                        child: SvgPicture.asset(
+                                          IconsPath.forwardIcon.assetName,
+                                          width: 15.w,
+                                          height: 15.h,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                        thumbnail: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Positioned.fill(
-                              child: CachedNetworkImage(
-                                imageUrl: widget.imageUrl,
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.fill,
-                                progressIndicatorBuilder: (context, url, progress) =>
-                                    const CustomIndicator(),
-                                errorWidget: (context, url, error) => Image.asset(
-                                  ImagesPath.noImage.assetName,
-                                  filterQuality: FilterQuality.high,
-                                  fit: BoxFit.fill,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              child: widget.videoId.isNotEmpty
-                                  ? const SizedBox()
-                                  : BackdropFilter(
-                                      blendMode: BlendMode.src,
-                                      filter: ImageFilter.blur(
-                                        sigmaX: 8,
-                                        sigmaY: 8,
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                        alignment: Alignment.center,
-                                        color: blackColor.withOpacity(0.6),
+                                      SizedBox(width: 10.w),
+                                      SizedBox(
+                                        width: 80.w,
                                         child: Text(
-                                          '''${widget.title} is comming soon on TMDb''',
+                                          '${AppUtils().durationFormatter(currentPosition)} / ${AppUtils().durationFormatter(remaningDuration)}',
                                           textAlign: TextAlign.center,
                                           textScaleFactor: 1,
                                           style: TextStyle(
-                                            fontSize: 12.sp,
+                                            fontSize: 13.sp,
                                             color: whiteColor,
                                           ),
                                         ),
                                       ),
-                                    ),
-                            ),
+                                      SizedBox(width: 50.w),
+                                      PopupMenuButton<double>(
+                                        color: blackColor.withOpacity(0.5),
+                                        surfaceTintColor: whiteColor,
+                                        position: PopupMenuPosition.over,
+                                        padding: EdgeInsets.zero,
+                                        offset: const Offset(0, -250),
+                                        onSelected: (value) =>
+                                            widget.controller.setPlaybackRate(value),
+                                        icon: SvgPicture.asset(
+                                          IconsPath.playbackSpeedIcon.assetName,
+                                          height: 20.h,
+                                        ),
+                                        itemBuilder: itemBuilder,
+                                      ),
+                                      GestureDetector(
+                                        onTap: widget.onTapFullScreen,
+                                        child: Icon(
+                                          Icons.fullscreen,
+                                          size: 22.sp,
+                                          color: whiteColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
+                          thumbnail: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Positioned.fill(
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.imageUrl,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.fill,
+                                  progressIndicatorBuilder: (context, url, progress) =>
+                                      const CustomIndicator(),
+                                  errorWidget: (context, url, error) => Image.asset(
+                                    ImagesPath.noImage.assetName,
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                child: widget.videoId.isNotEmpty
+                                    ? const SizedBox()
+                                    : BackdropFilter(
+                                        blendMode: BlendMode.src,
+                                        filter: ImageFilter.blur(
+                                          sigmaX: 8,
+                                          sigmaY: 8,
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                          alignment: Alignment.center,
+                                          color: blackColor.withOpacity(0.6),
+                                          child: Text(
+                                            '''${widget.title} is comming soon on TMDb''',
+                                            textAlign: TextAlign.center,
+                                            textScaleFactor: 1,
+                                            style: TextStyle(
+                                              fontSize: 12.sp,
+                                              color: whiteColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -239,16 +265,19 @@ class _NonaryItemState extends State<NonaryItem> {
                       alignment: Alignment.center,
                       children: [
                         Positioned.fill(
-                          child: CachedNetworkImage(
-                            imageUrl: widget.imageUrl,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.fill,
-                            progressIndicatorBuilder: (context, url, progress) =>
-                                const CustomIndicator(),
-                            errorWidget: (context, url, error) => Image.asset(
-                              ImagesPath.noImage.assetName,
+                          child: Hero(
+                            tag: widget.heroTag,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.imageUrl,
                               filterQuality: FilterQuality.high,
                               fit: BoxFit.fill,
+                              progressIndicatorBuilder: (context, url, progress) =>
+                                  const CustomIndicator(),
+                              errorWidget: (context, url, error) => Image.asset(
+                                ImagesPath.noImage.assetName,
+                                filterQuality: FilterQuality.high,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ),
@@ -296,4 +325,42 @@ class _NonaryItemState extends State<NonaryItem> {
     widget.controller.dispose();
     super.dispose();
   }
+
+  List<double> playbackRate = [
+    PlaybackRate.quarter,
+    PlaybackRate.half,
+    PlaybackRate.threeQuarter,
+    PlaybackRate.normal,
+    PlaybackRate.oneAndAQuarter,
+    PlaybackRate.oneAndAHalf,
+    PlaybackRate.oneAndAThreeQuarter,
+    PlaybackRate.twice,
+  ];
+
+  List<PopupMenuItem<double>> itemBuilder(BuildContext context) => playbackRate
+      .map<PopupMenuItem<double>>(
+        (e) => PopupMenuItem(
+          height: 25.h,
+          value: e,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                widget.controller.value.playbackRate == e ? Icons.check_circle : null,
+                color: whiteColor,
+                size: 15.sp,
+              ),
+              SizedBox(width: 5.w),
+              Text(
+                e == PlaybackRate.normal ? 'Normal' : '$e',
+                style: TextStyle(
+                  color: whiteColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      )
+      .toList();
 }

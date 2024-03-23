@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
                       visible: state.visible,
                       onEndAnimation: () => state.opacity == 0.0
                           ? bloc.add(DisplayToast(
-                              visibility: false,
+                              visible: false,
                               statusMessage: state.statusMessage,
                             ))
                           : null,

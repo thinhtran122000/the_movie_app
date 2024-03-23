@@ -10,11 +10,15 @@ class ChangeAnimationToast extends HomeEvent {
 }
 
 class DisplayToast extends HomeEvent {
-  final bool visibility;
+  final bool visible;
   final String statusMessage;
 
   DisplayToast({
-    required this.visibility,
+    required this.visible,
     required this.statusMessage,
   });
+}
+
+class DisableTrailer extends HomeEvent {
+ 
 }

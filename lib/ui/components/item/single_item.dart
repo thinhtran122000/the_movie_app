@@ -18,6 +18,7 @@ class SingleItem extends StatelessWidget {
   final bool? favorite;
   final double averageLuminance;
   final String? posterPath;
+  final String heroTag;
   const SingleItem({
     super.key,
     this.onTapItem,
@@ -32,6 +33,7 @@ class SingleItem extends StatelessWidget {
     required this.colors,
     required this.averageLuminance,
     this.onTapFavor,
+    required this.heroTag,
   });
 
   @override
@@ -58,24 +60,27 @@ class SingleItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CachedNetworkImage(
-                width: 115.w,
-                imageUrl: imageUrl,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, progress) => SizedBox(
-                  height: 172.h,
-                  child: Center(
-                    child: CupertinoActivityIndicator(
-                      color: darkBlueColor,
-                    ),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Image.asset(
-                  ImagesPath.noImage.assetName,
+              Hero(
+                tag: heroTag,
+                child: CachedNetworkImage(
                   width: 115.w,
+                  imageUrl: imageUrl,
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, progress) => SizedBox(
+                    height: 172.h,
+                    child: Center(
+                      child: CupertinoActivityIndicator(
+                        color: darkBlueColor,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    ImagesPath.noImage.assetName,
+                    width: 115.w,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
               Expanded(

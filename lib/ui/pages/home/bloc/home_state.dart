@@ -26,3 +26,11 @@ class HomeSuccess extends HomeState {
     required super.statusMessage,
   });
 }
+
+class HomeDisableSuccess extends HomeState {
+  HomeDisableSuccess({
+    required super.visible,
+    required super.opacity,
+    required super.statusMessage,
+  });
+}

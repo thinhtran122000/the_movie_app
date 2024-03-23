@@ -14,6 +14,7 @@ class TertiaryItem extends StatelessWidget {
   final bool? favorite;
   final int itemCount;
   final int index;
+  final String heroTag;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapViewAll;
   final VoidCallback? onTapBanner;
@@ -32,6 +33,7 @@ class TertiaryItem extends StatelessWidget {
     this.onTapInfo,
     this.favorite,
     this.voteAverage,
+    required this.heroTag,
     required this.imageUrl,
     required this.itemCount,
     required this.index,
@@ -71,20 +73,23 @@ class TertiaryItem extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
-                        CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          filterQuality: FilterQuality.high,
-                          width: double.infinity,
-                          height: (enableInfo ?? false) ? 190.h : 210.h,
-                          fit: BoxFit.fill,
-                          progressIndicatorBuilder: (context, url, progress) =>
-                              const CustomIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(
-                            ImagesPath.noImage.assetName,
-                            width: double.infinity,
-                            height: double.infinity,
+                        Hero(
+                          tag: heroTag,
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
                             filterQuality: FilterQuality.high,
+                            width: double.infinity,
+                            height: (enableInfo ?? false) ? 190.h : 210.h,
                             fit: BoxFit.fill,
+                            progressIndicatorBuilder: (context, url, progress) =>
+                                const CustomIndicator(),
+                            errorWidget: (context, url, error) => Image.asset(
+                              ImagesPath.noImage.assetName,
+                              width: double.infinity,
+                              height: double.infinity,
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                         Positioned(

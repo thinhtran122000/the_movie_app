@@ -5,4 +5,15 @@ class AppConstants {
   static const Map<String, dynamic> defaultParameters = {
     'api_key': AppConstants.kApiKey,
   };
+
+  static const String popularMovieHeroTag = 'popular-movie-hero';
+  static const String trendingMovieHeroTag = 'trending-movie-hero';
+  static const String topratedMovieHeroTag = 'top-rated-movie-hero';
+  static const String trailerMovieHeroTag = 'trailer-movie-hero';
+  static const String trailerTvHeroTag = 'trailer-tv-hero';
+  static const String upcomingMovieHeroTag = 'upcoming-movie-hero';
+  static const String nowPlayingTvHeroTag = 'now-playing-tv-hero';
+  static const String topTvHeroTag = 'top-tv-hero';
+  static const String bestDramaTvHeroTag = 'best-drama-tv-hero';
+  static const String artistHeroTag = 'artist-hero';
 }

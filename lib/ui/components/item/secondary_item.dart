@@ -11,6 +11,7 @@ class SecondaryItem extends StatelessWidget {
   final VoidCallback? onTapViewAll;
   final String? title;
   final String imageUrl;
+  final String heroTag;
   const SecondaryItem({
     super.key,
     this.title,
@@ -19,6 +20,7 @@ class SecondaryItem extends StatelessWidget {
     required this.index,
     this.onTapItem,
     this.onTapViewAll,
+    required this.heroTag,
   });
 
   @override
@@ -48,19 +50,23 @@ class SecondaryItem extends StatelessWidget {
                       height: 35.h,
                       sizeIcon: 45.sp,
                     )
-                  : CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      width: double.infinity,
-                      height: double.infinity,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
+                  : Hero(
+                      tag: heroTag,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
                         width: double.infinity,
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          width: double.infinity,
+                          height: double.infinity,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
             ),

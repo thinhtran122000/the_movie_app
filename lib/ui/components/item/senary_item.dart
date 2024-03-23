@@ -15,6 +15,7 @@ class SenaryItem extends StatelessWidget {
   final double? voteAverage;
   final bool? watchlist;
   final bool? favorite;
+  final String heroTag;
 
   const SenaryItem({
     super.key,
@@ -26,7 +27,7 @@ class SenaryItem extends StatelessWidget {
     this.watchlist,
     this.onTapFavor,
     this.favorite,
-    required this.imageUrl,
+    required this.imageUrl, required this.heroTag,
   });
 
   @override
@@ -57,19 +58,22 @@ class SenaryItem extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      filterQuality: FilterQuality.high,
-                      width: double.infinity,
-                      height: 190.h,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
-                        width: double.infinity,
-                        height: double.infinity,
+                    Hero(
+                      tag: heroTag,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
                         filterQuality: FilterQuality.high,
+                        width: double.infinity,
+                        height: 190.h,
                         fit: BoxFit.fill,
+                        progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          width: double.infinity,
+                          height: double.infinity,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Positioned(

@@ -85,6 +85,7 @@ class TrendingView extends StatelessWidget {
     final list = state.listTrending;
     final item = index < list.length ? list[index] : null;
     return TertiaryItem(
+      heroTag: '${AppConstants.trendingMovieHeroTag}-$index',
       enableInfo: true,
       index: index,
       itemCount: list.length,
@@ -95,7 +96,7 @@ class TrendingView extends StatelessWidget {
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
-          page: const DetailsPage(),
+          page: DetailsPage(heroTag: '${AppConstants.trendingMovieHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,7 +49,7 @@ class TopRatedView extends StatelessWidget {
               }
               if (state is TopRatedAddWatchListError) {
                 homeBloc.add(DisplayToast(
-                  visibility: true,
+                  visible: true,
                   statusMessage: state.errorMessage,
                 ));
                 homeBloc.add(ChangeAnimationToast(opacity: 1.0));
@@ -99,36 +98,36 @@ class TopRatedView extends StatelessWidget {
   Widget itemBuilder(BuildContext context, int index) {
     final bloc = BlocProvider.of<TopRatedBloc>(context);
     final item = bloc.state.listTopRated[index];
-    return Hero(
-      tag: 'trailer',
-      child: SenaryItem(
-        title: item.title ?? '',
-        rank: '${index + 1}',
-        voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
-        imageUrl:
-            item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
-        watchlist: bloc.state.listMovieState[index].watchlist ?? false,
-        onTapBanner: () => (bloc.state.listMovieState[index].watchlist ?? false)
-            ? showCupertinoModalPopup(
-                context: context,
-                builder: (secondContext) => CustomBottomSheet(
-                  title: '${item.title} (${item.releaseDate?.substring(0, 4)})',
-                  titleConfirm: 'Remove from Watchlist',
-                  titleCancel: 'Cancel',
-                  onPressCancel: () => Navigator.of(secondContext).pop(),
-                  onPressConfirm: () => removeWatchList(context, secondContext, index),
-                ),
-              )
-            : addWatchList(context, index),
-        onTapItem: () => Navigator.of(context).push(
-            // CustomPageRoute(
-            //   page: const DetailsPage(),
-            //   begin: const Offset(1, 0),
-            // ),
-            MaterialPageRoute(
-          builder: (context) => const DetailsPage(),
-        )),
-      ),
+    return SenaryItem(
+      heroTag: 'top_rated_movie_$index',
+      title: item.title ?? '',
+      rank: '${index + 1}',
+      voteAverage: double.parse((item.voteAverage ?? 0).toStringAsFixed(1)),
+      imageUrl: item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
+      watchlist: bloc.state.listMovieState[index].watchlist ?? false,
+      onTapBanner: () => (bloc.state.listMovieState[index].watchlist ?? false)
+          ? showCupertinoModalPopup(
+              context: context,
+              builder: (secondContext) => CustomBottomSheet(
+                title: '${item.title} (${item.releaseDate?.substring(0, 4)})',
+                titleConfirm: 'Remove from Watchlist',
+                titleCancel: 'Cancel',
+                onPressCancel: () => Navigator.of(secondContext).pop(),
+                onPressConfirm: () => removeWatchList(context, secondContext, index),
+              ),
+            )
+          : addWatchList(context, index),
+      onTapItem: () {
+        BlocProvider.of<HomeBloc>(context).add(DisableTrailer());
+        Navigator.of(context).push(
+          CustomPageRoute(
+            page: DetailsPage(
+              heroTag: 'top_rated_movie_$index',
+            ),
+            begin: const Offset(1, 0),
+          ),
+        );
+      },
     );
   }
 
@@ -166,7 +165,7 @@ class TopRatedView extends StatelessWidget {
     )
         .then(
           (_) => exploreBloc.add(DisplayToast(
-            visibility: true,
+            visible: true,
             statusMessage: statusMessage,
           )),
         )

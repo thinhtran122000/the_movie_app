@@ -5,7 +5,11 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 
 class DetailsPage extends StatelessWidget {
-  const DetailsPage({super.key});
+  final String? heroTag;
+  const DetailsPage({
+    super.key,
+    this.heroTag,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class DetailsPage extends StatelessWidget {
         children: [
           Center(
             child: Hero(
-              tag: 'trailer',
+              tag: heroTag??'',
               child:
                   // Container(
                   //   width: 300,

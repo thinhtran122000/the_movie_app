@@ -61,6 +61,7 @@ class NowPlayingView extends StatelessWidget {
                   }
                   final item = state.nowPlayingTv;
                   return SingleItem(
+                    heroTag: AppConstants.nowPlayingTvHeroTag,
                     title: item.name,
                     season: item.lastEpisodeToAir?.seasonNumber,
                     episode: item.lastEpisodeToAir?.episodeNumber,
@@ -72,7 +73,9 @@ class NowPlayingView extends StatelessWidget {
                     stops: state.paletteColors.asMap().keys.toList().map((e) => e * 0.13).toList(),
                     onTapItem: () => Navigator.of(context).push(
                       CustomPageRoute(
-                        page: const DetailsPage(),
+                        page: const DetailsPage(
+                          heroTag: AppConstants.nowPlayingTvHeroTag,
+                        ),
                         begin: const Offset(1, 0),
                       ),
                     ),

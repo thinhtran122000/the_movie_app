@@ -256,7 +256,7 @@ class _TrailerViewState extends State<TrailerView> {
 
   playTrailer(BuildContext context, int indexMovie, int indexTv) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    debouncer.slowCall(
+    debouncer.delay(
       () => bloc.add(PlayTrailer(
         indexMovie: indexMovie,
         indexTv: indexTv,

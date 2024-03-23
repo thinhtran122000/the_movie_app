@@ -30,7 +30,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     on<ChangeType>(_onChangeType);
     on<PlayTrailer>(_onPlayTrailer);
     on<StopTrailer>(_onStopTrailer);
-    on<ChangeSoundStatus>(_onChangeSoundStatus);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<TrailerState> emit) async {
@@ -228,26 +227,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         enabledSound: state.enabledSound,
       ));
     }
-  }
-
-  FutureOr<void> _onChangeSoundStatus(ChangeSoundStatus event, Emitter<TrailerState> emit) {
-    if (state.isActive) {
-      state.visibleVideoTv[state.indexTv] = true;
-    } else {
-      state.visibleVideoMovie[state.indexMovie] = true;
-    }
-    emit(TrailerSuccess(
-      listMovie: state.listMovie,
-      indexTv: state.indexTv,
-      indexMovie: state.indexMovie,
-      listTv: state.listTv,
-      listTrailerMovie: state.listTrailerMovie,
-      listTrailerTv: state.listTrailerTv,
-      isActive: state.isActive,
-      visibleVideoMovie: state.visibleVideoMovie,
-      visibleVideoTv: state.visibleVideoTv,
-      enabledSound: event.enabledSound,
-    ));
   }
 
   @override

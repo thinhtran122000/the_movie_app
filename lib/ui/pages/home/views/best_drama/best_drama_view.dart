@@ -84,6 +84,7 @@ class BestDramaView extends StatelessWidget {
     final list = state.listBestDrama;
     final item = index < list.length ? list[index] : null;
     return TertiaryItem(
+      heroTag: '${AppConstants.bestDramaTvHeroTag}-$index',
       index: index,
       itemCount: list.length,
       title: item?.name,
@@ -93,7 +94,7 @@ class BestDramaView extends StatelessWidget {
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
-          page: const DetailsPage(),
+          page: DetailsPage(heroTag: '${AppConstants.bestDramaTvHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

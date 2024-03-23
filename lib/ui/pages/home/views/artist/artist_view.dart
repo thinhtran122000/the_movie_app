@@ -75,6 +75,7 @@ class ArtistView extends StatelessWidget {
     final list = state.listArtist;
     final item = index < list.length ? list[index] : null;
     return SecondaryItem(
+      heroTag: '${AppConstants.artistHeroTag}-$index',
       title: item?.name,
       imageUrl:
           item?.profilePath == null ? '' : '${AppConstants.kImagePathPoster}${item?.profilePath}',
@@ -82,7 +83,7 @@ class ArtistView extends StatelessWidget {
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
-          page: const DetailsPage(),
+          page: DetailsPage(heroTag: '${AppConstants.artistHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

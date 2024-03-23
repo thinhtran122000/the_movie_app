@@ -12,6 +12,7 @@ class SliderItem extends StatelessWidget {
   final String? title;
   final double? voteAverage;
   final bool isBackdrop;
+  final String heroTag;
   const SliderItem({
     super.key,
     this.onTap,
@@ -20,6 +21,7 @@ class SliderItem extends StatelessWidget {
     required this.isBackdrop,
     this.imageUrlPoster,
     this.imageUrlBackdrop,
+    required this.heroTag,
   });
 
   @override
@@ -28,17 +30,20 @@ class SliderItem extends StatelessWidget {
       onTap: onTap,
       child: RepaintBoundary(
         child: isBackdrop
-            ? CachedNetworkImage(
-                imageUrl: imageUrlBackdrop ?? '',
-                width: double.infinity,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                errorWidget: (context, url, error) => Image.asset(
-                  ImagesPath.noImage.assetName,
+            ? Hero(
+                tag: heroTag,
+                child: CachedNetworkImage(
+                  imageUrl: imageUrlBackdrop ?? '',
                   width: double.infinity,
                   filterQuality: FilterQuality.high,
                   fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                  errorWidget: (context, url, error) => Image.asset(
+                    ImagesPath.noImage.assetName,
+                    width: double.infinity,
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               )
             : Container(
@@ -59,19 +64,23 @@ class SliderItem extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: imageUrlPoster ?? '',
-                      width: double.infinity,
-                      height: double.infinity,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
+                    Hero(
+                      tag: heroTag,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrlPoster ?? '',
                         width: double.infinity,
                         height: double.infinity,
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.fill,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          width: double.infinity,
+                          height: double.infinity,
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Padding(

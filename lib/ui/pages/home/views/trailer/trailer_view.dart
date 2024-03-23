@@ -29,42 +29,56 @@ class _TrailerViewState extends State<TrailerView> {
           page: 1,
           region: '',
         )),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) {
-          final trailerState = BlocProvider.of<TrailerBloc>(context).state;
-          final homeBloc = BlocProvider.of<HomeBloc>(context);
-          switch (state.runtimeType) {
-            case NavigationSuccess:
-              state.indexPage == 0
-                  ? trailerState is TrailerSuccess
-                      ? homeBloc.scrollController.position.extentBefore >= 1100 &&
-                              homeBloc.scrollController.position.extentBefore <= 1800
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NavigationBloc, NavigationState>(
+            listener: (context, state) {
+              final trailerState = BlocProvider.of<TrailerBloc>(context).state;
+              final homeBloc = BlocProvider.of<HomeBloc>(context);
+              switch (state.runtimeType) {
+                case NavigationSuccess:
+                  state.indexPage == 0
+                      ? trailerState is TrailerSuccess
+                          ? homeBloc.scrollController.position.extentBefore >= 1100 &&
+                                  homeBloc.scrollController.position.extentBefore <= 1600
+                              ? checkDisplayVideo(context)
+                                  ? null
+                                  : playTrailer(
+                                      context, trailerState.indexMovie, trailerState.indexTv)
+                              : checkDisplayVideo(context)
+                                  ? stopTrailer(
+                                      context, trailerState.indexMovie, trailerState.indexTv)
+                                  : null
+                          : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                      : checkDisplayVideo(context)
+                          ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                          : null;
+                  break;
+                case NavigationScrollSuccess:
+                  state.indexPage == 1
+                      ? trailerState is TrailerSuccess
                           ? checkDisplayVideo(context)
                               ? null
                               : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                          : checkDisplayVideo(context)
-                              ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                              : null
-                      : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                  : checkDisplayVideo(context)
-                      ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                      : null;
-              break;
-            case NavigationScrollSuccess:
-              state.indexPage == 1
-                  ? trailerState is TrailerSuccess
-                      ? checkDisplayVideo(context)
-                          ? null
-                          : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                      : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                  : checkDisplayVideo(context)
-                      ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                      : null;
-              break;
-            default:
-              break;
-          }
-        },
+                          : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                      : checkDisplayVideo(context)
+                          ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                          : null;
+                  break;
+                default:
+                  break;
+              }
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listener: (context, state) {
+              final trailerState = BlocProvider.of<TrailerBloc>(context).state;
+              if (state is HomeDisableSuccess) {
+                stopTrailer(context, trailerState.indexMovie, trailerState.indexTv);
+              }
+            },
+          ),
+        ],
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -162,14 +176,16 @@ class _TrailerViewState extends State<TrailerView> {
       flags: YoutubePlayerFlags(
         hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
         autoPlay: bloc.state.visibleVideoMovie[index] ? true : false,
-        mute: bloc.state.enabledSound,
+        mute: false,
         disableDragSeek: true,
         enableCaption: false,
         useHybridComposition: true,
+        controlsVisibleAtStart: true,
         forceHD: false,
       ),
-    )..play();
+    );
     return NonaryItem(
+      heroTag: 'trailer_movie_$index',
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
@@ -178,15 +194,11 @@ class _TrailerViewState extends State<TrailerView> {
       nameOfTrailer: itemTrailer.name,
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      enableSound: bloc.state.enabledSound,
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
-      onTapItem: () => navigateDetailPage(context),
+      onTapItem: () => navigateDetailPage(context, 'trailer_movie_$index'),
       onTapVideo: () => bloc.state.visibleVideoMovie[index]
           ? stopTrailer(context, index, bloc.state.indexTv)
           : playTrailer(context, index, bloc.state.indexTv),
-      onTapSound: () => bloc.state.enabledSound
-          ? bloc.add(ChangeSoundStatus(enabledSound: false))
-          : bloc.add(ChangeSoundStatus(enabledSound: true)),
     );
   }
 
@@ -199,14 +211,16 @@ class _TrailerViewState extends State<TrailerView> {
       flags: YoutubePlayerFlags(
         hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
         autoPlay: bloc.state.visibleVideoTv[index] ? true : false,
-        mute: bloc.state.enabledSound,
+        mute: false,
         disableDragSeek: true,
         enableCaption: false,
         useHybridComposition: true,
+        controlsVisibleAtStart: true,
         forceHD: false,
       ),
     );
     return NonaryItem(
+      heroTag: 'trailer_tv_$index',
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
@@ -215,15 +229,11 @@ class _TrailerViewState extends State<TrailerView> {
       nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
-      enableSound: bloc.state.enabledSound,
       onEnded: (metdaData) => stopTrailer(context, bloc.state.indexMovie, index),
-      onTapItem: () => navigateDetailPage(context),
+      onTapItem: () => navigateDetailPage(context, 'trailer_tv_$index'),
       onTapVideo: () => bloc.state.visibleVideoTv[index]
           ? stopTrailer(context, bloc.state.indexMovie, index)
           : playTrailer(context, bloc.state.indexMovie, index),
-      onTapSound: () => bloc.state.enabledSound
-          ? bloc.add(ChangeSoundStatus(enabledSound: false))
-          : bloc.add(ChangeSoundStatus(enabledSound: true)),
     );
   }
 
@@ -239,31 +249,27 @@ class _TrailerViewState extends State<TrailerView> {
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
   }
 
-  navigateDetailPage(BuildContext context) {
+  navigateDetailPage(BuildContext context, String heroTag) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    final homeBloc = BlocProvider.of<HomeBloc>(context);
     stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
-    Navigator.of(context)
-        .push(
-            MaterialPageRoute(
-            builder: (context) => const DetailsPage(),
-          )
-          // CustomPageRoute(
-          //   page: const DetailsPage(),
-          //   begin: const Offset(1, 0),
-          // ),
-        )
-        .then(
-          (_) => homeBloc.scrollController.position.extentBefore >= 1100 &&
-                  homeBloc.scrollController.position.extentBefore <= 1800
-              ? playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv)
-              : stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv),
-        );
+    Navigator.of(context).push(
+      CustomPageRoute(
+        page: DetailsPage(heroTag: heroTag),
+        begin: const Offset(1, 0),
+      ),
+    )
+        // .then(
+        //   (_) => homeBloc.scrollController.position.extentBefore >= 1100 &&
+        //           homeBloc.scrollController.position.extentBefore <= 1800
+        //       ? playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv)
+        //       : stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv),
+        // )
+        ;
   }
 
   playTrailer(BuildContext context, int indexMovie, int indexTv) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    debouncer.slowCall(
+    debouncer.delay(
       () => bloc.add(PlayTrailer(
         indexMovie: indexMovie,
         indexTv: indexTv,
