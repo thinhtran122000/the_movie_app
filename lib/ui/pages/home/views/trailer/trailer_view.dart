@@ -127,7 +127,7 @@ class _TrailerViewState extends State<TrailerView> {
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                   firstChild: SizedBox(
-                    height: 215.h,
+                    height: 235.h,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -143,7 +143,7 @@ class _TrailerViewState extends State<TrailerView> {
                     ),
                   ),
                   secondChild: SizedBox(
-                    height: 215.h,
+                    height: 235.h,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -174,28 +174,28 @@ class _TrailerViewState extends State<TrailerView> {
     final controller = YoutubePlayerController(
       initialVideoId: itemTrailer.key ?? '',
       flags: YoutubePlayerFlags(
-        hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
+        hideControls: true,
         autoPlay: bloc.state.visibleVideoMovie[index] ? true : false,
         mute: false,
         disableDragSeek: true,
         enableCaption: false,
         useHybridComposition: true,
         controlsVisibleAtStart: true,
-        forceHD: false,
+        forceHD: true,
       ),
     );
     return NonaryItem(
-      heroTag: 'trailer_movie_$index',
+      heroTag: '${AppConstants.trailerMovieHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
-      nameOfTrailer: itemTrailer.name,
+      nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
-      onTapItem: () => navigateDetailPage(context, 'trailer_movie_$index'),
+      onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerMovieHeroTag}-$index'),
       onTapVideo: () => bloc.state.visibleVideoMovie[index]
           ? stopTrailer(context, index, bloc.state.indexTv)
           : playTrailer(context, index, bloc.state.indexTv),
@@ -209,18 +209,18 @@ class _TrailerViewState extends State<TrailerView> {
     final controller = YoutubePlayerController(
       initialVideoId: itemTrailer.key ?? '',
       flags: YoutubePlayerFlags(
-        hideControls: (itemTrailer.key ?? '').isEmpty ? true : false,
+        hideControls: true,
         autoPlay: bloc.state.visibleVideoTv[index] ? true : false,
         mute: false,
         disableDragSeek: true,
         enableCaption: false,
         useHybridComposition: true,
         controlsVisibleAtStart: true,
-        forceHD: false,
+        forceHD: true,
       ),
     );
     return NonaryItem(
-      heroTag: 'trailer_tv_$index',
+      heroTag: '${AppConstants.trailerTvHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
       controller: controller,
@@ -230,7 +230,7 @@ class _TrailerViewState extends State<TrailerView> {
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, bloc.state.indexMovie, index),
-      onTapItem: () => navigateDetailPage(context, 'trailer_tv_$index'),
+      onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerTvHeroTag}-$index'),
       onTapVideo: () => bloc.state.visibleVideoTv[index]
           ? stopTrailer(context, bloc.state.indexMovie, index)
           : playTrailer(context, bloc.state.indexMovie, index),

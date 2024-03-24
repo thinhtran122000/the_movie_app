@@ -15,4 +15,4 @@ export 'text/text.dart';
 export 'text_field/text_field.dart';
 export 'text_rich/text_rich.dart';
 export 'toast/toast.dart';
-
+export 'progress_bar/progress_bar.dart';
