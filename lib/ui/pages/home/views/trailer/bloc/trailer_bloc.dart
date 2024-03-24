@@ -24,7 +24,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           listTrailerTv: [],
           visibleVideoMovie: List.filled(20, false),
           visibleVideoTv: List.filled(20, false),
-          enabledSound: false,
         )) {
     on<FetchData>(_onFetchData);
     on<ChangeType>(_onChangeType);
@@ -90,7 +89,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -104,7 +102,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     }
   }
@@ -121,7 +118,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: event.isActive,
         visibleVideoMovie: List.filled(20, false),
         visibleVideoTv: List.filled(20, false),
-        enabledSound: state.enabledSound,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -135,7 +131,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     }
   }
@@ -158,7 +153,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: event.visibleVideoMovie,
         visibleVideoTv: event.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     } catch (e) {
       emit(TrailerError(
@@ -172,7 +166,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     }
   }
@@ -191,7 +184,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: state.visibleVideoMovie,
           visibleVideoTv: state.visibleVideoTv,
-          enabledSound: state.enabledSound,
         ));
       } else {
         if (event.isActive) {
@@ -209,7 +201,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           isActive: state.isActive,
           visibleVideoMovie: event.visibleVideoMovie,
           visibleVideoTv: event.visibleVideoTv,
-          enabledSound: state.enabledSound,
         ));
       }
     } catch (e) {
@@ -224,7 +215,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: state.visibleVideoMovie,
         visibleVideoTv: state.visibleVideoTv,
-        enabledSound: state.enabledSound,
       ));
     }
   }
