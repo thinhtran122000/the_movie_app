@@ -13,17 +13,17 @@ class CustomSwitchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      width: 70.w,
-      height: 20.h,
-      decoration: BoxDecoration(
-        border: Border.all(color: darkBlueColor, width: 2),
-        borderRadius: BorderRadius.circular(15.r),
-        color: darkBlueColor,
-      ),
-      child: GestureDetector(
-        onTap: onTapItem,
+    return GestureDetector(
+      onTap: onTapItem,
+      child: Container(
+        alignment: Alignment.center,
+        width: 70.w,
+        height: 20.h,
+        decoration: BoxDecoration(
+          border: Border.all(color: darkBlueColor, width: 2),
+          borderRadius: BorderRadius.circular(15.r),
+          color: darkBlueColor,
+        ),
         child: Text(
           title ?? '',
           textScaleFactor: 1,

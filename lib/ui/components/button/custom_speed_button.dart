@@ -5,12 +5,27 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CustomSpeedButton extends StatelessWidget {
-  final Function(double)? onSelected;
   final YoutubePlayerController controller;
+  final List<double> playbackRate;
+  final Function(double)? onSelected;
+  final VoidCallback? onOpened;
+  final VoidCallback? onCanceled;
   const CustomSpeedButton({
     super.key,
     this.onSelected,
     required this.controller,
+    this.onOpened,
+    this.onCanceled,
+    this.playbackRate = const [
+      PlaybackRate.quarter,
+      PlaybackRate.half,
+      PlaybackRate.threeQuarter,
+      PlaybackRate.normal,
+      PlaybackRate.oneAndAQuarter,
+      PlaybackRate.oneAndAHalf,
+      PlaybackRate.oneAndAThreeQuarter,
+      PlaybackRate.twice,
+    ],
   });
 
   @override
@@ -21,6 +36,9 @@ class CustomSpeedButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       offset: Offset(0, -200.h),
       onSelected: onSelected,
+      onCanceled: onCanceled,
+      onOpened: onOpened,
+      tooltip: 'Open playback speed',
       icon: SvgPicture.asset(
         IconsPath.playbackSpeedIcon.assetName,
         height: 20.h,
@@ -56,14 +74,3 @@ class CustomSpeedButton extends StatelessWidget {
       )
       .toList();
 }
-
-List<double> playbackRate = [
-  PlaybackRate.quarter,
-  PlaybackRate.half,
-  PlaybackRate.threeQuarter,
-  PlaybackRate.normal,
-  PlaybackRate.oneAndAQuarter,
-  PlaybackRate.oneAndAHalf,
-  PlaybackRate.oneAndAThreeQuarter,
-  PlaybackRate.twice,
-];

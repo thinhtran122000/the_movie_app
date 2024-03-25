@@ -127,7 +127,7 @@ class _TrailerViewState extends State<TrailerView> {
                   crossFadeState:
                       state.isActive ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                   firstChild: SizedBox(
-                    height: 235.h,
+                    height: 240.h,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -143,7 +143,7 @@ class _TrailerViewState extends State<TrailerView> {
                     ),
                   ),
                   secondChild: SizedBox(
-                    height: 235.h,
+                    height: 240.h,
                     child: PageView.builder(
                       physics: const BouncingScrollPhysics(),
                       allowImplicitScrolling: true,
@@ -196,9 +196,12 @@ class _TrailerViewState extends State<TrailerView> {
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
       onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerMovieHeroTag}-$index'),
-      onTapVideo: () => bloc.state.visibleVideoMovie[index]
-          ? stopTrailer(context, index, bloc.state.indexTv)
-          : playTrailer(context, index, bloc.state.indexTv),
+      onTapVideo: () {
+        controller.removeListener(() {});
+        bloc.state.visibleVideoMovie[index]
+            ? stopTrailer(context, index, bloc.state.indexTv)
+            : playTrailer(context, index, bloc.state.indexTv);
+      },
     );
   }
 
