@@ -6,9 +6,11 @@ import 'package:movie_app/ui/components/components.dart';
 
 class DetailsPage extends StatelessWidget {
   final String? heroTag;
+  final String? title;
   const DetailsPage({
     super.key,
     this.heroTag,
+    this.title,
   });
 
   @override
@@ -16,49 +18,48 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         centerTitle: true,
-        leading: const Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-          child: Icon(
-            Icons.arrow_back_ios,
-            size: 30,
-          ),
+        title: '$title',
+        leading: Icon(
+          Icons.arrow_back_ios,
+          color: whiteColor,
+          size: 30,
         ),
-        title: const CustomAppBarTitle(
-          titleAppBar: 'Details',
-        ),
-        actions: const [
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-          //   child: Icon(
-          //     Icons.star_outline_rounded,
-          //     color: yellowColor,
-          //     size: 25,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-          //   child: Icon(
-          //     Icons.favorite_border_outlined,
-          //     color: pinkColor,
-          //     size: 25,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
-          //   child: Icon(
-          //     Icons.bookmark_outline_rounded,
-          //     color: cyanColor,
-          //     size: 25,
-          //   ),
-          // ),
-        ],
+        // title: const CustomAppBarTitle(
+        //   titleAppBar: 'Details',
+        // ),
+
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+        //   child: Icon(
+        //     Icons.star_outline_rounded,
+        //     color: yellowColor,
+        //     size: 25,
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+        //   child: Icon(
+        //     Icons.favorite_border_outlined,
+        //     color: pinkColor,
+        //     size: 25,
+        //   ),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(0, 8, 10, 8),
+        //   child: Icon(
+        //     Icons.bookmark_outline_rounded,
+        //     color: cyanColor,
+        //     size: 25,
+        //   ),
+        // ),
+
         onTapLeading: () => Navigator.of(context).pop(),
       ),
       body: Column(
         children: [
           Center(
             child: Hero(
-              tag: heroTag??'',
+              tag: heroTag ?? '',
               child:
                   // Container(
                   //   width: 300,
@@ -68,7 +69,7 @@ class DetailsPage extends StatelessWidget {
                   //   ),
                   // ),
                   CachedNetworkImage(
-                imageUrl: 'https://image.tmdb.org/t/p/w500/6uHwUC7bOlD5kvfCGJX8hEBCEyP.jpg',
+                imageUrl: 'https://image.tmdb.org/t/p/w500/egg7KFi18TSQc1s24RMmR9i2zO6.jpg',
                 filterQuality: FilterQuality.high,
                 width: double.infinity,
                 height: 190.h,

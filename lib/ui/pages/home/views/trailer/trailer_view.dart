@@ -39,8 +39,8 @@ class _TrailerViewState extends State<TrailerView> {
                 case NavigationSuccess:
                   state.indexPage == 0
                       ? trailerState is TrailerSuccess
-                          ? homeBloc.scrollController.position.extentBefore >= 1100 &&
-                                  homeBloc.scrollController.position.extentBefore <= 1600
+                          ? homeBloc.scrollController.position.extentBefore >= 1100.h &&
+                                  homeBloc.scrollController.position.extentBefore <= 1500.h
                               ? checkDisplayVideo(context)
                                   ? null
                                   : playTrailer(
@@ -55,11 +55,11 @@ class _TrailerViewState extends State<TrailerView> {
                           : null;
                   break;
                 case NavigationScrollSuccess:
-                  state.indexPage == 1
+                  state.indexPage == 0
                       ? trailerState is TrailerSuccess
                           ? checkDisplayVideo(context)
-                              ? null
-                              : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                              ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                              : null
                           : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                       : checkDisplayVideo(context)
                           ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
@@ -191,17 +191,15 @@ class _TrailerViewState extends State<TrailerView> {
       controller: controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
+      position: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
       nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
       onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerMovieHeroTag}-$index'),
-      onTapVideo: () {
-        controller.removeListener(() {});
-        bloc.state.visibleVideoMovie[index]
-            ? stopTrailer(context, index, bloc.state.indexTv)
-            : playTrailer(context, index, bloc.state.indexTv);
-      },
+      onTapVideo: () => bloc.state.visibleVideoMovie[index]
+          ? stopTrailer(context, index, bloc.state.indexTv)
+          : playTrailer(context, index, bloc.state.indexTv),
     );
   }
 
@@ -229,6 +227,7 @@ class _TrailerViewState extends State<TrailerView> {
       controller: controller,
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
+      position: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
       nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',

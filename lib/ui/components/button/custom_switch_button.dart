@@ -26,7 +26,7 @@ class CustomSwitchButton extends StatelessWidget {
         ),
         child: Text(
           title ?? '',
-          textScaleFactor: 1,
+          textScaler: const TextScaler.linear(1),
           textAlign: TextAlign.center,
           style: TextStyle(
             color: whiteColor,

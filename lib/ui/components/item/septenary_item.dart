@@ -61,7 +61,7 @@ class SeptenaryItem extends StatelessWidget {
                   title ?? '',
                   maxLines: 1,
                   softWrap: false,
-                  textScaleFactor: 1,
+                  textScaler: const TextScaler.linear(1),
                   style: TextStyle(
                     fontSize: 15.sp,
                     overflow: TextOverflow.clip,
@@ -75,7 +75,7 @@ class SeptenaryItem extends StatelessWidget {
                   age ?? '',
                   maxLines: 1,
                   softWrap: false,
-                  textScaleFactor: 1,
+                  textScaler: const TextScaler.linear(1),
                   style: TextStyle(
                     color: greyColor,
                     fontSize: 14.sp,

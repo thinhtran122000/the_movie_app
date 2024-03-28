@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomVideoButton extends StatelessWidget {
-  final VoidCallback onTapButton;
+  final VoidCallback? onTapButton;
   final IconData? icon;
   final double? size;
   const CustomVideoButton({
     super.key,
-    required this.onTapButton,
+    this.onTapButton,
     this.icon,
     this.size,
   });

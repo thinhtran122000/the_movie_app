@@ -23,7 +23,7 @@ class SecondaryText extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(17.w, 0, 20.w, 0),
           child: Text(
             title,
-            textScaleFactor: 1,
+            textScaler: const TextScaler.linear(1),
             style: TextStyle(
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
@@ -40,7 +40,7 @@ class SecondaryText extends StatelessWidget {
               onTap: onTapViewAll,
               child: Text(
                 'View all',
-                textScaleFactor: 1,
+                textScaler: const TextScaler.linear(1),
                 style: TextStyle(
                   letterSpacing: 0.2,
                   fontWeight: FontWeight.w500,

@@ -164,7 +164,7 @@ class TertiaryItem extends StatelessWidget {
                             '$voteAverage',
                             maxLines: 1,
                             softWrap: false,
-                            textScaleFactor: 1,
+                            textScaler: const TextScaler.linear(1),
                             style: TextStyle(
                               color: greyColor,
                               fontSize: 14.sp,
@@ -181,7 +181,7 @@ class TertiaryItem extends StatelessWidget {
                         title ?? '',
                         maxLines: 1,
                         softWrap: false,
-                        textScaleFactor: 1,
+                        textScaler: const TextScaler.linear(1),
                         style: TextStyle(
                           fontSize: 14.5.sp,
                           overflow: TextOverflow.ellipsis,

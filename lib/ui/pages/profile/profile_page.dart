@@ -10,20 +10,13 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        leadingWidth: 0,
         centerTitle: false,
-        title: const CustomAppBarTitle(
-          titleAppBar: 'Profile',
+        title: 'Profile',
+        actions: Icon(
+          Icons.settings_sharp,
+          size: 30.sp,
+          color: whiteColor,
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
-            child: Icon(
-              Icons.notifications_sharp,
-              size: 30.sp,
-            ),
-          ),
-        ],
       ),
       body: Center(
         child: Column(

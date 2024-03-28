@@ -24,7 +24,7 @@ class FavoritePage extends StatelessWidget {
                   size: 30.sp,
                 ),
               ),
-              title: const CustomAppBarTitle(titleAppBar: 'Favorites'),
+              // title: const CustomAppBarTitle(titleAppBar: 'Favorites'),
               onTapLeading: () => Navigator.of(context).pop(),
             ),
             body: Center(
@@ -32,7 +32,7 @@ class FavoritePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CustomTabBar(
+                  CustomSegment(
                     widthTabBar: double.infinity,
                     index: state.index,
                     onTapMovie: () => bloc.add(ChangeTab(index: 0)),

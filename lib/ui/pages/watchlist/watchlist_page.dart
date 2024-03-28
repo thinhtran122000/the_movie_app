@@ -25,7 +25,7 @@ class WatchlistPage extends StatelessWidget {
                   size: 30,
                 ),
               ),
-              title: const CustomAppBarTitle(titleAppBar: 'Watchlist'),
+              // title: const CustomAppBarTitle(titleAppBar: 'Watchlist'),
               onTapLeading: () => Navigator.of(context).pop(),
             ),
             body: Center(
@@ -33,7 +33,7 @@ class WatchlistPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CustomTabBar(
+                  CustomSegment(
                     widthTabBar: double.infinity,
                     index: state.index,
                     onTapMovie: () => bloc.add(ChangeTab(index: 0)),

@@ -17,6 +17,7 @@ class NonaryItem extends StatefulWidget {
   final bool enableVideo;
   final String videoId;
   final String heroTag;
+  final double? position;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapVideo;
   final VoidCallback? onTapFullScreen;
@@ -32,6 +33,7 @@ class NonaryItem extends StatefulWidget {
     this.onTapVideo,
     this.youtubeKey,
     this.onTapFullScreen,
+    this.position,
     required this.videoId,
     required this.controller,
     required this.imageUrl,
@@ -46,7 +48,8 @@ class NonaryItem extends StatefulWidget {
 class _NonaryItemState extends State<NonaryItem> {
   int remaningDuration = 0;
   int currentPosition = 0;
-  bool enabledSound = true;
+  bool enabledSound = false;
+  bool enabledUnmute = true;
   bool clickable = false;
   late Timer timer;
 
@@ -100,6 +103,10 @@ class _NonaryItemState extends State<NonaryItem> {
                                               .controller.value.metaData.duration.inMilliseconds;
                                           currentPosition =
                                               widget.controller.value.position.inMilliseconds;
+                                          (widget.position ?? 0) >= 1100.h &&
+                                                  (widget.position ?? 0) <= 1500.h
+                                              ? null
+                                              : widget.controller.pause();
                                         },
                                       ),
                                     )
@@ -112,6 +119,10 @@ class _NonaryItemState extends State<NonaryItem> {
                                               .controller.value.metaData.duration.inMilliseconds;
                                           currentPosition =
                                               widget.controller.value.position.inMilliseconds;
+                                          (widget.position ?? 0) >= 1100.h &&
+                                                  (widget.position ?? 0) <= 1500.h
+                                              ? null
+                                              : widget.controller.pause();
                                         },
                                       ),
                                     )
@@ -151,7 +162,7 @@ class _NonaryItemState extends State<NonaryItem> {
                                               child: Text(
                                                 '''${widget.title} is comming soon on TMDb''',
                                                 textAlign: TextAlign.center,
-                                                textScaleFactor: 1,
+                                                textScaler: const TextScaler.linear(1),
                                                 style: TextStyle(
                                                   fontSize: 12.sp,
                                                   color: whiteColor,
@@ -253,7 +264,7 @@ class _NonaryItemState extends State<NonaryItem> {
                                               child: Text(
                                                 '${AppUtils().durationFormatter(currentPosition)} / ${AppUtils().durationFormatter(remaningDuration)}',
                                                 textAlign: TextAlign.center,
-                                                textScaleFactor: 1,
+                                                textScaler: const TextScaler.linear(1),
                                                 style: TextStyle(
                                                   fontSize: 13.sp,
                                                   color: whiteColor,
@@ -288,6 +299,58 @@ class _NonaryItemState extends State<NonaryItem> {
                                     ],
                                   )
                                 : const SizedBox(),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(8.5.w, 0, 0, 6.h),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showHideControl(
+                                    isPlaying: widget.controller.value.isPlaying,
+                                    clickType: ClickPosition.inside,
+                                  );
+                                  setState(() => enabledSound = !enabledSound);
+                                  enabledSound
+                                      ? widget.controller.setVolume(100)
+                                      : widget.controller.setVolume(0);
+                                },
+                                child: AnimatedSize(
+                                  alignment: Alignment.centerLeft,
+                                  duration: const Duration(milliseconds: 700),
+                                  curve: Curves.easeInOutSine,
+                                  child: Container(
+                                    width: widget.controller.value.isPlaying
+                                        ? enabledUnmute
+                                            ? null
+                                            : 0
+                                        : 0,
+                                    padding: const EdgeInsets.all(5).dg,
+                                    decoration: BoxDecoration(
+                                      color: blackColor.withOpacity(0.5),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const CustomVideoButton(
+                                          icon: Icons.volume_off,
+                                        ),
+                                        SizedBox(width: 5.w),
+                                        Text(
+                                          'TAP TO UNMUTE',
+                                          style: TextStyle(
+                                            color: whiteColor,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -338,7 +401,7 @@ class _NonaryItemState extends State<NonaryItem> {
               child: Text(
                 '${widget.title} - ${widget.nameOfTrailer}',
                 softWrap: true,
-                textScaleFactor: 1,
+                textScaler: const TextScaler.linear(1),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.5.sp,
@@ -361,17 +424,18 @@ class _NonaryItemState extends State<NonaryItem> {
   showHideControl({
     required bool isPlaying,
     required ClickPosition clickType,
-    bool? isPlaybackSpeedOpened,
+    bool isPlaybackSpeedOpened = false,
   }) {
     if (clickType == ClickPosition.inside) {
       if (isPlaying) {
-        setState(() => clickable = true);
+        setState(() {
+          clickable = true;
+          enabledUnmute = false;
+        });
         if (clickable) {
-          if (isPlaybackSpeedOpened ?? false) {
+          if (isPlaybackSpeedOpened) {
             timer.cancel();
-            setState(() {
-              clickable = true;
-            });
+            setState(() => clickable = true);
             return;
           } else {
             setState(() {
@@ -388,7 +452,10 @@ class _NonaryItemState extends State<NonaryItem> {
       }
     } else {
       if (isPlaying) {
-        setState(() => clickable = !clickable);
+        setState(() {
+          clickable = !clickable;
+          enabledUnmute = false;
+        });
         if (clickable) {
           setState(() {
             timer.cancel();

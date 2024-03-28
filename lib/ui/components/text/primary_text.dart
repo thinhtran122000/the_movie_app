@@ -38,7 +38,7 @@ class PrimaryText extends StatelessWidget {
           ),
           Text(
             title,
-            textScaleFactor: 1,
+            textScaler: const TextScaler.linear(1),
             style: TextStyle(
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
@@ -59,7 +59,7 @@ class PrimaryText extends StatelessWidget {
                         children: [
                           Text(
                             'View all',
-                            textScaleFactor: 1,
+                            textScaler: const TextScaler.linear(1),
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14.sp,

@@ -41,7 +41,7 @@ class CustomDropDown extends StatelessWidget {
                     padding: EdgeInsets.only(left: 25.w),
                     child: Text(
                       AppUtils().getSortTitle(title),
-                      textScaleFactor: 1,
+                      textScaler: const TextScaler.linear(1),
                       style: TextStyle(
                         color: whiteColor,
                         fontSize: 14.sp,

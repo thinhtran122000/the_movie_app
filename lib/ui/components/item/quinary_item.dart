@@ -130,7 +130,7 @@ class _QuinaryItemState extends State<QuinaryItem> {
                                             child: Text(
                                               '''${widget.title} is comming soon on TMDb''',
                                               textAlign: TextAlign.center,
-                                              textScaleFactor: 1,
+                                              textScaler: const TextScaler.linear(1),
                                               style: TextStyle(
                                                 fontSize: 13.sp,
                                                 color: whiteColor,
@@ -197,7 +197,7 @@ class _QuinaryItemState extends State<QuinaryItem> {
                             child: Text(
                               '${widget.title}',
                               softWrap: true,
-                              textScaleFactor: 1,
+                              textScaler: const TextScaler.linear(1),
                               maxLines: 1,
                               style: TextStyle(
                                 fontSize: 20.sp,
@@ -228,7 +228,7 @@ class _QuinaryItemState extends State<QuinaryItem> {
                       ),
                       Text(
                         '${widget.releaseDate} ${widget.type}',
-                        textScaleFactor: 1,
+                        textScaler: const TextScaler.linear(1),
                         softWrap: true,
                         maxLines: 3,
                         style: TextStyle(
@@ -243,7 +243,7 @@ class _QuinaryItemState extends State<QuinaryItem> {
                         height: 50.h,
                         child: Text(
                           '${widget.overview}',
-                          textScaleFactor: 1,
+                          textScaler: const TextScaler.linear(1),
                           softWrap: true,
                           maxLines: 3,
                           style: TextStyle(
@@ -267,7 +267,7 @@ class _QuinaryItemState extends State<QuinaryItem> {
                             '${widget.voteAverage}',
                             maxLines: 1,
                             softWrap: false,
-                            textScaleFactor: 1,
+                            textScaler: const TextScaler.linear(1),
                             style: TextStyle(
                               color: blackColor,
                               fontSize: 16.sp,

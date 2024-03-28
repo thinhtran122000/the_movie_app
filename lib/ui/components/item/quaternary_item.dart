@@ -57,7 +57,7 @@ class QuaternaryItem extends StatelessWidget {
                           title ?? '',
                           maxLines: 1,
                           softWrap: true,
-                          textScaleFactor: 1,
+                          textScaler: const TextScaler.linear(1),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 21.sp,
@@ -72,7 +72,7 @@ class QuaternaryItem extends StatelessWidget {
                             maxLines: 3,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
-                            textScaleFactor: 1,
+                            textScaler: const TextScaler.linear(1),
                             style: TextStyle(
                               color: greyColor,
                               fontSize: 15.sp,
@@ -99,7 +99,7 @@ class QuaternaryItem extends StatelessWidget {
                                     maxLines: 1,
                                     softWrap: true,
                                     overflow: TextOverflow.ellipsis,
-                                    textScaleFactor: 1,
+                                    textScaler: const TextScaler.linear(1),
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       color: indigoColor,
@@ -114,7 +114,7 @@ class QuaternaryItem extends StatelessWidget {
                               ),
                               Text(
                                 voteAverage ?? '',
-                                textScaleFactor: 1,
+                                textScaler: const TextScaler.linear(1),
                                 style: TextStyle(
                                   color: yellowColor,
                                   fontSize: 14.sp,
@@ -132,7 +132,7 @@ class QuaternaryItem extends StatelessWidget {
                                 ),
                                 child: Text(
                                   originalLanguage ?? '',
-                                  textScaleFactor: 1,
+                                  textScaler: const TextScaler.linear(1),
                                   style: TextStyle(
                                     color: whiteColor,
                                     fontSize: 14.sp,

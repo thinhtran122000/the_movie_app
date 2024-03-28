@@ -93,7 +93,7 @@ class OctonaryItem extends StatelessWidget {
                       width: 140.w,
                       child: Text(
                         title ?? '',
-                        textScaleFactor: 1,
+                        textScaler: const TextScaler.linear(1),
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,

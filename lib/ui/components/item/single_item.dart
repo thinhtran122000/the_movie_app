@@ -116,7 +116,7 @@ class SingleItem extends StatelessWidget {
                                 title ?? '',
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: false,
-                                textScaleFactor: 1,
+                                textScaler: const TextScaler.linear(1),
                                 style: TextStyle(
                                   color: averageLuminance > 0.5 || posterPath == null
                                       ? blackColor
@@ -149,7 +149,7 @@ class SingleItem extends StatelessWidget {
                           'Season $season | Episode $episode',
                           overflow: TextOverflow.clip,
                           softWrap: false,
-                          textScaleFactor: 1,
+                          textScaler: const TextScaler.linear(1),
                           style: TextStyle(
                             color: averageLuminance > 0.5 || posterPath == null
                                 ? blackColor
@@ -167,7 +167,7 @@ class SingleItem extends StatelessWidget {
                           softWrap: false,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
-                          textScaleFactor: 1.1,
+                          textScaler: const TextScaler.linear(1),
                           style: TextStyle(
                             color: averageLuminance > 0.5 || posterPath == null
                                 ? blackColor
@@ -194,7 +194,7 @@ class SingleItem extends StatelessWidget {
                             SizedBox(width: 8.w),
                             Text(
                               'Watch now!',
-                              textScaleFactor: 1,
+                              textScaler: const TextScaler.linear(1),
                               style: TextStyle(
                                 color: averageLuminance > 0.5 || posterPath == null
                                     ? blackColor
