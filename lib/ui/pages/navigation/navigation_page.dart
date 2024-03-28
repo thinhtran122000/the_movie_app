@@ -8,9 +8,15 @@ import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/ui/pages/profile/profile.dart';
 
-class NavigationPage extends StatelessWidget {
+class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
 
+  @override
+  State<NavigationPage> createState() => _NavigationPageState();
+}
+
+class _NavigationPageState extends State<NavigationPage> {
+ 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

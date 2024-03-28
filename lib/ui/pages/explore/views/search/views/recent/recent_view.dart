@@ -36,10 +36,6 @@ class RecentView extends StatelessWidget {
             bloc.add(LoadShimmer());
             debouncer.call(() => fetchSearch(context, state.query));
           }
-          if (state is ExploreClearSuccess) {
-            bloc.add(LoadShimmer());
-            debouncer.call(() => fetchSearch(context, state.query));
-          }
         },
         child: BlocBuilder<RecentBloc, RecentState>(
           builder: (context, state) {
@@ -101,10 +97,16 @@ class RecentView extends StatelessWidget {
                           SmartRefresher(
                             scrollController: bloc.scrollController,
                             controller: bloc.refreshController,
-                            enablePullUp:
-                                enablePullUp(state.listSearch, state.listTrending, context),
-                            enablePullDown:
-                                enablePullUp(state.listSearch, state.listTrending, context),
+                            enablePullUp: enablePull(
+                              state.listSearch,
+                              state.listTrending,
+                              context,
+                            ),
+                            enablePullDown: enablePull(
+                              state.listSearch,
+                              state.listTrending,
+                              context,
+                            ),
                             header: const Header(),
                             footer: Footer(
                               height: 140.h,
@@ -122,7 +124,12 @@ class RecentView extends StatelessWidget {
                             child: MasonryGridView.count(
                               addAutomaticKeepAlives: false,
                               addRepaintBoundaries: false,
-                              padding: EdgeInsets.fromLTRB(20.w, 50.h, 20.w, 0),
+                              padding: EdgeInsets.fromLTRB(
+                                20.w,
+                                state.query.isEmpty ? 50.h : 20.h,
+                                20.w,
+                                0,
+                              ),
                               crossAxisCount: 2,
                               crossAxisSpacing: 16.h,
                               mainAxisSpacing: 16.w,
@@ -135,6 +142,7 @@ class RecentView extends StatelessWidget {
                           ),
                           CustomScrollButton(
                             visible: state.visible,
+                            fallPosition: state.query.isEmpty ? -0.65.h : -0.75.h,
                             onTap: state.visible ? () => reloadPage(context) : null,
                           ),
                         ],
@@ -150,27 +158,6 @@ class RecentView extends StatelessWidget {
     );
   }
 
-  // Container(
-  //   color: darkWhiteColor,
-  //   child: CustomTextField(
-  //     controller: bloc.textController,
-  //     hintText: 'Search for movies, tv shows, people...'.padLeft(14),
-  //     suffixIcon: bloc.textController.text.isNotEmpty
-  //         ? IconButton(
-  //             onPressed: () => fetchTrending(context),
-  //             icon: Icon(
-  //               Icons.cancel_rounded,
-  //               color: lightGreyColor,
-  //             ),
-  //           )
-  //         : null,
-  //     onChanged: (value) {
-  //       bloc.add(LoadShimmer());
-  //       debouncer.call(() => fetchSearch(context, value));
-  //     },
-  //   ),
-  // ),
-
   Widget itemBuilder(BuildContext context, int index) {
     final state = BlocProvider.of<RecentBloc>(context).state;
     final item = state.listSearch.isNotEmpty ? state.listSearch[index] : state.listTrending[index];
@@ -183,12 +170,12 @@ class RecentView extends StatelessWidget {
         item.mediaType ?? '',
         item.knownForDepartment,
       )})',
-      onTap: () => Navigator.of(context).push(
+      onTapItem: () => Navigator.of(context).push(
         CustomPageRoute(
+          begin: const Offset(1, 0),
           page: DetailsPage(
             title: item.title ?? item.name,
           ),
-          begin: const Offset(1, 0),
         ),
       ),
       imageUrl: item.posterPath != null
@@ -199,7 +186,7 @@ class RecentView extends StatelessWidget {
     );
   }
 
-  bool enablePullUp(
+  bool enablePull(
       List<MultipleMedia> listSearch, List<MultipleMedia> listTrending, BuildContext context) {
     final state = BlocProvider.of<RecentBloc>(context).state;
     if (state is RecentError) {
@@ -220,23 +207,21 @@ class RecentView extends StatelessWidget {
         timeWindow: 'day',
       ));
 
-  loadMore(BuildContext context, String query) => BlocProvider.of<RecentBloc>(context).add(
-        LoadMore(
-          query: query,
-          includeAdult: true,
-          language: 'en-US',
-          mediaType: 'all',
-          timeWindow: 'day',
-        ),
-      );
+  loadMore(BuildContext context, String query) => Debouncer().call(() {
+        BlocProvider.of<RecentBloc>(context).add(
+          LoadMore(
+            query: query,
+            includeAdult: true,
+            language: 'en-US',
+            mediaType: 'all',
+            timeWindow: 'day',
+          ),
+        );
+      });
 
   fetchTrending(BuildContext context, String query) {
     final bloc = BlocProvider.of<RecentBloc>(context);
-    // bloc.textController.clear();
-    fetchSearch(
-      context, query,
-      // bloc.textController.text
-    );
+    fetchSearch(context, query);
     if (bloc.scrollController.hasClients) {
       bloc.scrollController.jumpTo(0);
     }

@@ -40,11 +40,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // CircleAvatar(
-                //   backgroundImage: Image.asset(
-                //     ImagesPath.corgi.assetName,
-                //   ).image,
-                // ),
                 GestureDetector(
                   onTap: onTapLeading,
                   child: leading ?? SizedBox(width: centerTitle ?? false ? 30.w : 0),
@@ -66,43 +61,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 ),
-                // const Spacer(),
                 GestureDetector(
                   onTap: onTapAction,
                   child: actions ?? SizedBox(width: 30.w),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.fromLTRB(0, 0, 5.w, 0),
-                //   child: Icon(
-                //     Icons.notifications_sharp,
-                //     color: whiteColor,
-                //     size: 30.sp,
-                //   ),
-                // ),
               ],
             ),
-            //  AppBar(
-            //   elevation: 0,
-            // title: Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     SizedBox(height: 30.h),
-            //     title ?? const SizedBox(),
-            //   ],
-            // ),
-            //   automaticallyImplyLeading: false,
-            //   centerTitle: centerTitle,
-            //   titleSpacing: titleSpacing,
-            //   leadingWidth: leadingWidth,
-            //   backgroundColor: darkBlueColor,
-            //   flexibleSpace: Container(),
-            //   actions: actions,
-            //   leading: GestureDetector(
-            //     onTap: onTapLeading,
-            //     child: leading,
-            //   ),
-            // ),
           ),
     );
   }

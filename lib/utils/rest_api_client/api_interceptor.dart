@@ -52,7 +52,7 @@ class APIInterceptor extends QueuedInterceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     log('=> PATH: ${response.requestOptions.baseUrl}${response.requestOptions.path}?${response.requestOptions.queryParameters}');
-    log('=> RESPONSE DATA: ${response.data}');
+    // log('=> RESPONSE DATA: ${response.data}');
     super.onResponse(response, handler);
   }
 

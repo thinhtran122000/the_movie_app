@@ -30,12 +30,3 @@ class ExploreSuccess extends ExploreState {
     required super.query,
   });
 }
-
-class ExploreClearSuccess extends ExploreState {
-  ExploreClearSuccess({
-    required super.visible,
-    required super.opacity,
-    required super.statusMessage,
-    required super.query,
-  });
-}

@@ -6,5 +6,5 @@ export 'favorite/favorite.dart';
 export 'home/home.dart';
 export 'navigation/navigation.dart';
 export 'profile/profile.dart';
-export 'search/search.dart';
+export 'trailer/trailer.dart';
 export 'watchlist/watchlist.dart';

@@ -16,6 +16,7 @@ class CustomTextField extends StatelessWidget {
   final Function(PointerEvent)? onTapOutside;
   final VoidCallback? onTapCancel;
   final void Function(String)? onChanged;
+  final FocusNode? focusNode;
   const CustomTextField({
     super.key,
     this.visibleFiler,
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
     this.onTapCancel,
     this.onTapOutside,
     this.isFocused,
+    this.focusNode,
   });
 
   @override
@@ -48,6 +50,7 @@ class CustomTextField extends StatelessWidget {
                   textScaler: const TextScaler.linear(1),
                 ),
                 child: TextFormField(
+                  focusNode: focusNode,
                   controller: controller,
                   cursorColor: darkBlueColor,
                   obscureText: obscureText ?? false,
@@ -58,7 +61,7 @@ class CustomTextField extends StatelessWidget {
                     filled: true,
                     fillColor: whiteColor,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    hintText: isFocused ?? false ? '' : hintText,
+                    hintText: (focusNode?.hasFocus ?? false) ? '' : hintText,
                     hintStyle: TextStyle(
                       color: greyColor,
                       fontSize: 15.sp,

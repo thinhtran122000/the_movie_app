@@ -29,13 +29,12 @@ class PrimaryText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Visibility(
-            visible: visibleIcon ?? false,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
-              child: icon ?? const SizedBox(),
-            ),
-          ),
+          visibleIcon ?? false
+              ? Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
+                  child: icon ?? const SizedBox(),
+                )
+              : const SizedBox(),
           Text(
             title,
             textScaler: const TextScaler.linear(1),
@@ -43,7 +42,7 @@ class PrimaryText extends StatelessWidget {
               letterSpacing: 0.2,
               fontWeight: FontWeight.w500,
               fontSize: 18.5.sp,
-              color: greyColor,
+              color: blackColor,
             ),
           ),
           const Spacer(),
