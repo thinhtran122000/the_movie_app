@@ -4,11 +4,9 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomScrollButton extends StatelessWidget {
   final bool visible;
-  final double opacity;
   final VoidCallback? onTap;
   const CustomScrollButton({
     super.key,
-    required this.opacity,
     this.onTap,
     required this.visible,
   });
@@ -18,11 +16,11 @@ class CustomScrollButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedOpacity(
-        opacity: opacity,
-        duration: const Duration(milliseconds: 200),
+        opacity: visible ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 300),
         child: AnimatedAlign(
-          duration: const Duration(milliseconds: 200),
-          alignment: visible ? const Alignment(0, -0.9) : const Alignment(0, -1.3),
+          duration: const Duration(milliseconds: 300),
+          alignment: visible ? Alignment(0, -0.7.h) : Alignment(0, -1.5.h),
           child: Container(
             padding: const EdgeInsets.all(10).w,
             decoration: BoxDecoration(

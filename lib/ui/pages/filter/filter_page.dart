@@ -16,7 +16,7 @@ class FilterPage extends StatelessWidget {
             size: 30,
           ),
         ),
-        title: const CustomAppBarTitle(titleAppBar: 'Filter'),
+        // title: const CustomAppBarTitle(titleAppBar: 'Filter'),
         onTapLeading: () => Navigator.of(context).pop(),
       ),
       body: const Center(

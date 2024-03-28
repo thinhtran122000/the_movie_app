@@ -27,7 +27,7 @@ class CustomDropDownItem extends StatelessWidget {
         ),
         child: Text(
           title,
-          textScaleFactor: 1,
+          textScaler: const TextScaler.linear(1),
           style: TextStyle(
             color: colorTitle,
             fontSize: 14.sp,

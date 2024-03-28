@@ -120,6 +120,6 @@ class PopularView extends StatelessWidget {
             : bloc.state.autoPlay
                 ? bloc.add(AutoSlide(autoPlay: false))
                 : null
-        : null;
+        : bloc.add(AutoSlide(autoPlay: false));
   }
 }

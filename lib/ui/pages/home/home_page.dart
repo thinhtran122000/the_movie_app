@@ -30,27 +30,23 @@ class HomePage extends StatelessWidget {
         child: Scaffold(
           backgroundColor: whiteColor,
           appBar: CustomAppBar(
+            widthSpace: 15.w,
             centerTitle: false,
-            leading: Padding(
-              padding: EdgeInsets.fromLTRB(15.w, 0, 0, 0),
-              child: CircleAvatar(
-                backgroundImage: Image.asset(
-                  ImagesPath.corgi.assetName,
-                ).image,
-              ),
+            leading: CircleAvatar(
+              backgroundImage: Image.asset(
+                ImagesPath.corgi.assetName,
+              ).image,
             ),
-            title: const CustomAppBarTitle(
-              titleAppBar: 'Hello Thinh',
+            title: 'Hello Thinh',
+            // title: const CustomAppBarTitle(
+            //   titleAppBar: 'Hello Thinh',
+            // ),
+            actions: Icon(
+              Icons.notifications_sharp,
+              size: 30.sp,
+              color: whiteColor,
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 15.w, 0),
-                child: Icon(
-                  Icons.notifications_sharp,
-                  size: 30.sp,
-                ),
-              ),
-            ],
+
             onTapLeading: () {},
           ),
           body: BlocBuilder<HomeBloc, HomeState>(

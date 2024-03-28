@@ -35,7 +35,7 @@ class CustomTextRich extends StatelessWidget {
               TextSpan(text: secondaryText),
             ],
           ),
-          textScaleFactor: 1.1,
+          textScaler: const TextScaler.linear(1.1),
         ),
       ),
     );

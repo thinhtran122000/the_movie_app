@@ -8,7 +8,7 @@ class APIInterceptor extends QueuedInterceptor {
     // if (accessToken != null) {
     //   if (JwtDecoder.isExpired(accessToken)) {
     //     try {
-          // log('♻️ Refreshing token...');
+    // log('♻️ Refreshing token...');
     //       final refreshToken = storage.getValue(AppDatabaseKey.refreshToken);
     //       final request =
     //           AuthenticationRequest.refreshToken(refreshToken: refreshToken);
@@ -51,7 +51,7 @@ class APIInterceptor extends QueuedInterceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    log('=> PATH: ${response.requestOptions.baseUrl}${response.requestOptions.path}');
+    log('=> PATH: ${response.requestOptions.baseUrl}${response.requestOptions.path}?${response.requestOptions.queryParameters}');
     log('=> RESPONSE DATA: ${response.data}');
     super.onResponse(response, handler);
   }

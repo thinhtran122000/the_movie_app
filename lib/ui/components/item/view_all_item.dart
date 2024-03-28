@@ -29,7 +29,7 @@ class ItemViewAll extends StatelessWidget {
         SizedBox(height: 5.h),
         Text(
           title ?? 'View all',
-          textScaleFactor: 1,
+          textScaler: const TextScaler.linear(1),
           textAlign: TextAlign.center,
           softWrap: true,
           maxLines: 2,

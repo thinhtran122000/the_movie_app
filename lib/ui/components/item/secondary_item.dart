@@ -75,7 +75,7 @@ class SecondaryItem extends StatelessWidget {
               width: 67.w,
               child: Text(
                 title ?? '',
-                textScaleFactor: 1,
+                textScaler: const TextScaler.linear(1),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 softWrap: true,
