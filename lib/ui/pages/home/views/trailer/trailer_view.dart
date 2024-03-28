@@ -90,7 +90,7 @@ class _TrailerViewState extends State<TrailerView> {
               icon: Icon(
                 Icons.video_library_rounded,
                 size: 24,
-                color: greyColor,
+                color: yellowColor,
               ),
               rightWidget: BlocBuilder<TrailerBloc, TrailerState>(
                 builder: (context, state) {

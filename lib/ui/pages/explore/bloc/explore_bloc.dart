@@ -9,6 +9,7 @@ part 'explore_state.dart';
 class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   ScrollController scrollController = ScrollController();
   TextEditingController textController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
   ExploreBloc()
       : super(ExploreInitial(
           visible: false,
@@ -20,8 +21,6 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     on<DisplayToast>(_onDisplayToast);
     on<Search>(_onSearch);
     on<Clear>(_onClear);
-
-
   }
 
   FutureOr<void> _onChangeAnimationToast(ChangeAnimationToast event, Emitter<ExploreState> emit) {
@@ -53,11 +52,19 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   FutureOr<void> _onClear(Clear event, Emitter<ExploreState> emit) {
     textController.clear();
-    emit(ExploreClearSuccess(
+    emit(ExploreSuccess(
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
       query: textController.text,
     ));
+  }
+
+  @override
+  Future<void> close() {
+    textController.dispose();
+    scrollController.dispose();
+    focusNode.dispose();
+    return super.close();
   }
 }

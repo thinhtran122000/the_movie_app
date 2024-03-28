@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -19,6 +20,13 @@ class _ExplorePageState extends State<ExplorePage> {
   String b = 'Hello';
   bool isFocused = false;
   final Debouncer debouncer = Debouncer();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => SystemChannels.textInput.invokeMethod('TextInput.hide'),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +41,23 @@ class _ExplorePageState extends State<ExplorePage> {
               child: Scaffold(
                   appBar: CustomAppBar(
                     customTitle: CustomTextField(
+                      focusNode: bloc.focusNode,
                       controller: bloc.textController,
                       enabledSearch: enabledSearch,
                       isFocused: isFocused,
+                      hintText: 'Search for movies, tv shows, people...'.padLeft(14),
+                      suffixIcon: bloc.textController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                bloc.focusNode.requestFocus();
+                                bloc.add(Clear());
+                              },
+                              icon: Icon(
+                                Icons.cancel_rounded,
+                                color: lightGreyColor,
+                              ),
+                            )
+                          : null,
                       onTap: () {
                         setState(() {
                           enabledSearch = true;
@@ -47,41 +69,24 @@ class _ExplorePageState extends State<ExplorePage> {
                           enabledSearch = false;
                           isFocused = false;
                         });
-                        // print('Hello2$a');
+                        bloc.add(Clear());
                       },
                       onTapOutside: (event) {
                         setState(() {
                           isFocused = false;
                         });
-                        FocusManager.instance.primaryFocus?.unfocus();
+                        bloc.focusNode.unfocus();
                       },
-                      hintText: 'Search for movies, tv shows, people...'.padLeft(14),
-                      onChanged: (value) {
-                        bloc.add(Search(query: value));
-                      },
-                      suffixIcon: bloc.textController.text.isNotEmpty
-                          ? IconButton(
-                              onPressed: () => bloc.add(Clear()),
-                              // () => fetchTrending(context),
-                              icon: Icon(
-                                Icons.cancel_rounded,
-                                color: lightGreyColor,
-                              ),
-                            )
-                          : null,
-                      // onChanged: (value) {
-                      //   bloc.add(LoadShimmer());
-                      //   debouncer.call(() => fetchSearch(context, value));
-                      // },
+                      onChanged: (value) => bloc.add(Search(query: value)),
                     ),
                   ),
-                  body: enabledSearch
-                      ? SearchView(
-                          query: state.query,
-                        )
-                      : DiscoveryView(
-                          query: b,
-                        )
+                  body: IndexedStack(
+                    index: enabledSearch ? 0 : 1,
+                    children: [
+                      SearchView(query: state.query),
+                      const DiscoveryView(),
+                    ],
+                  )
                   // NotificationListener<ScrollNotification>(
                   //   onNotification: (notification) {
                   //     final scrollDirection = bloc.scrollController.position.userScrollDirection;
@@ -105,8 +110,8 @@ class _ExplorePageState extends State<ExplorePage> {
                   //           mainAxisSize: MainAxisSize.min,
                   //           children: [
                   //             SizedBox(height: 20.h),
-                  // const TrailerView(),
-                  // SizedBox(height: 1000.h),
+                  //                const TrailerView(),
+                  //                SizedBox(height: 1000.h),
                   //           ],
                   //         ),
                   //       ),
@@ -130,6 +135,13 @@ class _ExplorePageState extends State<ExplorePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    print('Hello');
+    BlocProvider.of<ExploreBloc>(context).focusNode.dispose();
+    super.dispose();
   }
 
   reloadPage(BuildContext context) {

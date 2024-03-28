@@ -18,8 +18,6 @@ class SearchView extends StatelessWidget {
     return BlocProvider(
       create: (context) => SearchBloc(),
       child: Stack(
-        // mainAxisSize: MainAxisSize.min,
-        // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const IndexedStack(
             index: 0,
@@ -27,29 +25,32 @@ class SearchView extends StatelessWidget {
               RecentView(),
             ],
           ),
-          CustomTabBar(
-            height: 35.h,
-            tabs: [
-              CustomTabBarItem(
-                flex: 0,
-                title: 'Recent',
-                backgroundColor: whiteColor,
-                textColor: darkBlueColor,
-                dividerColor: darkBlueColor,
-                padding: EdgeInsets.fromLTRB(8.w, 0, 10.w, 0),
-                onTapItem: () {},
-              ),
-              CustomTabBarItem(
-                flex: 0,
-                title: 'Advanced Search',
-                backgroundColor: whiteColor,
-                textColor: greyColor,
-                dividerColor: Colors.transparent,
-                padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                onTapItem: () {},
-              ),
-            ],
-          ),
+          query.isEmpty
+              ? CustomTabBar(
+                  backgroundColor: whiteColor,
+                  height: 35.h,
+                  tabs: [
+                    CustomTabBarItem(
+                      flex: 0,
+                      title: 'Recent',
+                      backgroundColor: whiteColor,
+                      textColor: darkBlueColor,
+                      dividerColor: darkBlueColor,
+                      padding: EdgeInsets.fromLTRB(8.w, 0, 10.w, 0),
+                      onTapItem: () {},
+                    ),
+                    CustomTabBarItem(
+                      flex: 0,
+                      title: 'Advanced Search',
+                      backgroundColor: whiteColor,
+                      textColor: greyColor,
+                      dividerColor: Colors.transparent,
+                      padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
+                      onTapItem: () {},
+                    ),
+                  ],
+                )
+              : const SizedBox(),
         ],
       ),
     );

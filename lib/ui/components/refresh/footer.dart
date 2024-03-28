@@ -34,10 +34,7 @@ class Footer extends StatelessWidget {
             child: ShaderMask(
               blendMode: BlendMode.srcIn,
               shaderCallback: (bounds) => LinearGradient(
-                colors: [
-                  lightGreenColor,
-                  lightBlueColor,
-                ],
+                colors: [darkBlueColor, darkBlueColor],
               ).createShader(bounds),
               child: Lottie.asset(
                 AnimationsPath.loadingAnimation.assetName,
@@ -57,10 +54,7 @@ class Footer extends StatelessWidget {
             child: ShaderMask(
               blendMode: BlendMode.srcIn,
               shaderCallback: (bounds) => LinearGradient(
-                colors: [
-                  lightGreenColor,
-                  lightBlueColor,
-                ],
+                colors: [darkBlueColor, darkBlueColor],
               ).createShader(bounds),
               child: Lottie.asset(
                 AnimationsPath.loadingAnimation.assetName,

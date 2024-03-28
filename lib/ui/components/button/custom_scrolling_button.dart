@@ -5,10 +5,12 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 class CustomScrollButton extends StatelessWidget {
   final bool visible;
   final VoidCallback? onTap;
+  final double? fallPosition;
   const CustomScrollButton({
     super.key,
     this.onTap,
     required this.visible,
+    this.fallPosition,
   });
 
   @override
@@ -20,7 +22,7 @@ class CustomScrollButton extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         child: AnimatedAlign(
           duration: const Duration(milliseconds: 300),
-          alignment: visible ? Alignment(0, -0.7.h) : Alignment(0, -1.5.h),
+          alignment: visible ? Alignment(0, fallPosition ?? 0) : Alignment(0, -1.5.h),
           child: Container(
             padding: const EdgeInsets.all(10).w,
             decoration: BoxDecoration(

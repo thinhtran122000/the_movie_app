@@ -8,12 +8,12 @@ class GridItem extends StatelessWidget {
   final String imageUrl;
   final String? title;
   final String? releaseYear;
-  final VoidCallback? onTap;
+  final VoidCallback? onTapItem;
   final int index;
   const GridItem({
     super.key,
     required this.imageUrl,
-    this.onTap,
+    this.onTapItem,
     this.title,
     this.releaseYear,
     required this.index,
@@ -22,7 +22,7 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTapItem,
       child: RepaintBoundary(
         child: IntrinsicHeight(
           child: index % 2 != 0
@@ -94,7 +94,6 @@ class GridItem extends StatelessWidget {
                 )
               : SizedBox(
                   height: 300.h,
-                  // height: 300.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
