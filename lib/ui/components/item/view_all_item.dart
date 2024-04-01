@@ -3,14 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/colors/color.dart';
 
 class ItemViewAll extends StatelessWidget {
-  final double? width;
-  final double? height;
   final double? sizeIcon;
   final String? title;
   const ItemViewAll({
     super.key,
-    this.width,
-    this.height,
     this.sizeIcon,
     this.title,
   });
@@ -19,7 +15,7 @@ class ItemViewAll extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         Icon(
           size: sizeIcon ?? 55.sp,

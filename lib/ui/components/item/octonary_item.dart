@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -31,32 +33,29 @@ class OctonaryItem extends StatelessWidget {
     return GestureDetector(
       onTap: index >= itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
-        child: IntrinsicWidth(
-          child: index >= itemCount
-              ? Container(
-                  height: 200,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    color: whiteColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: lightGreyColor,
-                        blurRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: ItemViewAll(
-                    width: 55.w,
-                    height: 55.w,
-                    sizeIcon: 50.sp,
-                    title: 'More foundations',
-                  ),
-                )
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
+        child: index >= itemCount
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.r),
+                  color: whiteColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: lightGreyColor,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: ItemViewAll(
+                  sizeIcon: 50.sp,
+                  title: 'More foundations',
+                ),
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
                       height: 110.h,
                       width: 157.w,
                       alignment: Alignment.center,
@@ -88,23 +87,24 @@ class OctonaryItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 7.h),
-                    SizedBox(
-                      width: 140.w,
-                      child: Text(
-                        title ?? '',
-                        textScaler: const TextScaler.linear(1),
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                        ),
+                  ),
+                  SizedBox(height: 7.h),
+                  SizedBox(
+                    width: 140.w,
+                    child: Text(
+                      index >= itemCount ? '' : '$title',
+                      textScaler: const TextScaler.linear(1),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        height: 0,
                       ),
                     ),
-                  ],
-                ),
-        ),
+                  ),
+                ],
+              ),
       ),
     );
   }

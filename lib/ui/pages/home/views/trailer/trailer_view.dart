@@ -49,7 +49,9 @@ class _TrailerViewState extends State<TrailerView> {
                                   ? stopTrailer(
                                       context, trailerState.indexMovie, trailerState.indexTv)
                                   : null
-                          : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                          : checkDisplayVideo(context)
+                              ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                              : null
                       : checkDisplayVideo(context)
                           ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                           : null;
@@ -224,7 +226,8 @@ class _TrailerViewState extends State<TrailerView> {
       heroTag: '${AppConstants.trailerTvHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
       youtubeKey: ObjectKey(controller),
-      controller: controller,
+      controller:
+          bloc.state is TrailerSuccess ? controller : YoutubePlayerController(initialVideoId: ''),
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
       position: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,

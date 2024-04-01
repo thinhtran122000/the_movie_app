@@ -27,7 +27,12 @@ class NowPlayingView extends StatelessWidget {
               PrimaryText(
                 title: 'On streaming now',
                 visibleIcon: true,
-                onTapViewAll: () {},
+                onTapViewAll: () {
+                  BlocProvider.of<NowPlayingBloc>(context).add(FetchData(
+                    language: 'en-US',
+                    page: 1,
+                  ));
+                },
                 icon: SvgPicture.asset(
                   IconsPath.nowPlayingIcon.assetName,
                 ),

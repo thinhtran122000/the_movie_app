@@ -26,27 +26,24 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) => state is NavigationScrollSuccess ? reloadPage(context) : null,
+        listener: (context, state) =>
+            state is NavigationScrollSuccess && state.indexPage == 0 ? reloadPage(context) : null,
         child: Scaffold(
           backgroundColor: whiteColor,
           appBar: CustomAppBar(
             widthSpace: 15.w,
             centerTitle: false,
+            title: 'Hello Thinh',
             leading: CircleAvatar(
               backgroundImage: Image.asset(
                 ImagesPath.corgi.assetName,
               ).image,
             ),
-            title: 'Hello Thinh',
-            // title: const CustomAppBarTitle(
-            //   titleAppBar: 'Hello Thinh',
-            // ),
             actions: Icon(
               Icons.notifications_sharp,
               size: 30.sp,
               color: whiteColor,
             ),
-
             onTapLeading: () {},
           ),
           body: BlocBuilder<HomeBloc, HomeState>(

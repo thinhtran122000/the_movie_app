@@ -79,6 +79,7 @@ class ArtistView extends StatelessWidget {
       title: item?.name,
       imageUrl:
           item?.profilePath == null ? '' : '${AppConstants.kImagePathPoster}${item?.profilePath}',
+      errorImageUrl: getErrorImageWithGender(item?.gender ?? 0),
       index: index,
       itemCount: list.length,
       onTapItem: () => Navigator.of(context).push(
@@ -92,4 +93,21 @@ class ArtistView extends StatelessWidget {
   }
 
   Widget separatorBuilder(BuildContext context, int index) => SizedBox(width: 14.h);
+
+  String getErrorImageWithGender(int gender) {
+    switch (gender) {
+      case 0:
+        {
+          return ImagesPath.noImageMan.assetName;
+        }
+      case 1:
+        {
+          return ImagesPath.noImageWoman.assetName;
+        }
+      default:
+        {
+          return ImagesPath.noImageOtherGender.assetName;
+        }
+    }
+  }
 }

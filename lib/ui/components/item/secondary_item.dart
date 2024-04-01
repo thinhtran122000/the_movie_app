@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
@@ -12,6 +14,7 @@ class SecondaryItem extends StatelessWidget {
   final String? title;
   final String imageUrl;
   final String heroTag;
+  final String errorImageUrl;
   const SecondaryItem({
     super.key,
     this.title,
@@ -21,6 +24,7 @@ class SecondaryItem extends StatelessWidget {
     this.onTapItem,
     this.onTapViewAll,
     required this.heroTag,
+    required this.errorImageUrl,
   });
 
   @override
@@ -29,58 +33,61 @@ class SecondaryItem extends StatelessWidget {
       onTap: index >= itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: 90.w,
-              height: 120.h,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(15.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: lightGreyColor,
-                    blurRadius: 5,
-                  ),
-                ],
-              ),
-              child: index >= itemCount
-                  ? ItemViewAll(
-                      width: 35.w,
-                      height: 35.h,
-                      sizeIcon: 45.sp,
-                    )
-                  : Hero(
-                      tag: heroTag,
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        width: double.infinity,
-                        height: double.infinity,
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.fill,
-                        progressIndicatorBuilder: (context, url, progress) =>
-                            const CustomIndicator(),
-                        errorWidget: (context, url, error) => Image.asset(
-                          ImagesPath.noImage.assetName,
-                          width: double.infinity,
-                          height: double.infinity,
+            Flexible(
+              flex: 4,
+              child: Container(
+                width: 90.w,
+                height: 130.h,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(15.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: lightGreyColor,
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: index >= itemCount
+                    ? ItemViewAll(
+                        sizeIcon: 45.sp,
+                      )
+                    : Hero(
+                        tag: heroTag,
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
                           filterQuality: FilterQuality.high,
                           fit: BoxFit.fill,
+                          progressIndicatorBuilder: (context, url, progress) =>
+                              const CustomIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(
+                            errorImageUrl,
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
+              ),
             ),
-            SizedBox(height: 7.h),
-            SizedBox(
-              width: 67.w,
-              child: Text(
-                title ?? '',
-                textScaler: const TextScaler.linear(1),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                softWrap: true,
-                style: TextStyle(
-                  fontSize: 12.sp,
+            SizedBox(height: 8.h),
+            Expanded(
+              child: SizedBox(
+                width: 70.w,
+                child: Text(
+                  index >= itemCount ? '' : '$title',
+                  textScaler: const TextScaler.linear(1),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    height: 0,
+                  ),
                 ),
               ),
             ),

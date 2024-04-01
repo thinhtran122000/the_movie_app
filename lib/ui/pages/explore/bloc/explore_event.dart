@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'explore_bloc.dart';
 
 abstract class ExploreEvent {}
@@ -9,12 +10,13 @@ class Search extends ExploreEvent {
   });
 }
 
+class Clear extends ExploreEvent {}
 
-class Clear extends ExploreEvent {
-  // final String query;
-  // Clear({
-    // required this.query,
-  // });
+class MoveToSearch extends ExploreEvent {
+  final bool enabledSearch;
+  MoveToSearch({
+    required this.enabledSearch,
+  });
 }
 
 class ChangeAnimationToast extends ExploreEvent {

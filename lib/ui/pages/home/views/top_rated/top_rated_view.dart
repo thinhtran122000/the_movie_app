@@ -62,20 +62,20 @@ class TopRatedView extends StatelessWidget {
             builder: (context, state) {
               if (state is TopRatedInitial) {
                 return SizedBox(
-                  height: 290.h,
+                  height: 285.h,
                   child: const CustomIndicator(),
                 );
               }
               if (state is TopRatedError) {
                 return SizedBox(
-                  height: 290.h,
+                  height: 285.h,
                   child: Center(
                     child: Text(state.runtimeType.toString()),
                   ),
                 );
               }
               return SizedBox(
-                height: 290.h,
+                height: 285.h,
                 child: ListView.separated(
                   physics: const BouncingScrollPhysics(),
                   addAutomaticKeepAlives: false,

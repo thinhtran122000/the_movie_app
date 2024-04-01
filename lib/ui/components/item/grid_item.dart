@@ -27,9 +27,10 @@ class GridItem extends StatelessWidget {
         child: IntrinsicHeight(
           child: index % 2 != 0
               ? SizedBox(
-                  height: 230.h,
+                  height: 215.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         clipBehavior: Clip.antiAlias,
@@ -60,7 +61,7 @@ class GridItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 10.h),
                       Text.rich(
                         TextSpan(
                           children: [
@@ -69,6 +70,8 @@ class GridItem extends StatelessWidget {
                               style: TextStyle(
                                 color: blackColor,
                                 fontSize: 15.sp,
+                                height: 0,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             WidgetSpan(
@@ -79,6 +82,8 @@ class GridItem extends StatelessWidget {
                               style: TextStyle(
                                 color: greyColor,
                                 fontSize: 15.sp,
+                                overflow: TextOverflow.ellipsis,
+                                height: 0,
                               ),
                             ),
                           ],
@@ -93,7 +98,7 @@ class GridItem extends StatelessWidget {
                   ),
                 )
               : SizedBox(
-                  height: 300.h,
+                  height: 285.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -126,7 +131,7 @@ class GridItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15.h),
+                      SizedBox(height: 10.h),
                       Text.rich(
                         TextSpan(
                           children: [
@@ -135,6 +140,8 @@ class GridItem extends StatelessWidget {
                               style: TextStyle(
                                 color: blackColor,
                                 fontSize: 15.sp,
+                                overflow: TextOverflow.ellipsis,
+                                height: 0,
                               ),
                             ),
                             WidgetSpan(
@@ -144,7 +151,9 @@ class GridItem extends StatelessWidget {
                               text: releaseYear,
                               style: TextStyle(
                                 color: greyColor,
+                                overflow: TextOverflow.ellipsis,
                                 fontSize: 15.sp,
+                                height: 0,
                               ),
                             ),
                           ],

@@ -28,7 +28,7 @@ class SearchView extends StatelessWidget {
           query.isEmpty
               ? CustomTabBar(
                   backgroundColor: whiteColor,
-                  height: 35.h,
+                  height: 40.h,
                   tabs: [
                     CustomTabBarItem(
                       flex: 0,

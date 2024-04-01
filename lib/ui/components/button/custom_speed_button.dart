@@ -58,14 +58,15 @@ class CustomSpeedButton extends StatelessWidget {
             children: [
               Icon(
                 controller.value.playbackRate == e ? Icons.done : null,
-                color: whiteColor,
+                color: controller.value.playbackRate == e ? yellowColor : whiteColor,
                 size: 15.sp,
               ),
               SizedBox(width: 5.w),
               Text(
                 e == PlaybackRate.normal ? 'Normal' : '$e',
                 style: TextStyle(
-                  color: whiteColor,
+                  color: controller.value.playbackRate == e ? yellowColor : whiteColor,
+                  height: 0,
                 ),
               ),
             ],

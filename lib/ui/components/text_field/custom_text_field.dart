@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String? hintText;
   final bool? visibleFiler;
   final bool? obscureText;
@@ -11,12 +12,13 @@ class CustomTextField extends StatelessWidget {
   final bool? enabledSearch;
   final bool? isFocused;
   final Widget? suffixIcon;
-  final TextEditingController? controller;
-  final VoidCallback? onTap;
-  final Function(PointerEvent)? onTapOutside;
-  final VoidCallback? onTapCancel;
-  final void Function(String)? onChanged;
   final FocusNode? focusNode;
+  final VoidCallback? onTap;
+  final VoidCallback? onTapCancel;
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
+  final Function(PointerEvent)? onTapOutside;
+
   const CustomTextField({
     super.key,
     this.visibleFiler,
@@ -35,9 +37,14 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(12.w, 30.h, 12.w, 0),
+      padding: EdgeInsets.fromLTRB(13.w, 30.h, 13.w, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -50,27 +57,27 @@ class CustomTextField extends StatelessWidget {
                   textScaler: const TextScaler.linear(1),
                 ),
                 child: TextFormField(
-                  focusNode: focusNode,
-                  controller: controller,
+                  focusNode: widget.focusNode,
+                  controller: widget.controller,
                   cursorColor: darkBlueColor,
-                  obscureText: obscureText ?? false,
-                  onChanged: onChanged,
-                  onTapOutside: onTapOutside,
-                  onTap: onTap,
+                  obscureText: widget.obscureText ?? false,
+                  onChanged: widget.onChanged,
+                  onTapOutside: widget.onTapOutside,
+                  onTap: widget.onTap,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: whiteColor,
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    hintText: (focusNode?.hasFocus ?? false) ? '' : hintText,
+                    hintText: (widget.focusNode?.hasFocus ?? false) ? '' : widget.hintText,
                     hintStyle: TextStyle(
                       color: greyColor,
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w400,
                     ),
-                    suffixIcon: suffixIcon,
+                    suffixIcon: widget.suffixIcon,
                     focusedBorder: outlineInputBorder,
                     enabledBorder: outlineInputBorder,
-                    prefixIcon: (isAuthentication ?? false)
+                    prefixIcon: (widget.isAuthentication ?? false)
                         ? null
                         : IconButton(
                             onPressed: null,
@@ -90,18 +97,19 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: enabledSearch ?? false ? 15.w : 0),
+          SizedBox(width: widget.enabledSearch ?? false ? 15.w : 0),
           GestureDetector(
-            onTap: onTapCancel,
+            onTap: widget.onTapCancel,
             child: AnimatedSize(
               curve: Curves.easeInSine,
               duration: const Duration(milliseconds: 100),
               alignment: Alignment.centerRight,
               child: SizedBox(
-                width: enabledSearch ?? false ? 55 : 0,
-                height: enabledSearch ?? false ? 20 : 0,
+                width: widget.enabledSearch ?? false ? 55 : 0,
+                height: widget.enabledSearch ?? false ? 20 : 0,
                 child: Text(
                   'Cancel',
+                  textScaler: const TextScaler.linear(1),
                   style: TextStyle(
                     color: whiteColor,
                     inherit: false,
@@ -114,5 +122,19 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => SystemChannels.textInput.invokeMethod('TextInput.hide'),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode?.dispose();
+    super.dispose();
   }
 }
