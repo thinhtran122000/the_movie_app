@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomNavigationBarItem extends StatelessWidget {
@@ -19,8 +18,6 @@ class CustomNavigationBarItem extends StatelessWidget {
         onTap: onTap,
         child: SvgPicture.asset(
           imagePath,
-          width: 30.w,
-          height: 30.h,
           fit: BoxFit.scaleDown,
         ),
       ),

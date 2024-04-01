@@ -52,20 +52,6 @@ class TrailerSuccess extends TrailerState {
   });
 }
 
-class TrailerStopSuccess extends TrailerState {
-  TrailerStopSuccess({
-    required super.listMovie,
-    required super.isActive,
-    required super.listTv,
-    required super.listTrailerMovie,
-    required super.listTrailerTv,
-    required super.visibleVideoMovie,
-    required super.visibleVideoTv,
-    required super.indexMovie,
-    required super.indexTv,
-  });
-}
-
 class TrailerError extends TrailerState {
   final String errorMessage;
   TrailerError({

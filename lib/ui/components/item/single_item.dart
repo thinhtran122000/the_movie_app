@@ -42,7 +42,7 @@ class SingleItem extends StatelessWidget {
       onTap: onTapItem,
       child: RepaintBoundary(
         child: Container(
-          height: 172.h,
+          height: 185.h,
           clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
           decoration: BoxDecoration(
@@ -102,85 +102,98 @@ class SingleItem extends StatelessWidget {
                         : null,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: 10.h),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15.w, 0, 5.w, 0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 160.w,
-                              child: Text(
-                                title ?? '',
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: false,
-                                textScaler: const TextScaler.linear(1),
-                                style: TextStyle(
-                                  color: averageLuminance > 0.5 || posterPath == null
-                                      ? blackColor
-                                      : whiteColor,
-                                  fontSize: 20.sp,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: onTapFavor,
-                              child: Icon(
-                                (favorite ?? false)
-                                    ? Icons.favorite_sharp
-                                    : Icons.favorite_outline_sharp,
-                                color: (favorite ?? false)
-                                    ? yellowColor
-                                    : averageLuminance > 0.5 || posterPath == null
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15.w, 0, 5.w, 0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 160.w,
+                                child: Text(
+                                  title ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  textScaler: const TextScaler.linear(1),
+                                  style: TextStyle(
+                                    height: 0,
+                                    color: averageLuminance > 0.5 || posterPath == null
                                         ? blackColor
                                         : whiteColor,
-                                size: 20.sp,
+                                    fontSize: 20.sp,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 1.h),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
-                        child: Text(
-                          'Season $season | Episode $episode',
-                          overflow: TextOverflow.clip,
-                          softWrap: false,
-                          textScaler: const TextScaler.linear(1),
-                          style: TextStyle(
-                            color: averageLuminance > 0.5 || posterPath == null
-                                ? blackColor
-                                : whiteColor,
-                            fontSize: 14.sp,
+                              GestureDetector(
+                                onTap: onTapFavor,
+                                child: Icon(
+                                  (favorite ?? false)
+                                      ? Icons.favorite_sharp
+                                      : Icons.favorite_outline_sharp,
+                                  color: (favorite ?? false)
+                                      ? yellowColor
+                                      : averageLuminance > 0.5 || posterPath == null
+                                          ? blackColor
+                                          : whiteColor,
+                                  size: 20.sp,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 11.h),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
-                        child: Text(
-                          overview ?? '',
-                          maxLines: 4,
-                          softWrap: false,
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          textScaler: const TextScaler.linear(1),
-                          style: TextStyle(
-                            color: averageLuminance > 0.5 || posterPath == null
-                                ? blackColor
-                                : whiteColor,
-                            fontSize: 12.sp,
+                      // SizedBox(height: 1.h),
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
+                          child: Text(
+                            'Season $season | Episode $episode',
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                            textScaler: const TextScaler.linear(1),
+                            style: TextStyle(
+                              color: averageLuminance > 0.5 || posterPath == null
+                                  ? blackColor
+                                  : whiteColor,
+                              fontSize: 14.sp,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 1.h),
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
+                          child: Text(
+                            '$overview',
+                            maxLines: 4,
+                            softWrap: false,
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.ellipsis,
+                            textScaler: const TextScaler.linear(1),
+                            style: TextStyle(
+                              color: averageLuminance > 0.5 || posterPath == null
+                                  ? blackColor
+                                  : whiteColor,
+                              fontSize: 12.sp,
+                              height: 1.4,
+                            ),
                           ),
                         ),
                       ),
                       const Spacer(),
-                      Center(
+                      Flexible(
+                        flex: 1,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
                               IconsPath.tvShowIcon.assetName,
@@ -196,6 +209,7 @@ class SingleItem extends StatelessWidget {
                               'Watch now!',
                               textScaler: const TextScaler.linear(1),
                               style: TextStyle(
+                                height: 0.h,
                                 color: averageLuminance > 0.5 || posterPath == null
                                     ? blackColor
                                     : whiteColor,

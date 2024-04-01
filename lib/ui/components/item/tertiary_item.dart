@@ -63,96 +63,98 @@ class TertiaryItem extends StatelessWidget {
             ],
           ),
           child: index >= itemCount
-              ? ItemViewAll(
-                  width: 50.w,
-                  height: 50.h,
-                )
+              ? const ItemViewAll()
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Stack(
-                      children: [
-                        Hero(
-                          tag: heroTag,
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            filterQuality: FilterQuality.high,
-                            width: double.infinity,
-                            height: (enableInfo ?? false) ? 190.h : 210.h,
-                            fit: BoxFit.fill,
-                            progressIndicatorBuilder: (context, url, progress) =>
-                                const CustomIndicator(),
-                            errorWidget: (context, url, error) => Image.asset(
-                              ImagesPath.noImage.assetName,
-                              width: double.infinity,
-                              height: double.infinity,
+                    Expanded(
+                      flex: 1,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Hero(
+                            tag: heroTag,
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
                               filterQuality: FilterQuality.high,
+                              width: double.infinity,
+                              height: (enableInfo ?? false) ? 190.h : 210.h,
                               fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          width: 50.w,
-                          height: 45.h,
-                          top: -2.h,
-                          left: -8.3.w,
-                          child: GestureDetector(
-                            onTap: onTapBanner,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  IconsPath.watchListIcon.assetName,
-                                  height: 60.h,
-                                  fit: BoxFit.fill,
-                                  colorFilter: ColorFilter.mode(
-                                    (watchlist ?? false)
-                                        ? yellowColor
-                                        : blackColor.withOpacity(0.4),
-                                    BlendMode.srcIn,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 9.h,
-                                  child: Icon(
-                                    (watchlist ?? false) ? Icons.check : Icons.add,
-                                    color: whiteColor,
-                                    size: 22.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          width: 30.w,
-                          height: 30.h,
-                          bottom: 2.h,
-                          right: 2.w,
-                          child: GestureDetector(
-                            onTap: onTapFavor,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: blackColor.withOpacity(0.4),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                (favorite ?? false)
-                                    ? Icons.favorite_sharp
-                                    : Icons.favorite_outline_sharp,
-                                color: (favorite ?? false) ? yellowColor : whiteColor,
-                                size: 22.sp,
+                              progressIndicatorBuilder: (context, url, progress) =>
+                                  const CustomIndicator(),
+                              errorWidget: (context, url, error) => Image.asset(
+                                ImagesPath.noImage.assetName,
+                                width: double.infinity,
+                                height: double.infinity,
+                                filterQuality: FilterQuality.high,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: GestureDetector(
+                              onTap: onTapBanner,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    IconsPath.watchListIcon.assetName,
+                                    alignment: Alignment.topLeft,
+                                    width: 50.w,
+                                    height: 45.h,
+                                    fit: BoxFit.fill,
+                                    colorFilter: ColorFilter.mode(
+                                      (watchlist ?? false)
+                                          ? yellowColor
+                                          : blackColor.withOpacity(0.4),
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 9.h,
+                                    child: Icon(
+                                      (watchlist ?? false) ? Icons.check : Icons.add,
+                                      color: whiteColor,
+                                      size: 22.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                              onTap: onTapFavor,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(2.w, 2.h, 2.w, 2.h),
+                                width: 30.w,
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: blackColor.withOpacity(0.4),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  (favorite ?? false)
+                                      ? Icons.favorite_sharp
+                                      : Icons.favorite_outline_sharp,
+                                  color: (favorite ?? false) ? yellowColor : whiteColor,
+                                  size: 22.sp,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 7.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 7.w),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.star_rounded,
@@ -169,6 +171,7 @@ class TertiaryItem extends StatelessWidget {
                               color: greyColor,
                               fontSize: 14.sp,
                               overflow: TextOverflow.clip,
+                              height: 0,
                             ),
                           ),
                         ],
@@ -178,29 +181,29 @@ class TertiaryItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Text(
-                        title ?? '',
+                        '$title',
                         maxLines: 1,
                         softWrap: false,
                         textScaler: const TextScaler.linear(1),
                         style: TextStyle(
                           fontSize: 14.5.sp,
                           overflow: TextOverflow.ellipsis,
+                          height: 0,
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.h),
                     (enableInfo ?? false)
                         ? GestureDetector(
                             onTap: onTapInfo,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 120.w),
+                              padding: EdgeInsets.fromLTRB(120.w, 10.h, 0, 10.h),
                               child: Icon(
                                 Icons.info_outlined,
                                 color: greyColor,
                               ),
                             ),
                           )
-                        : const SizedBox(),
+                        : SizedBox(height: 10.h),
                   ],
                 ),
         ),

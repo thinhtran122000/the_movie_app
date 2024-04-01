@@ -8,6 +8,9 @@ class PrimaryText extends StatelessWidget {
   final bool? enableRightWidget;
   final Widget? rightWidget;
   final bool? visibleIcon;
+  final double? paddingLeft;
+  final double? paddingRight;
+
   final VoidCallback? onTapViewAll;
 
   const PrimaryText({
@@ -18,40 +21,46 @@ class PrimaryText extends StatelessWidget {
     required this.title,
     this.rightWidget,
     this.visibleIcon,
+    this.paddingLeft,
+    this.paddingRight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
+      padding: EdgeInsets.fromLTRB(paddingLeft ?? 17.w, 0, paddingRight ?? 17.w, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          visibleIcon ?? false
-              ? Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
-                  child: icon ?? const SizedBox(),
-                )
-              : const SizedBox(),
-          Text(
-            title,
-            textScaler: const TextScaler.linear(1),
-            style: TextStyle(
-              letterSpacing: 0.2,
-              fontWeight: FontWeight.w500,
-              fontSize: 18.5.sp,
-              color: blackColor,
+          Flexible(
+            flex: 0,
+            child: visibleIcon ?? false
+                ? Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
+                    child: icon ?? const SizedBox(),
+                  )
+                : const SizedBox(),
+          ),
+          Expanded(
+            child: Text(
+              title,
+              textScaler: const TextScaler.linear(1),
+              style: TextStyle(
+                height: 0,
+                fontWeight: FontWeight.w500,
+                fontSize: 19.sp,
+                color: blackColor,
+              ),
             ),
           ),
-          const Spacer(),
           enableRightWidget ?? true
               ? rightWidget ??
                   GestureDetector(
                     onTap: onTapViewAll,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 4),
+                      padding: EdgeInsets.only(top: 4.h),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -60,6 +69,7 @@ class PrimaryText extends StatelessWidget {
                             'View all',
                             textScaler: const TextScaler.linear(1),
                             style: TextStyle(
+                              height: 0.8,
                               fontWeight: FontWeight.w500,
                               fontSize: 14.sp,
                               color: darkBlueColor,

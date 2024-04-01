@@ -28,6 +28,7 @@ class TopTvView extends StatelessWidget {
             onTapViewAll: () {},
             icon: SvgPicture.asset(
               IconsPath.tvShowIcon.assetName,
+              fit: BoxFit.fill,
             ),
           ),
           SizedBox(height: 15.h),

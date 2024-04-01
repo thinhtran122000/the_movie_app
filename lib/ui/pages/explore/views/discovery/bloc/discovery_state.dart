@@ -1,5 +1,20 @@
 part of 'discovery_bloc.dart';
 
-class DiscoveryState {}
+class DiscoveryState {
+  final int indexPage;
+  DiscoveryState({
+    required this.indexPage,
+  });
+}
 
-class DiscoveryInitial extends DiscoveryState {}
+class DiscoveryInitial extends DiscoveryState {
+  DiscoveryInitial({
+    required super.indexPage,
+  });
+}
+
+class DiscoverySucess extends DiscoveryState {
+  DiscoverySucess({
+    required super.indexPage,
+  });
+}

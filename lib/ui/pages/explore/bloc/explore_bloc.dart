@@ -16,9 +16,11 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
           opacity: 0.0,
           statusMessage: '',
           query: '',
+          enabledSearch: false,
         )) {
     on<ChangeAnimationToast>(_onChangeAnimationToast);
     on<DisplayToast>(_onDisplayToast);
+    on<MoveToSearch>(_onMoveToSearch);
     on<Search>(_onSearch);
     on<Clear>(_onClear);
   }
@@ -29,6 +31,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       opacity: event.opacity,
       statusMessage: state.statusMessage,
       query: state.query,
+      enabledSearch: state.enabledSearch,
     ));
   }
 
@@ -38,6 +41,17 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       visible: event.visible,
       statusMessage: event.statusMessage,
       query: state.query,
+      enabledSearch: state.enabledSearch,
+    ));
+  }
+
+  FutureOr<void> _onMoveToSearch(MoveToSearch event, Emitter<ExploreState> emit) {
+    emit(ExploreSearchSuccess(
+      opacity: state.opacity,
+      visible: state.visible,
+      statusMessage: state.statusMessage,
+      query: state.query,
+      enabledSearch: event.enabledSearch,
     ));
   }
 
@@ -47,6 +61,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       visible: state.visible,
       statusMessage: state.statusMessage,
       query: event.query,
+      enabledSearch: state.enabledSearch,
     ));
   }
 
@@ -57,6 +72,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       visible: state.visible,
       statusMessage: state.statusMessage,
       query: textController.text,
+      enabledSearch: state.enabledSearch,
     ));
   }
 

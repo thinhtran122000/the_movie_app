@@ -23,7 +23,7 @@ class Genreview extends StatelessWidget {
           BlocBuilder<GenreBloc, GenreState>(
             builder: (context, state) {
               return PrimaryText(
-                title: 'Popular genres to explore',
+                title: 'Genres to explore',
                 visibleIcon: true,
                 enableRightWidget: true,
                 icon: SvgPicture.asset(

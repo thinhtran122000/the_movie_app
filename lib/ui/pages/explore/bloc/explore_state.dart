@@ -5,11 +5,13 @@ abstract class ExploreState {
   final double opacity;
   final String statusMessage;
   final String query;
+  final bool enabledSearch;
   ExploreState({
     required this.visible,
     required this.opacity,
     required this.statusMessage,
     required this.query,
+    required this.enabledSearch,
   });
 }
 
@@ -19,6 +21,7 @@ class ExploreInitial extends ExploreState {
     required super.opacity,
     required super.statusMessage,
     required super.query,
+    required super.enabledSearch,
   });
 }
 
@@ -28,5 +31,16 @@ class ExploreSuccess extends ExploreState {
     required super.opacity,
     required super.statusMessage,
     required super.query,
+    required super.enabledSearch,
+  });
+}
+
+class ExploreSearchSuccess extends ExploreState {
+  ExploreSearchSuccess({
+    required super.visible,
+    required super.opacity,
+    required super.statusMessage,
+    required super.query,
+    required super.enabledSearch,
   });
 }

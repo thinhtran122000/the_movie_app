@@ -124,16 +124,16 @@ class RecentView extends StatelessWidget {
                             child: MasonryGridView.count(
                               addAutomaticKeepAlives: false,
                               addRepaintBoundaries: false,
-                              padding: EdgeInsets.fromLTRB(
-                                20.w,
-                                state.query.isEmpty ? 50.h : 20.h,
-                                20.w,
-                                0,
-                              ),
                               crossAxisCount: 2,
                               crossAxisSpacing: 16.h,
                               mainAxisSpacing: 16.w,
                               shrinkWrap: true,
+                              padding: EdgeInsets.fromLTRB(
+                                13.w,
+                                state.query.isEmpty ? 50.h : 20.h,
+                                13.w,
+                                0,
+                              ),
                               itemBuilder: itemBuilder,
                               itemCount: state.listSearch.isNotEmpty
                                   ? state.listSearch.length
