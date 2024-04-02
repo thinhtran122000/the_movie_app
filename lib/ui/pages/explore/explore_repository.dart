@@ -10,7 +10,7 @@ class ExploreRepository {
   Future<ListResponse<MultipleMedia>> getNowPlayingMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) async {
     return MovieService(apiClient: restApiClient).getNowPlayingMovie(
       language: language,
@@ -29,6 +29,18 @@ class ExploreRepository {
     );
   }
 
+  Future<ListResponse<MultipleMedia>> getPopularMovie({
+    required String language,
+    required int page,
+    String? region,
+  }) async {
+    return MovieService(apiClient: restApiClient).getPopularMovie(
+      language: language,
+      page: page,
+      region: region,
+    );
+  }
+
   Future<ListResponse<MultipleMedia>> getPopularTv({
     required String language,
     required int page,
@@ -38,6 +50,92 @@ class ExploreRepository {
       language: language,
       page: page,
       region: region,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getTrendingMultiple({
+    required String mediaType,
+    required int page,
+    required String language,
+    required String timeWindow,
+    bool? includeAdult,
+  }) async {
+    return MultipleService(apiClient: restApiClient).getTrendingMultiple(
+      mediaType: mediaType,
+      page: page,
+      language: language,
+      timeWindow: timeWindow,
+      includeAdult: includeAdult,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getTopRatedMovie({
+    required String language,
+    required int page,
+     String? region,
+  }) async {
+    return MovieService(apiClient: restApiClient).getTopRatedMovie(
+      language: language,
+      page: page,
+      region: region,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getTopRatedTv({
+    required String language,
+    required int page,
+  }) async {
+    return TvService(apiClient: restApiClient).getTopRatedTv(
+      language: language,
+      page: page,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getUpcomingMovie({
+    required String language,
+    required int page,
+    String? region,
+  }) async {
+    return MovieService(apiClient: restApiClient).getUpcomingMovie(
+      language: language,
+      page: page,
+      region: region,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getUpcomingTv({
+    required String language,
+    required int page,
+    String? timezone,
+  }) async {
+    return TvService(apiClient: restApiClient).getUpcomingTv(
+      language: language,
+      page: page,
+      timezone: timezone,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getDiscoverMovie({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    return MovieService(apiClient: restApiClient).getDiscoverMovie(
+      language: language,
+      page: page,
+      withGenres: withGenres,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getDiscoverTv({
+    required String language,
+    required int page,
+    List<int> withGenres = const [],
+  }) async {
+    return TvService(apiClient: restApiClient).getDiscoverTv(
+      language: language,
+      page: page,
+      withGenres: withGenres,
     );
   }
 
@@ -76,6 +174,20 @@ class ExploreRepository {
       mediaType: mediaType,
       mediaId: mediaId,
       watchlist: watchlist,
+    );
+  }
+
+  Future<ListResponse<MultipleMedia>> getsearchMultiple({
+    required String query,
+    required bool includeAdult,
+    required String language,
+    required int page,
+  }) async {
+    return MultipleService(apiClient: restApiClient).getsearchMultiple(
+      query: query,
+      includeAdult: includeAdult,
+      language: language,
+      page: page,
     );
   }
 }

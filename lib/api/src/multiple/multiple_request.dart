@@ -5,10 +5,10 @@ class MultipleRequest {
 
   static APIRequest getTrendingMultiple({
     required String mediaType,
-    required String timeWindow,
     required int page,
     required String language,
-    required bool includeAdult,
+    required String timeWindow,
+    bool? includeAdult,
   }) =>
       APIRequest(
         method: HTTPMethods.get,

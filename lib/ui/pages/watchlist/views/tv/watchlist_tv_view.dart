@@ -38,6 +38,7 @@ class WatchlistTvView extends StatelessWidget {
         builder: (context, state) {
           final bloc = BlocProvider.of<WatchlistTvBloc>(context);
           return SmartRefresher(
+            physics: const BouncingScrollPhysics(),
             controller: bloc.controller,
             enablePullDown: state.listWatchList.isNotEmpty,
             enablePullUp: state.listWatchList.isNotEmpty,

@@ -22,12 +22,10 @@ class MovieService {
     return ListResponse(list: listResponse);
   }
 
-  
-
   Future<ListResponse<MultipleMedia>> getUpcomingMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) async {
     final request = MovieRequest.getUpcomingMovie(
       language: language,
@@ -43,7 +41,7 @@ class MovieService {
   Future<ListResponse<MultipleMedia>> getTopRatedMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) async {
     final request = MovieRequest.getTopRatedMovie(
       language: language,
@@ -59,7 +57,7 @@ class MovieService {
   Future<ListResponse<MultipleMedia>> getNowPlayingMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) async {
     final request = MovieRequest.getNowPlayingMovie(
       language: language,
