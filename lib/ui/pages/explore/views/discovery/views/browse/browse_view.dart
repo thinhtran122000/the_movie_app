@@ -18,26 +18,8 @@ class BrowseView extends StatelessWidget {
             flex: 1,
             child: MovieView(),
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          const Flexible(
-            flex: 1,
-            child: MovieView(),
-          ),
-          SizedBox(
-            height: 300.h,
-          ),
-          // Flexible(
-          //   flex: 1,
-          //   child: MovieView(),
-          // ),
-          // Flexible(
-          //   child: MovieView(),
-          // ),
-          // Flexible(
-          //   child: MovieView(),
-          // ),
+          SizedBox(height: 10.h),
+          SizedBox(height: 300.h),
         ],
       ),
     );

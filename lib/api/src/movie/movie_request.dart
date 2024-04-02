@@ -18,12 +18,10 @@ class MovieRequest {
         },
       );
 
- 
-
   static APIRequest getUpcomingMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) =>
       APIRequest(
         method: HTTPMethods.get,
@@ -38,7 +36,7 @@ class MovieRequest {
   static APIRequest getTopRatedMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) =>
       APIRequest(
         method: HTTPMethods.get,
@@ -53,7 +51,7 @@ class MovieRequest {
   static APIRequest getNowPlayingMovie({
     required String language,
     required int page,
-    required String region,
+    String? region,
   }) =>
       APIRequest(
         method: HTTPMethods.get,

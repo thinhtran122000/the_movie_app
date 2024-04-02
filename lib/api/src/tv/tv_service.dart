@@ -52,6 +52,22 @@ class TvService {
     return ListResponse(list: listResponse);
   }
 
+  Future<ListResponse<MultipleMedia>> getUpcomingTv({
+    required String language,
+    required int page,
+    String? timezone,
+  }) async {
+    final request = TvRequest.getUpcomingTv(
+      language: language,
+      page: page,
+      timezone: timezone,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
+
   Future<ListResponse<MultipleMedia>> getTopRatedTv({
     required String language,
     required int page,

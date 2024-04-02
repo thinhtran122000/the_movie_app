@@ -11,13 +11,11 @@ part 'recent_event.dart';
 part 'recent_state.dart';
 
 class RecentBloc extends Bloc<RecentEvent, RecentState> {
-  SearchRepository searchRepository = SearchRepository(restApiClient: RestApiClient());
+  ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
   HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
   RefreshController refreshController = RefreshController();
-  // TextEditingController textController = TextEditingController();
   ScrollController scrollController = ScrollController();
   int page = 1;
-
   RecentBloc()
       : super(RecentInitial(
           query: '',
@@ -34,7 +32,7 @@ class RecentBloc extends Bloc<RecentEvent, RecentState> {
   FutureOr<void> _onFetchData(FetchData event, Emitter<RecentState> emit) async {
     try {
       page = 1;
-      final searchResult = await searchRepository.getsearchMultiple(
+      final searchResult = await exploreRepository.getsearchMultiple(
         query: event.query,
         includeAdult: event.includeAdult,
         language: event.language,
@@ -100,7 +98,7 @@ class RecentBloc extends Bloc<RecentEvent, RecentState> {
       }
       var currentSearchList = (state as RecentSuccess).listSearch;
       if (currentSearchList.isNotEmpty) {
-        final searchResult = await searchRepository.getsearchMultiple(
+        final searchResult = await exploreRepository.getsearchMultiple(
           query: event.query,
           includeAdult: event.includeAdult,
           language: event.language,

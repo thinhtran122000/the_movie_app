@@ -31,6 +31,21 @@ class TvRequest {
         },
       );
 
+  static APIRequest getUpcomingTv({
+    required String language,
+    required int page,
+    String? timezone,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/tv/on_the_air',
+        parameters: {
+          'language': language,
+          'page': page,
+          'timezone': timezone,
+        },
+      );
+
   static APIRequest getTopRatedTv({
     required String language,
     required int page,

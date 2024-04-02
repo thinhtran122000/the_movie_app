@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/pages/watchlist/bloc/watchlist_bloc.dart';
 import 'package:movie_app/ui/ui.dart';
 
@@ -18,14 +17,15 @@ class WatchlistPage extends StatelessWidget {
           return Scaffold(
             appBar: CustomAppBar(
               centerTitle: true,
-              leading: const Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+              leading: Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                 child: Icon(
                   Icons.arrow_back_ios,
+                  color: whiteColor,
                   size: 30,
                 ),
               ),
-              // title: const CustomAppBarTitle(titleAppBar: 'Watchlist'),
+              title: 'Watchlist',
               onTapLeading: () => Navigator.of(context).pop(),
             ),
             body: Center(

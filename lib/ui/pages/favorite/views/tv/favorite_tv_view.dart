@@ -18,7 +18,7 @@ class FavoriteTvView extends StatelessWidget {
     return BlocProvider(
       create: (context) => FavoriteTvBloc()
         ..add(FetchData(
-          language: 'en-US', 
+          language: 'en-US',
           accountId: accountId,
           sessionId: sessionId,
           sortBy: 'created_at.desc',
@@ -40,6 +40,7 @@ class FavoriteTvView extends StatelessWidget {
           final bloc = BlocProvider.of<FavoriteTvBloc>(context);
           return SmartRefresher(
             controller: bloc.controller,
+            physics: const BouncingScrollPhysics(),
             enablePullDown: state.listFavorite.isNotEmpty,
             enablePullUp: state.listFavorite.isNotEmpty,
             primary: false,
@@ -66,7 +67,7 @@ class FavoriteTvView extends StatelessWidget {
               children: [
                 SizedBox(height: 5.h),
                 CustomDropDown(
-                icon: state.status ? Icons.arrow_drop_down : Icons.arrow_drop_up,
+                  icon: state.status ? Icons.arrow_drop_down : Icons.arrow_drop_up,
                   title: state.sortBy,
                   onTap: () => sortList(context, state.status, state.sortBy),
                 ),
@@ -98,7 +99,7 @@ class FavoriteTvView extends StatelessWidget {
                       shrinkWrap: true,
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
-                      controller: ScrollController(keepScrollOffset: false),
+                      controller: ScrollController(),
                       padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,
@@ -130,7 +131,7 @@ class FavoriteTvView extends StatelessWidget {
 
   Widget separatorBuilder(BuildContext context, int index) => const SizedBox(height: 18);
 
- sortList(BuildContext context, bool status, String sortBy) {
+  sortList(BuildContext context, bool status, String sortBy) {
     final bloc = BlocProvider.of<FavoriteTvBloc>(context);
     status
         ? bloc.add(Sort(status: false, sortBy: sortBy))

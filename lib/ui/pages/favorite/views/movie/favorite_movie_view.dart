@@ -39,6 +39,7 @@ class FavoriteMovieView extends StatelessWidget {
         builder: (context, state) {
           final bloc = BlocProvider.of<FavoriteMovieBloc>(context);
           return SmartRefresher(
+            physics: const BouncingScrollPhysics(),
             controller: bloc.controller,
             enablePullDown: state.listFavorite.isNotEmpty,
             enablePullUp: state.listFavorite.isNotEmpty,

@@ -11,16 +11,16 @@ class MultipleService {
 
   Future<ListResponse<MultipleMedia>> getTrendingMultiple({
     required String mediaType,
-    required String timeWindow,
     required int page,
     required String language,
-    required bool includeAdult,
+    required String timeWindow,
+    bool? includeAdult,
   }) async {
     final request = MultipleRequest.getTrendingMultiple(
       mediaType: mediaType,
-      timeWindow: timeWindow,
       page: page,
       language: language,
+      timeWindow: timeWindow,
       includeAdult: includeAdult,
     );
     final response = await apiClient.execute(request: request);

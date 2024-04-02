@@ -30,8 +30,6 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<GenreState> emit) async {
-    // final movieResult = await homeRepository.getGenreMovie(language: event.language);
-    // final tvResult = await homeRepository.getGenreTv(language: event.language);
     try {
       final movieResult = await homeRepository.getGenreMovie(language: event.language);
       final tvResult = await homeRepository.getGenreTv(language: event.language);
