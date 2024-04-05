@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:movie_app/models/models.dart';
@@ -40,11 +39,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         page: event.page,
         region: event.region,
       );
-      final nowPlayingResult = await exploreRepository.getNowPlayingMovie(
+      final nowPlayingResult = (await exploreRepository.getNowPlayingMovie(
         language: event.language,
         page: event.page,
         region: event.region,
-      );
+      ));
       final trendingResult = await exploreRepository.getTrendingMultiple(
         language: event.language,
         page: event.page,
@@ -57,20 +56,36 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         page: event.page,
         region: event.region,
       );
-      final discoveryResult = await exploreRepository.getDiscoverMovie(
+      final genreResult = await exploreRepository.getGenreMovie(
         language: event.language,
-        page: event.page,
-        withGenres: event.withGenres,
       );
+      final movieWithGenreResult = await Future.wait(
+        genreResult.object.genres.map<Future<List<MultipleMedia>>>((e) async {
+          final movieResult = await exploreRepository.getDiscoverMovie(
+            language: event.language,
+            page: 1,
+            withGenres: [e.id ?? 0],
+          );
+          return movieResult.list;
+        }).toList(),
+      );
+      final discoveryResult = movieWithGenreResult.map<MultipleMedia>((e) => (e).first).toList();
+      nowPlayingResult.list.shuffle();
+      popularResult.list.shuffle();
+      trendingResult.list.shuffle();
+      topRatedResult.list.shuffle();
+      upcomingResult.list.shuffle();
+      discoveryResult.shuffle();
+
       emit(MovieSuccess(
         listTitle: state.listTitle,
         multipleList: [
-          nowPlayingResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
-          popularResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
-          trendingResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
-          topRatedResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
-          upcomingResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
-          discoveryResult.list..shuffle(Random()..nextInt(nowPlayingResult.list.length)),
+          nowPlayingResult.list.take(3).toList().reversed.toList(),
+          popularResult.list.take(3).toList().reversed.toList(),
+          trendingResult.list.take(3).toList().reversed.toList(),
+          topRatedResult.list.take(3).toList().reversed.toList(),
+          upcomingResult.list.take(3).toList().reversed.toList(),
+          discoveryResult.take(3).toList().reversed.toList(),
         ],
       ));
     } catch (e) {

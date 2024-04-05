@@ -16,7 +16,6 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
- 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

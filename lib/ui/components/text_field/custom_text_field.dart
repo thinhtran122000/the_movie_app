@@ -101,19 +101,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
           GestureDetector(
             onTap: widget.onTapCancel,
             child: AnimatedSize(
-              curve: Curves.easeInSine,
               duration: const Duration(milliseconds: 100),
               alignment: Alignment.centerRight,
-              child: SizedBox(
-                width: widget.enabledSearch ?? false ? 55 : 0,
-                height: widget.enabledSearch ?? false ? 20 : 0,
-                child: Text(
-                  'Cancel',
-                  textScaler: const TextScaler.linear(1),
-                  style: TextStyle(
-                    color: whiteColor,
-                    inherit: false,
-                    fontSize: 15.sp,
+              child: AnimatedScale(
+                scale: widget.enabledSearch ?? false ? 1.0 : 0,
+                curve: Curves.easeInSine,
+                duration: const Duration(milliseconds: 100),
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: widget.enabledSearch ?? false ? 55 : 0,
+                  height: widget.enabledSearch ?? false ? 20 : 0,
+                  child: Text(
+                    'Cancel',
+                    textScaler: const TextScaler.linear(1),
+                    style: TextStyle(
+                      color: whiteColor,
+                      inherit: false,
+                      fontSize: 15.sp,
+                    ),
                   ),
                 ),
               ),

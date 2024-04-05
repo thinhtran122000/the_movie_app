@@ -38,17 +38,11 @@ class _TrailerViewState extends State<TrailerView> {
               switch (state.runtimeType) {
                 case NavigationSuccess:
                   state.indexPage == 0
-                      ? trailerState is TrailerSuccess
-                          ? homeBloc.scrollController.position.extentBefore >= 1100.h &&
-                                  homeBloc.scrollController.position.extentBefore <= 1500.h
-                              ? checkDisplayVideo(context)
-                                  ? null
-                                  : playTrailer(
-                                      context, trailerState.indexMovie, trailerState.indexTv)
-                              : checkDisplayVideo(context)
-                                  ? stopTrailer(
-                                      context, trailerState.indexMovie, trailerState.indexTv)
-                                  : null
+                      ? homeBloc.scrollController.position.pixels >= 1100.h &&
+                              homeBloc.scrollController.position.pixels <= 1500.h
+                          ? checkDisplayVideo(context)
+                              ? null
+                              : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                           : checkDisplayVideo(context)
                               ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                               : null
@@ -58,20 +52,17 @@ class _TrailerViewState extends State<TrailerView> {
                   break;
                 case NavigationScrollSuccess:
                   state.indexPage == 0
-                      ? trailerState is TrailerSuccess
-                          ? checkDisplayVideo(context)
-                              ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                              : null
-                          : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                      : checkDisplayVideo(context)
+                      ? checkDisplayVideo(context)
                           ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
-                          : null;
+                          : null
+                      : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv);
                   break;
                 default:
                   break;
               }
             },
           ),
+          //disable trailer when tap other list type homepage
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               final trailerState = BlocProvider.of<TrailerBloc>(context).state;
@@ -183,7 +174,6 @@ class _TrailerViewState extends State<TrailerView> {
         enableCaption: false,
         useHybridComposition: true,
         controlsVisibleAtStart: true,
-        forceHD: true,
       ),
     );
     return NonaryItem(
@@ -193,7 +183,7 @@ class _TrailerViewState extends State<TrailerView> {
       controller: controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
-      position: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
+      scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
       nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
@@ -219,7 +209,6 @@ class _TrailerViewState extends State<TrailerView> {
         enableCaption: false,
         useHybridComposition: true,
         controlsVisibleAtStart: true,
-        forceHD: true,
       ),
     );
     return NonaryItem(
@@ -230,7 +219,7 @@ class _TrailerViewState extends State<TrailerView> {
           bloc.state is TrailerSuccess ? controller : YoutubePlayerController(initialVideoId: ''),
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
-      position: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
+      scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
       nameOfTrailer: (itemTrailer.name ?? '').isNotEmpty ? itemTrailer.name : 'Coming soon',
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',

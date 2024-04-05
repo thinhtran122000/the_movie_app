@@ -19,6 +19,4 @@ class DisplayToast extends HomeEvent {
   });
 }
 
-class DisableTrailer extends HomeEvent {
- 
-}
+class DisableTrailer extends HomeEvent {}

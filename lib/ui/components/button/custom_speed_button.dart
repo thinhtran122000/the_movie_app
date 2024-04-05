@@ -10,12 +10,16 @@ class CustomSpeedButton extends StatelessWidget {
   final Function(double)? onSelected;
   final VoidCallback? onOpened;
   final VoidCallback? onCanceled;
+  final bool ignoreButton;
+  final double opacity;
   const CustomSpeedButton({
     super.key,
     this.onSelected,
-    required this.controller,
     this.onOpened,
     this.onCanceled,
+    required this.controller,
+    required this.ignoreButton,
+    required this.opacity,
     this.playbackRate = const [
       PlaybackRate.quarter,
       PlaybackRate.half,
@@ -30,26 +34,34 @@ class CustomSpeedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<double>(
-      color: blackColor.withOpacity(0.5),
-      position: PopupMenuPosition.over,
-      padding: EdgeInsets.zero,
-      offset: Offset(0, -200.h),
-      onSelected: onSelected,
-      onCanceled: onCanceled,
-      onOpened: onOpened,
-      tooltip: 'Open playback speed',
-      icon: SvgPicture.asset(
-        IconsPath.playbackSpeedIcon.assetName,
-        height: 20.h,
+    return AnimatedOpacity(
+      opacity: opacity,
+      duration: const Duration(milliseconds: 300),
+      child: IgnorePointer(
+        ignoring: ignoreButton,
+        child: PopupMenuButton<double>(
+          color: blackColor.withOpacity(0.5),
+          position: PopupMenuPosition.over,
+          padding: EdgeInsets.zero,
+          offset: Offset(0, -200.h),
+          onSelected: onSelected,
+          onCanceled: onCanceled,
+          onOpened: onOpened,
+          tooltip: 'Open playback speed',
+          icon: SvgPicture.asset(
+            IconsPath.playbackSpeedIcon.assetName,
+            height: 20.h,
+          ),
+          itemBuilder: itemBuilder,
+        ),
       ),
-      itemBuilder: itemBuilder,
     );
   }
 
   List<PopupMenuItem<double>> itemBuilder(BuildContext context) => playbackRate
       .map<PopupMenuItem<double>>(
         (e) => PopupMenuItem(
+          onTap: () => onSelected?.call(e),
           height: 30.h,
           value: e,
           child: Row(

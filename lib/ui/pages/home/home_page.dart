@@ -25,99 +25,93 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeBloc(),
-      child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) =>
-            state is NavigationScrollSuccess && state.indexPage == 0 ? reloadPage(context) : null,
-        child: Scaffold(
-          backgroundColor: whiteColor,
-          appBar: CustomAppBar(
-            widthSpace: 15.w,
-            centerTitle: false,
-            title: 'Hello Thinh',
-            leading: CircleAvatar(
-              backgroundImage: Image.asset(
-                ImagesPath.corgi.assetName,
-              ).image,
-            ),
-            actions: Icon(
-              Icons.notifications_sharp,
-              size: 30.sp,
-              color: whiteColor,
-            ),
-            onTapLeading: () {},
+      child: Scaffold(
+        backgroundColor: whiteColor,
+        appBar: CustomAppBar(
+          widthSpace: 15.w,
+          centerTitle: false,
+          title: 'Hello Thinh',
+          leading: CircleAvatar(
+            backgroundImage: Image.asset(
+              ImagesPath.corgi.assetName,
+            ).image,
           ),
-          body: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              final bloc = BlocProvider.of<HomeBloc>(context);
-              return NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  if (bloc.scrollController.position.userScrollDirection ==
-                      ScrollDirection.forward) {
-                    showNavigationBar(context);
-                    return false;
-                  }
-                  if (bloc.scrollController.position.userScrollDirection ==
-                      ScrollDirection.reverse) {
-                    hideNavigationBar(context);
-                    return false;
-                  }
+          actions: Icon(
+            Icons.notifications_sharp,
+            size: 30.sp,
+            color: whiteColor,
+          ),
+          onTapLeading: () {},
+        ),
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            final bloc = BlocProvider.of<HomeBloc>(context);
+            return NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (bloc.scrollController.position.userScrollDirection == ScrollDirection.forward) {
+                  showNavigationBar(context);
                   return false;
-                },
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      controller: bloc.scrollController,
-                      physics: const BouncingScrollPhysics(
-                        decelerationRate: ScrollDecelerationRate.fast,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(height: 20.h),
-                          const PopularView(),
-                          SizedBox(height: 30.h),
-                          const Genreview(),
-                          SizedBox(height: 30.h),
-                          const TrendingView(),
-                          SizedBox(height: 30.h),
-                          const TopRatedView(),
-                          SizedBox(height: 30.h),
-                          const TrailerView(),
-                          SizedBox(height: 30.h),
-                          const UpcomingView(),
-                          SizedBox(height: 30.h),
-                          const NowPlayingView(),
-                          SizedBox(height: 30.h),
-                          const TopTvView(),
-                          SizedBox(height: 30.h),
-                          const BestDramaView(),
-                          SizedBox(height: 30.h),
-                          const ArtistView(),
-                          SizedBox(height: 30.h),
-                          // const BornToday(),
-                          // SizedBox(height: 30.h),
-                          const ProviderView(),
-                          SizedBox(height: 110.h),
-                        ],
-                      ),
+                }
+                if (bloc.scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+                  hideNavigationBar(context);
+                  return false;
+                }
+                return false;
+              },
+              child: Stack(
+                children: [
+                  SingleChildScrollView(
+                    controller: bloc.scrollController,
+                    physics: const BouncingScrollPhysics(
+                      decelerationRate: ScrollDecelerationRate.fast,
                     ),
-                    CustomToast(
-                      statusMessage: state.statusMessage,
-                      opacity: state.opacity,
-                      visible: state.visible,
-                      onEndAnimation: () => state.opacity == 0.0
-                          ? bloc.add(DisplayToast(
-                              visible: false,
-                              statusMessage: state.statusMessage,
-                            ))
-                          : null,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(height: 20.h),
+                        const PopularView(),
+                        SizedBox(height: 30.h),
+                        const Genreview(),
+                        SizedBox(height: 30.h),
+                        const TrendingView(),
+                        SizedBox(height: 30.h),
+                        const TopRatedView(),
+                        SizedBox(height: 30.h),
+                        const TrailerView(),
+                        SizedBox(height: 30.h),
+                        const UpcomingView(),
+                        SizedBox(height: 30.h),
+                        const NowPlayingView(),
+                        SizedBox(height: 30.h),
+                        const TopTvView(),
+                        SizedBox(height: 30.h),
+                        const BestDramaView(),
+                        SizedBox(height: 30.h),
+                        const ArtistView(),
+                        SizedBox(height: 30.h),
+                        // const BornToday(),
+                        // SizedBox(height: 30.h),
+                        const ProviderView(),
+                        SizedBox(height: 110.h),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                  CustomToast(
+                    statusMessage: state.statusMessage,
+                    opacity: state.opacity,
+                    visible: state.visible,
+                    onEndAnimation: () => state.opacity == 0.0
+                        ? bloc.add(DisplayToast(
+                            visible: false,
+                            statusMessage: state.statusMessage,
+                          ))
+                        : null,
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -131,17 +125,6 @@ class HomePage extends StatelessWidget {
 
   hideNavigationBar(BuildContext context) =>
       BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: false));
-
-  reloadPage(BuildContext context) {
-    final bloc = BlocProvider.of<HomeBloc>(context);
-    if (bloc.scrollController.hasClients) {
-      bloc.scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.decelerate,
-      );
-    }
-  }
 }
 
 // void _incrementCounter() async {

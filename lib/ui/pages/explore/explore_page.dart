@@ -18,87 +18,85 @@ class ExplorePage extends StatelessWidget {
         child: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
             final bloc = BlocProvider.of<ExploreBloc>(context);
-            return ScaffoldMessenger(
-              child: Scaffold(
-                  backgroundColor: greyColor,
-                  appBar: CustomAppBar(
-                    customTitle: CustomTextField(
-                      focusNode: bloc.focusNode,
-                      controller: bloc.textController,
-                      enabledSearch: state.enabledSearch,
-                      hintText: 'Search for movies, tv shows, people...'.padLeft(14),
-                      suffixIcon: bloc.textController.text.isNotEmpty
-                          ? IconButton(
-                              onPressed: () {
-                                bloc.focusNode.requestFocus();
-                                bloc.add(Clear());
-                              },
-                              icon: Icon(
-                                Icons.cancel_rounded,
-                                color: lightGreyColor,
-                              ),
-                            )
-                          : null,
-                      onTap: () => bloc.add(MoveToSearch(enabledSearch: true)),
-                      onTapCancel: () {
-                        bloc.add(MoveToSearch(enabledSearch: false));
-                        bloc.add(Clear());
-                      },
-                      onTapOutside: (event) => bloc.focusNode.unfocus(),
-                      onChanged: (value) => bloc.add(Search(query: value)),
-                    ),
+            return Scaffold(
+                backgroundColor: lightGreyColor.withOpacity(0.4),
+                appBar: CustomAppBar(
+                  customTitle: CustomTextField(
+                    focusNode: bloc.focusNode,
+                    controller: bloc.textController,
+                    enabledSearch: state.enabledSearch,
+                    hintText: 'Search for movies, tv shows, people...'.padLeft(14),
+                    suffixIcon: bloc.textController.text.isNotEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              bloc.focusNode.requestFocus();
+                              bloc.add(Clear());
+                            },
+                            icon: Icon(
+                              Icons.cancel_rounded,
+                              color: lightGreyColor,
+                            ),
+                          )
+                        : null,
+                    onTap: () => bloc.add(MoveToSearch(enabledSearch: true)),
+                    onTapCancel: () {
+                      bloc.add(MoveToSearch(enabledSearch: false));
+                      bloc.textController.text.isNotEmpty ? bloc.add(Clear()) : null;
+                    },
+                    onTapOutside: (event) => bloc.focusNode.unfocus(),
+                    onChanged: (value) => bloc.add(Search(query: value)),
                   ),
-                  body: IndexedStack(
-                    index: state.enabledSearch ? 0 : 1,
-                    children: [
-                      SearchView(query: state.query),
-                      const DiscoveryView(),
-                    ],
-                  )
-                  // NotificationListener<ScrollNotification>(
-                  //   onNotification: (notification) {
-                  //     final scrollDirection = bloc.scrollController.position.userScrollDirection;
-                  //     if (scrollDirection == ScrollDirection.forward) {
-                  //       showNavigationBar(context);
-                  //       return false;
-                  //     } else if (scrollDirection == ScrollDirection.idle) {
-                  //       return false;
-                  //     } else {
-                  //       hideNavigationBar(context);
-                  //       return false;
-                  //     }
-                  //   },
-                  //   child: Stack(
-                  //     children: [
-                  //       SingleChildScrollView(
-                  //         physics: const BouncingScrollPhysics(),
-                  //         controller: bloc.scrollController,
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.start,
-                  //           mainAxisSize: MainAxisSize.min,
-                  //           children: [
-                  //             SizedBox(height: 20.h),
-                  //                const TrailerView(),
-                  //                SizedBox(height: 1000.h),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       CustomToast(
-                  //         statusMessage: state.statusMessage,
-                  //         opacity: state.opacity,
-                  //         visible: state.visible,
-                  //         onEndAnimation: () => state.opacity == 0.0
-                  //             ? bloc.add(DisplayToast(
-                  //                 visibility: false,
-                  //                 statusMessage: state.statusMessage,
-                  //               ))
-                  //             : null,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  ),
-            );
+                ),
+                body: IndexedStack(
+                  index: state.enabledSearch ? 0 : 1,
+                  children: [
+                    SearchView(query: state.query),
+                    const DiscoveryView(),
+                  ],
+                )
+                // NotificationListener<ScrollNotification>(
+                //   onNotification: (notification) {
+                //     final scrollDirection = bloc.scrollController.position.userScrollDirection;
+                //     if (scrollDirection == ScrollDirection.forward) {
+                //       showNavigationBar(context);
+                //       return false;
+                //     } else if (scrollDirection == ScrollDirection.idle) {
+                //       return false;
+                //     } else {
+                //       hideNavigationBar(context);
+                //       return false;
+                //     }
+                //   },
+                //   child: Stack(
+                //     children: [
+                //       SingleChildScrollView(
+                //         physics: const BouncingScrollPhysics(),
+                //         controller: bloc.scrollController,
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: [
+                //             SizedBox(height: 20.h),
+                //                const TrailerView(),
+                //                SizedBox(height: 1000.h),
+                //           ],
+                //         ),
+                //       ),
+                //       CustomToast(
+                //         statusMessage: state.statusMessage,
+                //         opacity: state.opacity,
+                //         visible: state.visible,
+                //         onEndAnimation: () => state.opacity == 0.0
+                //             ? bloc.add(DisplayToast(
+                //                 visibility: false,
+                //                 statusMessage: state.statusMessage,
+                //               ))
+                //             : null,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                );
           },
         ),
       ),

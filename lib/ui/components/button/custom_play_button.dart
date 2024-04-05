@@ -6,19 +6,17 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CustomPlayButton extends StatelessWidget {
   final YoutubePlayerController controller;
-  final VoidCallback? onTapOutside;
   final VoidCallback? onTapButton;
   final double opacity;
-  final bool clickable;
   final String videoId;
+  final bool ignoreButton;
   const CustomPlayButton({
     super.key,
     required this.controller,
-    this.onTapOutside,
     required this.opacity,
-    required this.clickable,
     this.onTapButton,
     required this.videoId,
+    required this.ignoreButton,
   });
 
   @override
@@ -45,27 +43,21 @@ class CustomPlayButton extends StatelessWidget {
                   ),
                 ),
               )
-            : GestureDetector(
-                onTap: onTapOutside,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.transparent,
-                  child: AnimatedOpacity(
-                    opacity: opacity,
-                    duration: const Duration(milliseconds: 300),
-                    child: clickable
-                        ? GestureDetector(
-                            onTap: onTapButton,
-                            child: Icon(
-                              controller.value.isPlaying
-                                  ? Icons.pause_rounded
-                                  : Icons.play_arrow_rounded,
-                              size: 50.sp,
-                              color: whiteColor,
-                            ),
-                          )
-                        : const SizedBox(),
+            : Align(
+                alignment: Alignment.center,
+                child: AnimatedOpacity(
+                  opacity: opacity,
+                  duration: const Duration(milliseconds: 300),
+                  child: IgnorePointer(
+                    ignoring: ignoreButton,
+                    child: GestureDetector(
+                      onTap: onTapButton,
+                      child: Icon(
+                        controller.value.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                        size: 50.sp,
+                        color: whiteColor,
+                      ),
+                    ),
                   ),
                 ),
               );

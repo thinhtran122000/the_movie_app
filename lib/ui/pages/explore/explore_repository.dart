@@ -7,6 +7,22 @@ class ExploreRepository {
   final RestApiClient restApiClient;
   ExploreRepository({required this.restApiClient});
 
+  Future<ObjectResponse<MediaGenre>> getGenreMovie({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreMovie(
+      language: language,
+    );
+  }
+
+  Future<ObjectResponse<MediaGenre>> getGenreTv({
+    required String language,
+  }) async {
+    return GenreService(apiClient: restApiClient).getGenreTv(
+      language: language,
+    );
+  }
+
   Future<ListResponse<MultipleMedia>> getNowPlayingMovie({
     required String language,
     required int page,
@@ -72,7 +88,7 @@ class ExploreRepository {
   Future<ListResponse<MultipleMedia>> getTopRatedMovie({
     required String language,
     required int page,
-     String? region,
+    String? region,
   }) async {
     return MovieService(apiClient: restApiClient).getTopRatedMovie(
       language: language,

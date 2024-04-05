@@ -7,7 +7,7 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  ScrollController scrollController = ScrollController();
+  ScrollController scrollController = ScrollController(keepScrollOffset: false);
   HomeBloc()
       : super(HomeInitial(
           visible: false,

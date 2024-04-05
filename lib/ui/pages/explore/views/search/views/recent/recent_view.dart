@@ -92,60 +92,63 @@ class RecentView extends StatelessWidget {
                     }
                     return ScrollConfiguration(
                       behavior: const CupertinoScrollBehavior(),
-                      child: Stack(
-                        children: [
-                          SmartRefresher(
-                            scrollController: bloc.scrollController,
-                            controller: bloc.refreshController,
-                            enablePullUp: enablePull(
-                              state.listSearch,
-                              state.listTrending,
-                              context,
-                            ),
-                            enablePullDown: enablePull(
-                              state.listSearch,
-                              state.listTrending,
-                              context,
-                            ),
-                            header: const Header(),
-                            footer: Footer(
-                              height: 140.h,
-                              noMoreStatus: 'All results was loaded !',
-                              failedStatus: 'Failed to load results !',
-                            ),
-                            onRefresh: () => fetchSearch(
-                              context,
-                              BlocProvider.of<RecentBloc>(context).state.query,
-                            ),
-                            onLoading: () => loadMore(
-                              context,
-                              BlocProvider.of<RecentBloc>(context).state.query,
-                            ),
-                            child: MasonryGridView.count(
-                              addAutomaticKeepAlives: false,
-                              addRepaintBoundaries: false,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16.h,
-                              mainAxisSpacing: 16.w,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.fromLTRB(
-                                13.w,
-                                state.query.isEmpty ? 50.h : 20.h,
-                                13.w,
-                                0,
+                      child: Container(
+                        color: whiteColor,
+                        child: Stack(
+                          children: [
+                            SmartRefresher(
+                              scrollController: bloc.scrollController,
+                              controller: bloc.refreshController,
+                              enablePullUp: enablePull(
+                                state.listSearch,
+                                state.listTrending,
+                                context,
                               ),
-                              itemBuilder: itemBuilder,
-                              itemCount: state.listSearch.isNotEmpty
-                                  ? state.listSearch.length
-                                  : state.listTrending.length,
+                              enablePullDown: enablePull(
+                                state.listSearch,
+                                state.listTrending,
+                                context,
+                              ),
+                              header: const Header(),
+                              footer: Footer(
+                                height: 140.h,
+                                noMoreStatus: 'All results was loaded !',
+                                failedStatus: 'Failed to load results !',
+                              ),
+                              onRefresh: () => fetchSearch(
+                                context,
+                                BlocProvider.of<RecentBloc>(context).state.query,
+                              ),
+                              onLoading: () => loadMore(
+                                context,
+                                BlocProvider.of<RecentBloc>(context).state.query,
+                              ),
+                              child: MasonryGridView.count(
+                                addAutomaticKeepAlives: false,
+                                addRepaintBoundaries: false,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 16.h,
+                                mainAxisSpacing: 16.w,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.fromLTRB(
+                                  13.w,
+                                  state.query.isEmpty ? 50.h : 20.h,
+                                  13.w,
+                                  0,
+                                ),
+                                itemBuilder: itemBuilder,
+                                itemCount: state.listSearch.isNotEmpty
+                                    ? state.listSearch.length
+                                    : state.listTrending.length,
+                              ),
                             ),
-                          ),
-                          CustomScrollButton(
-                            visible: state.visible,
-                            fallPosition: state.query.isEmpty ? -0.65.h : -0.75.h,
-                            onTap: state.visible ? () => reloadPage(context) : null,
-                          ),
-                        ],
+                            CustomScrollButton(
+                              visible: state.visible,
+                              fallPosition: state.query.isEmpty ? -0.65.h : -0.75.h,
+                              onTap: state.visible ? () => reloadPage(context) : null,
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
