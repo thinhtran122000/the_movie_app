@@ -39,7 +39,7 @@ project.ext.envConfigFiles = [
 apply from: project(':flutter_config').projectDir.getPath() + '/dotenv.gradle' // setting environment
 
 android {
-    compileSdkVersion Math.max(flutter.compileSdkVersion, 25)
+    compileSdkVersion Math.max(flutter.compileSdkVersion, 34)
     ndkVersion flutter.ndkVersion
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
