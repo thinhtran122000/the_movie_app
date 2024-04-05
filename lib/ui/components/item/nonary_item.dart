@@ -68,8 +68,6 @@ class _NonaryItemState extends State<NonaryItem> with AutomaticKeepAliveClientMi
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print('Hello');
-
     return RepaintBoundary(
       child: Column(
         mainAxisSize: MainAxisSize.min,
