@@ -210,9 +210,13 @@ class _QuinaryItemState extends State<QuinaryItem> {
                             alignment: Alignment.center,
                             children: [
                               SvgPicture.asset(
-                                IconsPath.watchListIcon.assetName,
+                                IconsPath.addWatchListIcon.assetName,
                                 width: 29.w,
                                 height: 29.h,
+                                colorFilter: ColorFilter.mode(
+                                  blackColor,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                               Positioned.fill(
                                 bottom: 4.h,

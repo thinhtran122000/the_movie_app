@@ -100,23 +100,19 @@ class TertiaryItem extends StatelessWidget {
                                 alignment: Alignment.center,
                                 children: [
                                   SvgPicture.asset(
-                                    IconsPath.watchListIcon.assetName,
+                                    (watchlist ?? false)
+                                        ? IconsPath.addedWatchListIcon.assetName
+                                        : IconsPath.addWatchListIcon.assetName,
                                     alignment: Alignment.topLeft,
                                     width: 50.w,
                                     height: 45.h,
                                     fit: BoxFit.fill,
-                                    colorFilter: ColorFilter.mode(
-                                      (watchlist ?? false)
-                                          ? yellowColor
-                                          : blackColor.withOpacity(0.4),
-                                      BlendMode.srcIn,
-                                    ),
                                   ),
                                   Positioned(
                                     top: 9.h,
                                     child: Icon(
                                       (watchlist ?? false) ? Icons.check : Icons.add,
-                                      color: whiteColor,
+                                      color: (watchlist ?? false) ? blackColor : whiteColor,
                                       size: 22.sp,
                                     ),
                                   ),

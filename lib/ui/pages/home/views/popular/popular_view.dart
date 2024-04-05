@@ -25,7 +25,50 @@ class PopularView extends StatelessWidget {
           language: 'en-US',
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
-        listener: (context, state) => enableAutoSlide(context, state.indexPage),
+        listener: (context, state) async {
+          final scrollController = BlocProvider.of<HomeBloc>(context).scrollController;
+          final popularState = BlocProvider.of<PopularBloc>(context).state;
+          switch (state.runtimeType) {
+            case NavigationSuccess:
+              state.indexPage == 0
+                  ? scrollController.position.pixels <= 100
+                      ? popularState.autoPlay
+                          ? null
+                          : BlocProvider.of<PopularBloc>(context).add(AutoSlide(autoPlay: true))
+                      : popularState.autoPlay
+                          ? BlocProvider.of<PopularBloc>(context).add(AutoSlide(autoPlay: false))
+                          : null
+                  : popularState.autoPlay
+                      ? BlocProvider.of<PopularBloc>(context).add(AutoSlide(autoPlay: false))
+                      : null;
+              break;
+            case NavigationScrollSuccess:
+              state.indexPage == 0
+                  ? scrollController.hasClients
+                      ? await scrollController
+                          .animateTo(
+                            0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.decelerate,
+                          )
+                          .then(
+                            (value) => scrollController.position.pixels <= 100
+                                ? popularState.autoPlay
+                                    ? null
+                                    : BlocProvider.of<PopularBloc>(context)
+                                        .add(AutoSlide(autoPlay: true))
+                                : popularState.autoPlay
+                                    ? BlocProvider.of<PopularBloc>(context)
+                                        .add(AutoSlide(autoPlay: false))
+                                    : null,
+                          )
+                      : null
+                  : null;
+              break;
+            default:
+              break;
+          }
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -113,14 +156,18 @@ class PopularView extends StatelessWidget {
 
   enableAutoSlide(BuildContext context, int indexPage) {
     final bloc = BlocProvider.of<PopularBloc>(context);
+
     indexPage == 0
-        ? BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore <= 300
-            ? bloc.state.autoPlay
-                ? null
-                : bloc.add(AutoSlide(autoPlay: true))
-            : bloc.state.autoPlay
-                ? bloc.add(AutoSlide(autoPlay: false))
-                : null
-        : bloc.add(AutoSlide(autoPlay: false));
+        // ? extentBefore <= 300
+        ? bloc.state.autoPlay
+            ? null
+            : bloc.add(AutoSlide(autoPlay: true))
+        : bloc.state.autoPlay
+            ? bloc.add(AutoSlide(autoPlay: false))
+            : null;
+    // : bloc.add(AutoSlide(autoPlay: false));
+
+    // print(
+    //     'Popular ${bloc.state.autoPlay} ${BlocProvider.of<HomeBloc>(context).scrollController.position.pixels == BlocProvider.of<HomeBloc>(context).scrollController.position.minScrollExtent}');
   }
 }

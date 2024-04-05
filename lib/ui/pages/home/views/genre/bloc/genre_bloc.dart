@@ -12,7 +12,6 @@ part 'genre_state.dart';
 
 class GenreBloc extends Bloc<GenreEvent, GenreState> {
   final HomeRepository homeRepository = HomeRepository(restApiClient: RestApiClient());
-
   ScrollController movieController = ScrollController();
   ScrollController tvController = ScrollController();
   bool visibleMovie = true;

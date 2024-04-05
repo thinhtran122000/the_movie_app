@@ -20,8 +20,8 @@ class MovieView extends StatelessWidget {
           includeAdult: true,
           withGenres: [12],
           timeWindow: 'day',
-          // region: '',
-          // timezone: '',
+          region: '',
+          timezone: '',
         )),
       child: BlocBuilder<MovieBloc, MovieState>(
         builder: (context, state) {
@@ -63,8 +63,8 @@ class MovieView extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       crossAxisCount: 2,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10.h,
+                      crossAxisSpacing: 10.w,
                       itemCount: state.multipleList.length,
                       itemBuilder: itemBuilder,
                     ),

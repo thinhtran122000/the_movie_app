@@ -70,7 +70,7 @@ class NowPlayingView extends StatelessWidget {
                     title: item.name,
                     season: item.lastEpisodeToAir?.seasonNumber,
                     episode: item.lastEpisodeToAir?.episodeNumber,
-                    overview: item.overview != '' ? item.overview : 'Comming soon',
+                    overview: item.overview != '' ? item.overview : 'No description available',
                     averageLuminance: state.averageLuminance,
                     posterPath: item.posterPath,
                     imageUrl: '${AppConstants.kImagePathPoster}${item.posterPath}',

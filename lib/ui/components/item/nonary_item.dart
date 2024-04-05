@@ -17,7 +17,7 @@ class NonaryItem extends StatefulWidget {
   final bool enableVideo;
   final String videoId;
   final String heroTag;
-  final double? position;
+  final double? scrollPosition;
   final VoidCallback? onTapItem;
   final VoidCallback? onTapVideo;
   final VoidCallback? onTapFullScreen;
@@ -33,7 +33,7 @@ class NonaryItem extends StatefulWidget {
     this.onTapVideo,
     this.youtubeKey,
     this.onTapFullScreen,
-    this.position,
+    this.scrollPosition,
     required this.videoId,
     required this.controller,
     required this.imageUrl,
@@ -45,22 +45,31 @@ class NonaryItem extends StatefulWidget {
   State<NonaryItem> createState() => _NonaryItemState();
 }
 
-class _NonaryItemState extends State<NonaryItem> {
+class _NonaryItemState extends State<NonaryItem> with AutomaticKeepAliveClientMixin {
   int remaningDuration = 0;
   int currentPosition = 0;
   bool enabledSound = false;
   bool enabledUnmute = true;
   bool clickable = false;
+  bool clickableSound = true;
+  bool displayColor = true;
+  bool enabledText = true;
   late Timer timer;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
-    timer = Timer(const Duration(seconds: 2), () => clickable = false);
+    timer = Timer(const Duration(seconds: 0), () {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print('Hello');
+
     return RepaintBoundary(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -89,267 +98,273 @@ class _NonaryItemState extends State<NonaryItem> {
                           fit: StackFit.expand,
                           alignment: Alignment.bottomCenter,
                           children: [
-                            YoutubePlayer(
-                              onEnded: widget.onEnded,
-                              key: widget.youtubeKey,
-                              controller: enabledSound
-                                  ? (widget.controller
-                                    ..addListener(
-                                      () => setState(
-                                        () {
-                                          remaningDuration = widget
-                                              .controller.value.metaData.duration.inMilliseconds;
-                                          currentPosition =
-                                              widget.controller.value.position.inMilliseconds;
-                                          (widget.position ?? 0) >= 1100.h &&
-                                                  (widget.position ?? 0) <= 1500.h
-                                              ? null
-                                              : widget.controller.pause();
-                                        },
-                                      ),
-                                    )
-                                    ..unMute()
-                                    ..setPlaybackRate(widget.controller.value.playbackRate))
-                                  : (widget.controller
-                                    ..addListener(
-                                      () => setState(
-                                        () {
-                                          remaningDuration = widget
-                                              .controller.value.metaData.duration.inMilliseconds;
-                                          currentPosition =
-                                              widget.controller.value.position.inMilliseconds;
-                                          (widget.position ?? 0) >= 1100.h &&
-                                                  (widget.position ?? 0) <= 1500.h
-                                              ? null
-                                              : widget.controller.pause();
-                                        },
-                                      ),
-                                    )
-                                    ..mute()
-                                    ..setPlaybackRate(widget.controller.value.playbackRate)),
-                              thumbnail: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Positioned.fill(
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget.imageUrl,
-                                      filterQuality: FilterQuality.high,
-                                      fit: BoxFit.fill,
-                                      progressIndicatorBuilder: (context, url, progress) =>
-                                          const CustomIndicator(),
-                                      errorWidget: (context, url, error) => Image.asset(
-                                        ImagesPath.noImage.assetName,
-                                        filterQuality: FilterQuality.high,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    child: widget.videoId.isNotEmpty
-                                        ? const SizedBox()
-                                        : BackdropFilter(
-                                            blendMode: BlendMode.src,
-                                            filter: ImageFilter.blur(
-                                              sigmaX: 8,
-                                              sigmaY: 8,
-                                            ),
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                              alignment: Alignment.center,
-                                              color: blackColor.withOpacity(0.6),
-                                              child: Text(
-                                                '''${widget.title} is comming soon on TMDb''',
-                                                textAlign: TextAlign.center,
-                                                textScaler: const TextScaler.linear(1),
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  color: whiteColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomPlayButton(
-                              controller: widget.controller,
-                              videoId: widget.videoId,
-                              opacity: clickable ? 1.0 : 0.0,
-                              clickable: clickable,
-                              onTapOutside: () => showHideControl(
+                            GestureDetector(
+                              onTap: () => showHideControl(
                                 isPlaying: widget.controller.value.isPlaying,
                                 clickType: ClickPosition.outside,
                               ),
-                              onTapButton: () {
-                                widget.controller.value.isPlaying
-                                    ? setState(() => clickable = true)
-                                    : setState(() => clickable = false);
-                                widget.controller.value.isPlaying
-                                    ? widget.controller.pause()
-                                    : widget.controller.play();
-                              },
-                            ),
-                            AnimatedOpacity(
-                              opacity: clickable ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 300),
-                              child: clickable
-                                  ? Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        CustomProgressBar(
-                                          controller: widget.controller,
-                                          onSeek: (event) => showHideControl(
-                                            isPlaying: widget.controller.value.isPlaying,
-                                            clickType: ClickPosition.inside,
-                                          ),
-                                          onTap: (event) => showHideControl(
-                                            isPlaying: widget.controller.value.isPlaying,
-                                            clickType: ClickPosition.inside,
-                                          ),
+                              child: YoutubePlayer(
+                                onEnded: widget.onEnded,
+                                key: widget.youtubeKey,
+                                controller: enabledSound
+                                    ? (widget.controller
+                                      ..addListener(
+                                        () {
+                                          setState(
+                                            () {
+                                              remaningDuration = widget.controller.value.metaData
+                                                  .duration.inMilliseconds;
+                                              currentPosition =
+                                                  widget.controller.value.position.inMilliseconds;
+                                            },
+                                          );
+                                          (widget.scrollPosition ?? 0) >= 1100.h &&
+                                                  (widget.scrollPosition ?? 0) <= 1500.h
+                                              ? null
+                                              : widget.controller.pause();
+                                        },
+                                      )
+                                      ..unMute()
+                                      ..setPlaybackRate(widget.controller.value.playbackRate))
+                                    : (widget.controller
+                                      ..addListener(
+                                        () => setState(
+                                          () {
+                                            remaningDuration = widget
+                                                .controller.value.metaData.duration.inMilliseconds;
+                                            currentPosition =
+                                                widget.controller.value.position.inMilliseconds;
+                                            (widget.scrollPosition ?? 0) >= 1100.h &&
+                                                    (widget.scrollPosition ?? 0) <= 1500.h
+                                                ? null
+                                                : widget.controller.pause();
+                                          },
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 8.w),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              CustomVideoButton(
-                                                icon: enabledSound
-                                                    ? Icons.volume_up
-                                                    : Icons.volume_off,
-                                                onTapButton: () {
-                                                  showHideControl(
-                                                    isPlaying: widget.controller.value.isPlaying,
-                                                    clickType: ClickPosition.inside,
-                                                  );
-                                                  setState(() => enabledSound = !enabledSound);
-                                                  enabledSound
-                                                      ? widget.controller.setVolume(100)
-                                                      : widget.controller.setVolume(0);
-                                                },
+                                      )
+                                      ..mute()
+                                      ..setPlaybackRate(widget.controller.value.playbackRate)),
+                                thumbnail: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Positioned.fill(
+                                      child: CachedNetworkImage(
+                                        imageUrl: widget.imageUrl,
+                                        filterQuality: FilterQuality.high,
+                                        fit: BoxFit.fill,
+                                        progressIndicatorBuilder: (context, url, progress) =>
+                                            const CustomIndicator(),
+                                        errorWidget: (context, url, error) => Image.asset(
+                                          ImagesPath.noImage.assetName,
+                                          filterQuality: FilterQuality.high,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      child: widget.videoId.isNotEmpty
+                                          ? const SizedBox()
+                                          : BackdropFilter(
+                                              blendMode: BlendMode.src,
+                                              filter: ImageFilter.blur(
+                                                sigmaX: 8,
+                                                sigmaY: 8,
                                               ),
-                                              SizedBox(width: 20.w),
-                                              CustomSeekButton(
-                                                imagePath: IconsPath.backwardIcon.assetName,
-                                                onTapButton: () {
-                                                  showHideControl(
-                                                    isPlaying: widget.controller.value.isPlaying,
-                                                    clickType: ClickPosition.inside,
-                                                  );
-                                                  widget.controller.seekTo(
-                                                    Duration(milliseconds: currentPosition - 10000),
-                                                  );
-                                                },
-                                              ),
-                                              SizedBox(width: 15.w),
-                                              CustomSeekButton(
-                                                imagePath: IconsPath.forwardIcon.assetName,
-                                                onTapButton: () {
-                                                  showHideControl(
-                                                    isPlaying: widget.controller.value.isPlaying,
-                                                    clickType: ClickPosition.inside,
-                                                  );
-                                                  widget.controller.seekTo(
-                                                    Duration(milliseconds: currentPosition + 10000),
-                                                  );
-                                                },
-                                              ),
-                                              SizedBox(width: 10.w),
-                                              SizedBox(
-                                                width: 80.w,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                                alignment: Alignment.center,
+                                                color: blackColor.withOpacity(0.6),
                                                 child: Text(
-                                                  '${AppUtils().durationFormatter(currentPosition)} / ${AppUtils().durationFormatter(remaningDuration)}',
+                                                  '''${widget.title} is comming soon on TMDb''',
                                                   textAlign: TextAlign.center,
                                                   textScaler: const TextScaler.linear(1),
                                                   style: TextStyle(
-                                                    fontSize: 13.sp,
+                                                    fontSize: 12.sp,
                                                     color: whiteColor,
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(width: 50.w),
-                                              CustomSpeedButton(
-                                                controller: widget.controller,
-                                                onSelected: (value) =>
-                                                    widget.controller.setPlaybackRate(value),
-                                                onOpened: () => showHideControl(
-                                                  isPlaying: widget.controller.value.isPlaying,
-                                                  clickType: ClickPosition.inside,
-                                                  isPlaybackSpeedOpened: true,
-                                                ),
-                                                onCanceled: () => setState(
-                                                  () => timer = Timer(
-                                                    const Duration(seconds: 1),
-                                                    () => clickable = false,
-                                                  ),
-                                                ),
-                                              ),
-                                              CustomVideoButton(
-                                                icon: Icons.fullscreen,
-                                                size: 22.sp,
-                                                onTapButton: () {},
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : const SizedBox(),
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(8.5.w, 0, 0, 6.h),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: GestureDetector(
-                                  onTap: () {
+                            CustomPlayButton(
+                              ignoreButton: !clickable,
+                              controller: widget.controller,
+                              videoId: widget.videoId,
+                              opacity: clickable ? 1.0 : 0.0,
+                              onTapButton: () {
+                                widget.controller.value.isPlaying
+                                    ? widget.controller.pause()
+                                    : widget.controller.play();
+                                showHideControl(
+                                  isPlaying: widget.controller.value.isPlaying,
+                                  clickType: ClickPosition.inside,
+                                );
+                              },
+                            ),
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                CustomProgressBar(
+                                  opacity: clickable ? 1.0 : 0.0,
+                                  ignoreButton: !clickable,
+                                  controller: widget.controller,
+                                  onSeek: (event) => showHideControl(
+                                    isPlaying: widget.controller.value.isPlaying,
+                                    clickType: ClickPosition.inside,
+                                  ),
+                                  onTap: (event) {
+                                    print('Hello 1 $clickable');
                                     showHideControl(
                                       isPlaying: widget.controller.value.isPlaying,
                                       clickType: ClickPosition.inside,
                                     );
-                                    setState(() => enabledSound = !enabledSound);
-                                    enabledSound
-                                        ? widget.controller.setVolume(100)
-                                        : widget.controller.setVolume(0);
                                   },
-                                  child: AnimatedSize(
-                                    alignment: Alignment.centerLeft,
-                                    duration: const Duration(milliseconds: 700),
-                                    curve: Curves.easeInOutSine,
-                                    child: Container(
-                                      width: widget.controller.value.isPlaying
-                                          ? enabledUnmute
-                                              ? null
-                                              : 0
-                                          : 0,
-                                      padding: const EdgeInsets.all(5).dg,
-                                      decoration: BoxDecoration(
-                                        color: blackColor.withOpacity(0.5),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      // SizedBox(width: 20.w),
+                                      CustomVolumeButton(
+                                        ignoreButton: !clickableSound,
+                                        opacity: clickableSound ? 1.0 : 0.0,
+                                        enabledUnmute: enabledUnmute,
+                                        controller: widget.controller,
+                                        colorButton: displayColor
+                                            ? greyColor.withOpacity(0.5)
+                                            : Colors.transparent,
+                                        width: widget.controller.value.isPlaying
+                                            ? null
+                                            : enabledUnmute
+                                                ? 0
+                                                : null,
+                                        icon: enabledSound
+                                            ? Icons.volume_down_rounded
+                                            : Icons.volume_mute_rounded,
+                                        onTapButton: () {
+                                          showHideControl(
+                                            isPlaying: widget.controller.value.isPlaying,
+                                            clickType: ClickPosition.inside,
+                                          );
+                                          setState(() => enabledSound = !enabledSound);
+                                          enabledSound
+                                              ? widget.controller.setVolume(100)
+                                              : widget.controller.setVolume(0);
+                                        },
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          const CustomVideoButton(
-                                            icon: Icons.volume_off,
+                                      SizedBox(width: 10.w),
+                                      Flexible(
+                                        flex: 1,
+                                        child: CustomSeekButton(
+                                          opacity: clickable ? 1.0 : 0.0,
+                                          ignoreButton: !clickable,
+                                          imagePath: IconsPath.backwardIcon.assetName,
+                                          onTapButton: () {
+                                            showHideControl(
+                                              isPlaying: widget.controller.value.isPlaying,
+                                              clickType: ClickPosition.inside,
+                                            );
+                                            widget.controller.seekTo(
+                                              Duration(milliseconds: currentPosition - 10000),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 15.w),
+                                      Flexible(
+                                        flex: 1,
+                                        child: CustomSeekButton(
+                                          ignoreButton: !clickable,
+                                          opacity: clickable ? 1.0 : 0.0,
+                                          imagePath: IconsPath.forwardIcon.assetName,
+                                          onTapButton: () {
+                                            showHideControl(
+                                              isPlaying: widget.controller.value.isPlaying,
+                                              clickType: ClickPosition.inside,
+                                            );
+                                            widget.controller.seekTo(
+                                              Duration(milliseconds: currentPosition + 10000),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 15.w),
+                                      AnimatedOpacity(
+                                        opacity: clickable ? 1.0 : 0.0,
+                                        duration: const Duration(milliseconds: 300),
+                                        child: Text(
+                                          '${AppUtils().durationFormatter(currentPosition)} / ${AppUtils().durationFormatter(remaningDuration)}',
+                                          textAlign: TextAlign.start,
+                                          textScaler: const TextScaler.linear(1),
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: whiteColor,
                                           ),
-                                          SizedBox(width: 5.w),
-                                          Text(
-                                            'TAP TO UNMUTE',
-                                            style: TextStyle(
-                                              color: whiteColor,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      // SizedBox(width: 50.w),
+                                      const Spacer(flex: 2),
+                                      Flexible(
+                                        flex: 1,
+                                        child: CustomSpeedButton(
+                                          ignoreButton: !clickable,
+                                          opacity: clickable ? 1.0 : 0.0,
+                                          controller: widget.controller,
+                                          onSelected: (value) =>
+                                              widget.controller.setPlaybackRate(value),
+                                          onOpened: () => showHideControl(
+                                            isPlaying: widget.controller.value.isPlaying,
+                                            clickType: ClickPosition.inside,
+                                            isPlaybackSpeedOpened: true,
+                                          ),
+                                          onCanceled: () => setState(
+                                            () => timer = Timer(
+                                              const Duration(seconds: 1),
+                                              () {
+                                                clickable = false;
+                                                clickableSound = false;
+                                              },
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(width: 15.w),
+                                      Flexible(
+                                        flex: 1,
+                                        child: CustomSpeedButton(
+                                          ignoreButton: !clickable,
+                                          opacity: clickable ? 1.0 : 0.0,
+                                          controller: widget.controller,
+                                          onSelected: (value) =>
+                                              widget.controller.setPlaybackRate(value),
+                                          onOpened: () => showHideControl(
+                                            isPlaying: widget.controller.value.isPlaying,
+                                            clickType: ClickPosition.inside,
+                                            isPlaybackSpeedOpened: true,
+                                          ),
+                                          onCanceled: () => setState(
+                                            () => timer = Timer(
+                                              const Duration(seconds: 1),
+                                              () {
+                                                clickable = false;
+                                                clickableSound = false;
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
@@ -419,6 +434,8 @@ class _NonaryItemState extends State<NonaryItem> {
   @override
   void dispose() {
     widget.controller.dispose();
+    widget.controller.value.webViewController?.dispose();
+
     super.dispose();
   }
 
@@ -428,46 +445,69 @@ class _NonaryItemState extends State<NonaryItem> {
     bool isPlaybackSpeedOpened = false,
   }) {
     if (clickType == ClickPosition.inside) {
+      setState(() {
+        enabledUnmute = false;
+        clickableSound = true;
+        displayColor = false;
+      });
       if (isPlaying) {
         setState(() {
           clickable = true;
-          enabledUnmute = false;
+          clickableSound = true;
         });
         if (clickable) {
           if (isPlaybackSpeedOpened) {
             timer.cancel();
             setState(() => clickable = true);
-            return;
           } else {
             setState(() {
               timer.cancel();
               timer = Timer(
                 const Duration(seconds: 2),
-                () => clickable = false,
+                () {
+                  clickable = false;
+                  clickableSound = false;
+                },
               );
             });
           }
         }
       } else {
-        setState(() => clickable = true);
+        setState(() {
+          clickable = true;
+          clickableSound = true;
+          timer.cancel();
+          timer = Timer(
+            const Duration(seconds: 2),
+            () {
+              clickable = false;
+              clickableSound = false;
+            },
+          );
+        });
       }
     } else {
+      setState(() {
+        displayColor = false;
+        enabledUnmute = false;
+        clickable = !clickable;
+        clickableSound = clickable ? true : !clickableSound;
+      });
       if (isPlaying) {
-        setState(() {
-          clickable = !clickable;
-          enabledUnmute = false;
-        });
         if (clickable) {
           setState(() {
             timer.cancel();
             timer = Timer(
               const Duration(seconds: 2),
-              () => clickable = false,
+              () {
+                clickable = false;
+                clickableSound = false;
+              },
             );
           });
         }
       } else {
-        setState(() => clickable = true);
+        return;
       }
     }
   }

@@ -43,154 +43,58 @@ class DenariItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.r),
                     border: Border.all(
+                      width: 0.25.w,
                       color: greyColor.withOpacity(0.5),
                       strokeAlign: BorderSide.strokeAlignOutside,
-                      width: 0.25.w,
                     ),
                   ),
                   child: LayoutBuilder(
                     builder: (context, constraints) => Stack(
                       alignment: Alignment.center,
-                      children:
-                          //  multipleList
-                          //     .take(3)
-                          //     .map<Widget>(
-                          //       (e) => Align(
-                          //         alignment: multipleList.indexOf(e) == 0
-                          //             ? Alignment.centerRight
-                          //             : multipleList.indexOf(e) == 1
-                          //                 ? Alignment.center
-                          //                 : Alignment.centerLeft,
-                          //         child: Container(
-                          //           clipBehavior: Clip.antiAlias,
-                          //           decoration: BoxDecoration(
-                          //             borderRadius: BorderRadius.circular(5.r),
-                          //             border: Border.all(
-                          //               width: 0.5.w,
-                          //               color: whiteColor.withOpacity(0.5),
-                          //               strokeAlign: BorderSide.strokeAlignOutside,
-                          //             ),
-                          //           ),
-                          //           child: CachedNetworkImage(
-                          //             imageUrl: e.posterPath != null
-                          //                 ? '${AppConstants.kImagePathPoster}${e.posterPath}'
-                          //                 : '',
-                          //             fit: BoxFit.fill,
-                          //             filterQuality: FilterQuality.high,
-                          //             color: multipleList.indexOf(e) == 0
-                          //                 ? whiteColor.withOpacity(0.6)
-                          //                 : multipleList.indexOf(e) == 1
-                          //                     ? whiteColor.withOpacity(0.3)
-                          //                     : null,
-                          //             colorBlendMode: BlendMode.srcOver,
-                          //             width: 60.w,
-                          //             progressIndicatorBuilder: (context, url, prgress) =>
-                          //                 const CustomIndicator(),
-                          //             errorWidget: (context, url, error) => Image.asset(
-                          //               ImagesPath.noImage.assetName,
-                          //               filterQuality: FilterQuality.high,
-                          //               fit: BoxFit.fill,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     )
-                          //     .toList(),
-                          [
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.r),
-                              border: Border.all(
-                                width: 0.5.w,
-                                color: whiteColor.withOpacity(0.5),
-                                strokeAlign: BorderSide.strokeAlignOutside,
+                      children: multipleList
+                          .map<Widget>(
+                            (e) => Align(
+                              alignment: multipleList.indexOf(e) == 0
+                                  ? Alignment.centerRight
+                                  : multipleList.indexOf(e) == 1
+                                      ? Alignment.center
+                                      : Alignment.centerLeft,
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.r),
+                                  border: Border.all(
+                                    width: 0.5.w,
+                                    color: whiteColor.withOpacity(0.5),
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                  ),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: e.posterPath != null
+                                      ? '${AppConstants.kImagePathPoster}${e.posterPath}'
+                                      : 'https://nileshsupermarket.com/wp-content/uploads/2022/07/no-image.jpg',
+                                  fit: BoxFit.fill,
+                                  filterQuality: FilterQuality.high,
+                                  color: multipleList.indexOf(e) == 0
+                                      ? whiteColor.withOpacity(0.5)
+                                      : multipleList.indexOf(e) == 1
+                                          ? whiteColor.withOpacity(0.25)
+                                          : null,
+                                  colorBlendMode: BlendMode.srcOver,
+                                  width: 60.w,
+                                  height: double.infinity,
+                                  progressIndicatorBuilder: (context, url, prgress) =>
+                                      const CustomIndicator(),
+                                  errorWidget: (context, url, error) => Image.asset(
+                                    ImagesPath.noImage.assetName,
+                                    filterQuality: FilterQuality.high,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
                               ),
                             ),
-                            child: CachedNetworkImage(
-                              imageUrl: multipleList[1].posterPath != null
-                                  ? '${AppConstants.kImagePathPoster}${multipleList[0].posterPath}'
-                                  : '',
-                              fit: BoxFit.fill,
-                              filterQuality: FilterQuality.high,
-                              color: whiteColor.withOpacity(0.6),
-                              colorBlendMode: BlendMode.srcOver,
-                              width: 60.w,
-                              progressIndicatorBuilder: (context, url, prgress) =>
-                                  const CustomIndicator(),
-                              errorWidget: (context, url, error) => Image.asset(
-                                ImagesPath.noImage.assetName,
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.r),
-                              border: Border.all(
-                                width: 0.3.w,
-                                color: whiteColor.withOpacity(0.5),
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                              ),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: multipleList[1].posterPath != null
-                                  ? '${AppConstants.kImagePathPoster}${multipleList[1].posterPath}'
-                                  : '',
-                              fit: BoxFit.fill,
-                              filterQuality: FilterQuality.high,
-                              color: whiteColor.withOpacity(0.3),
-                              colorBlendMode: BlendMode.srcOver,
-                              width: 60.w,
-                              progressIndicatorBuilder: (context, url, prgress) =>
-                                  const CustomIndicator(),
-                              errorWidget: (context, url, error) => Image.asset(
-                                ImagesPath.noImage.assetName,
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.r),
-                              border: Border.all(
-                                color: whiteColor.withOpacity(0.5),
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                                width: 0.3.w,
-                              ),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: multipleList[1].posterPath != null
-                                  ? '${AppConstants.kImagePathPoster}${multipleList[2].posterPath}'
-                                  : '',
-                              fit: BoxFit.fill,
-                              color: null,
-                              colorBlendMode: BlendMode.srcOver,
-                              filterQuality: FilterQuality.high,
-                              width: 60.w,
-                              progressIndicatorBuilder: (context, url, prgress) =>
-                                  const CustomIndicator(),
-                              errorWidget: (context, url, error) => Image.asset(
-                                ImagesPath.noImage.assetName,
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          )
+                          .toList(),
                     ),
                   ),
                 ),
