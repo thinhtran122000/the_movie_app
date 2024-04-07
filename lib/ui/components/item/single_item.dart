@@ -109,15 +109,16 @@ class SingleItem extends StatelessWidget {
                       Flexible(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(15.w, 0, 5.w, 0),
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 12.w, 0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: 160.w,
+                              Flexible(
+                                flex: 1,
                                 child: Text(
-                                  title ?? '',
+                                  '$title',
                                   overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
+                                  softWrap: true,
                                   textScaler: const TextScaler.linear(1),
                                   style: TextStyle(
                                     height: 0,
@@ -150,7 +151,7 @@ class SingleItem extends StatelessWidget {
                       Flexible(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 25.w, 0),
                           child: Text(
                             'Season $season | Episode $episode',
                             overflow: TextOverflow.clip,
@@ -168,12 +169,12 @@ class SingleItem extends StatelessWidget {
                       ),
                       SizedBox(height: 1.h),
                       Expanded(
-                        flex: 3,
+                        flex: 4,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(15.w, 0, 25.w, 0),
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 20.w, 0),
                           child: Text(
                             '$overview',
-                            maxLines: 4,
+                            maxLines: 5,
                             softWrap: false,
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,

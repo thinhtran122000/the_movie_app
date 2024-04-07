@@ -17,3 +17,4 @@ export 'text_rich/text_rich.dart';
 export 'toast/toast.dart';
 export 'progress_bar/progress_bar.dart';
 export 'segment/segment.dart';
+export 'video/video.dart';
