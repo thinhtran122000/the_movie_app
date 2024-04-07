@@ -10,6 +10,7 @@ abstract class TrailerState {
   final List<MediaTrailer> listTrailerTv;
   final List<bool> visibleVideoMovie;
   final List<bool> visibleVideoTv;
+  final YoutubePlayerController controller;
 
   TrailerState({
     required this.isActive,
@@ -21,6 +22,7 @@ abstract class TrailerState {
     required this.listTrailerTv,
     required this.visibleVideoMovie,
     required this.visibleVideoTv,
+    required this.controller,
   });
 }
 
@@ -35,6 +37,7 @@ class TrailerInitial extends TrailerState {
     required super.visibleVideoMovie,
     required super.indexMovie,
     required super.indexTv,
+    required super.controller,
   });
 }
 
@@ -49,6 +52,7 @@ class TrailerSuccess extends TrailerState {
     required super.visibleVideoTv,
     required super.indexMovie,
     required super.indexTv,
+    required super.controller,
   });
 }
 
@@ -65,5 +69,6 @@ class TrailerError extends TrailerState {
     required super.visibleVideoTv,
     required super.indexMovie,
     required super.indexTv,
+    required super.controller,
   });
 }

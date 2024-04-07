@@ -9,7 +9,6 @@ import 'package:movie_app/ui/pages/home/views/trailer/bloc/trailer_bloc.dart';
 import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:movie_app/utils/constants/constants.dart';
 import 'package:movie_app/utils/debouncer/debouncer.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TrailerView extends StatefulWidget {
   const TrailerView({super.key});
@@ -164,23 +163,11 @@ class _TrailerViewState extends State<TrailerView> {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     final item = bloc.state.listMovie[index];
     final itemTrailer = bloc.state.listTrailerMovie[index];
-    final controller = YoutubePlayerController(
-      initialVideoId: itemTrailer.key ?? '',
-      flags: YoutubePlayerFlags(
-        hideControls: true,
-        autoPlay: bloc.state.visibleVideoMovie[index] ? true : false,
-        mute: false,
-        disableDragSeek: true,
-        enableCaption: false,
-        useHybridComposition: true,
-        controlsVisibleAtStart: true,
-      ),
-    );
     return NonaryItem(
       heroTag: '${AppConstants.trailerMovieHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
-      youtubeKey: ObjectKey(controller),
-      controller: controller,
+      youtubeKey: ObjectKey(bloc.state.controller),
+      controller: bloc.state.controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
       scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
@@ -199,24 +186,11 @@ class _TrailerViewState extends State<TrailerView> {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     final item = bloc.state.listTv[index];
     final itemTrailer = bloc.state.listTrailerTv[index];
-    final controller = YoutubePlayerController(
-      initialVideoId: itemTrailer.key ?? '',
-      flags: YoutubePlayerFlags(
-        hideControls: true,
-        autoPlay: bloc.state.visibleVideoTv[index] ? true : false,
-        mute: false,
-        disableDragSeek: true,
-        enableCaption: false,
-        useHybridComposition: true,
-        controlsVisibleAtStart: true,
-      ),
-    );
     return NonaryItem(
       heroTag: '${AppConstants.trailerTvHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
-      youtubeKey: ObjectKey(controller),
-      controller:
-          bloc.state is TrailerSuccess ? controller : YoutubePlayerController(initialVideoId: ''),
+      youtubeKey: ObjectKey(bloc.state.controller),
+      controller: bloc.state.controller,
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
       scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
@@ -263,7 +237,7 @@ class _TrailerViewState extends State<TrailerView> {
 
   playTrailer(BuildContext context, int indexMovie, int indexTv) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    debouncer.delay(
+    debouncer.call(
       () => bloc.add(PlayTrailer(
         indexMovie: indexMovie,
         indexTv: indexTv,
