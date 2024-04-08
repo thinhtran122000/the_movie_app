@@ -17,7 +17,6 @@ class NonaryItem extends StatelessWidget {
   final VoidCallback? onTapItem;
   final VoidCallback? onTapVideo;
   final VoidCallback? onTapFullScreen;
-  final YoutubePlayerController controller;
   final Function(YoutubeMetaData)? onEnded;
   const NonaryItem({
     super.key,
@@ -30,7 +29,6 @@ class NonaryItem extends StatelessWidget {
     this.onTapFullScreen,
     this.scrollPosition,
     required this.videoId,
-    required this.controller,
     required this.imageUrl,
     required this.enableVideo,
     required this.heroTag,
@@ -59,7 +57,6 @@ class NonaryItem extends StatelessWidget {
               ),
               child: enableVideo
                   ? VideoPLayer(
-                      controller: controller,
                       enableVideo: enableVideo,
                       videoId: videoId,
                       heroTag: heroTag,

@@ -89,7 +89,7 @@ class WatchlistMovieView extends StatelessWidget {
                       );
                     }
                     if (state is WatchlistMovieSuccess && state.listWatchList.isEmpty) {
-                      return CustomTextRich(
+                      return SecondaryRichText(
                         primaryText: 'Press',
                         secondaryText: 'to add to watchlist movies',
                         icon: Icons.bookmark,

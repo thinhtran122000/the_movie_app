@@ -166,8 +166,6 @@ class _TrailerViewState extends State<TrailerView> {
     return NonaryItem(
       heroTag: '${AppConstants.trailerMovieHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
-      youtubeKey: ObjectKey(bloc.state.controller),
-      controller: bloc.state.controller,
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
       scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,
@@ -189,8 +187,6 @@ class _TrailerViewState extends State<TrailerView> {
     return NonaryItem(
       heroTag: '${AppConstants.trailerTvHeroTag}-$index',
       videoId: itemTrailer.key ?? '',
-      youtubeKey: ObjectKey(bloc.state.controller),
-      controller: bloc.state.controller,
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
       scrollPosition: BlocProvider.of<HomeBloc>(context).scrollController.position.extentBefore,

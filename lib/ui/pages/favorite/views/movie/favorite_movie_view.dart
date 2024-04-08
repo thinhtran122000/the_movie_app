@@ -90,7 +90,7 @@ class FavoriteMovieView extends StatelessWidget {
                       );
                     }
                     if (state is FavoriteMovieSuccess && state.listFavorite.isEmpty) {
-                      return CustomTextRich(
+                      return SecondaryRichText(
                         primaryText: 'Press',
                         secondaryText: 'to add to favorite movies',
                         icon: Icons.favorite,

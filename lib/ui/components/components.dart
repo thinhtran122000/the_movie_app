@@ -13,7 +13,7 @@ export 'switch/switch.dart';
 export 'tab_bar/tab_bar.dart';
 export 'text/text.dart';
 export 'text_field/text_field.dart';
-export 'text_rich/text_rich.dart';
+export 'rich_text/rich_text.dart';
 export 'toast/toast.dart';
 export 'progress_bar/progress_bar.dart';
 export 'segment/segment.dart';

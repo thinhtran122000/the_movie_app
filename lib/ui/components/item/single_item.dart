@@ -147,7 +147,7 @@ class SingleItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // SizedBox(height: 1.h),
+                      SizedBox(height: 1.h),
                       Flexible(
                         flex: 1,
                         child: Padding(
@@ -175,8 +175,8 @@ class SingleItem extends StatelessWidget {
                           child: Text(
                             '$overview',
                             maxLines: 5,
-                            softWrap: false,
-                            textAlign: TextAlign.start,
+                            softWrap: true,
+                            textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,
                             textScaler: const TextScaler.linear(1),
                             style: TextStyle(
