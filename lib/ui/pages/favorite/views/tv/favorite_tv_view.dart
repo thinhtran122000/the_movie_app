@@ -88,7 +88,7 @@ class FavoriteTvView extends StatelessWidget {
                       );
                     }
                     if (state is FavoriteTvSuccess && state.listFavorite.isEmpty) {
-                      return CustomTextRich(
+                      return SecondaryRichText(
                         primaryText: 'Press',
                         secondaryText: 'to add to favorite tv shows',
                         icon: Icons.favorite,

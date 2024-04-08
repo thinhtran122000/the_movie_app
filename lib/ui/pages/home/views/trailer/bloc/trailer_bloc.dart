@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/models/models.dart';
 import 'package:movie_app/ui/pages/home/home.dart';
 import 'package:movie_app/utils/utils.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 part 'trailer_event.dart';
 part 'trailer_state.dart';
@@ -25,7 +24,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           listTrailerTv: [],
           visibleVideoMovie: List.filled(20, false),
           visibleVideoTv: List.filled(20, false),
-          controller: YoutubePlayerController(initialVideoId: ''),
         )) {
     on<FetchData>(_onFetchData);
     on<ChangeType>(_onChangeType);
@@ -82,7 +80,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           )
           .toList();
       emit(TrailerSuccess(
-        controller: state.controller,
         indexTv: state.indexTv,
         indexMovie: state.indexMovie,
         listMovie: resultMovie.list,
@@ -95,7 +92,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       ));
     } catch (e) {
       emit(TrailerError(
-        controller: state.controller,
         indexTv: state.indexTv,
         indexMovie: state.indexMovie,
         errorMessage: e.toString(),
@@ -113,7 +109,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
   FutureOr<void> _onChangeType(ChangeType event, Emitter<TrailerState> emit) {
     try {
       emit(TrailerSuccess(
-        controller: state.controller,
         indexMovie: state.indexMovie,
         indexTv: state.indexTv,
         listMovie: state.listMovie,
@@ -126,7 +121,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       ));
     } catch (e) {
       emit(TrailerError(
-        controller: state.controller,
         errorMessage: e.toString(),
         indexMovie: state.indexMovie,
         indexTv: state.indexTv,
@@ -159,35 +153,9 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
         isActive: state.isActive,
         visibleVideoMovie: event.visibleVideoMovie,
         visibleVideoTv: event.visibleVideoTv,
-        controller: event.isActive
-            ? YoutubePlayerController(
-                initialVideoId: state.listTrailerTv[event.indexTv ?? 0].key ?? '',
-                flags: YoutubePlayerFlags(
-                  hideControls: true,
-                  autoPlay: event.visibleVideoTv[event.indexTv ?? 0] ? true : false,
-                  mute: false,
-                  disableDragSeek: true,
-                  enableCaption: false,
-                  useHybridComposition: true,
-                  controlsVisibleAtStart: true,
-                ),
-              )
-            : YoutubePlayerController(
-                initialVideoId: state.listTrailerMovie[event.indexMovie ?? 0].key ?? '',
-                flags: YoutubePlayerFlags(
-                  hideControls: true,
-                  autoPlay: event.visibleVideoMovie[event.indexMovie ?? 0] ? true : false,
-                  mute: false,
-                  disableDragSeek: true,
-                  enableCaption: false,
-                  useHybridComposition: true,
-                  controlsVisibleAtStart: true,
-                ),
-              ),
       ));
     } catch (e) {
       emit(TrailerError(
-        controller: state.controller,
         errorMessage: e.toString(),
         indexMovie: state.indexMovie,
         indexTv: state.indexTv,
@@ -206,7 +174,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
     try {
       if (state is TrailerError) {
         emit(TrailerError(
-          controller: state.controller,
           errorMessage: (state as TrailerError).errorMessage,
           indexMovie: state.indexMovie,
           indexTv: state.indexTv,
@@ -225,7 +192,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
           event.visibleVideoMovie[event.indexMovie ?? 0] = false;
         }
         emit(TrailerSuccess(
-          controller: state.controller,
           listMovie: state.listMovie,
           indexTv: state.indexTv,
           indexMovie: state.indexMovie,
@@ -239,7 +205,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
       }
     } catch (e) {
       emit(TrailerError(
-        controller: state.controller,
         errorMessage: e.toString(),
         indexMovie: state.indexMovie,
         indexTv: state.indexTv,
@@ -256,7 +221,6 @@ class TrailerBloc extends Bloc<TrailerEvent, TrailerState> {
 
   @override
   Future<void> close() {
-    state.controller.dispose();
     movieController.dispose();
     tvController.dispose();
     return super.close();

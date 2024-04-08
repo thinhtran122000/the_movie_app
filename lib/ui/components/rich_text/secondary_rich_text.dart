@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomTextRich extends StatelessWidget {
+class SecondaryRichText extends StatelessWidget {
   final String? primaryText;
   final String? secondaryText;
   final IconData icon;
   final Color? color;
-  const CustomTextRich({
+  const SecondaryRichText({
     super.key,
     this.primaryText,
     this.secondaryText,

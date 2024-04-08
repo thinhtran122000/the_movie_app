@@ -27,6 +27,7 @@ class _NavigationPageState extends State<NavigationPage> {
         builder: (context, state) {
           final bloc = BlocProvider.of<NavigationBloc>(context);
           return Scaffold(
+            backgroundColor: Colors.transparent,
             extendBody: true,
             resizeToAvoidBottomInset: false,
             body: IndexedStack(
@@ -34,7 +35,7 @@ class _NavigationPageState extends State<NavigationPage> {
               children: const [
                 HomePage(),
                 ExplorePage(),
-                // SearchPage(),
+                ProfilePage(),
                 ProfilePage(),
               ],
             ),

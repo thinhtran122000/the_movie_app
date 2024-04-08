@@ -21,7 +21,6 @@ class VideoPLayer extends StatefulWidget {
   final VoidCallback? onTapItem;
   final VoidCallback? onTapVideo;
   final VoidCallback? onTapFullScreen;
-  final YoutubePlayerController controller;
   final Function(YoutubeMetaData)? onEnded;
   const VideoPLayer({
     super.key,
@@ -33,7 +32,6 @@ class VideoPLayer extends StatefulWidget {
     this.title,
     this.youtubeKey,
     required this.videoId,
-    required this.controller,
     required this.imageUrl,
     required this.enableVideo,
     required this.heroTag,
@@ -53,18 +51,30 @@ class _VideoPLayerState extends State<VideoPLayer> {
   bool displayColor = true;
   bool enabledText = true;
   late Timer timer;
-
+  late YoutubePlayerController controller;
   @override
   void initState() {
+    print('Video initialized');
     timer = Timer(const Duration(seconds: 0), () {});
+    controller = YoutubePlayerController(
+      initialVideoId: widget.videoId,
+      flags: YoutubePlayerFlags(
+        hideControls: true,
+        autoPlay: widget.enableVideo ? true : false,
+        mute: false,
+        disableDragSeek: true,
+        enableCaption: false,
+        useHybridComposition: true,
+        controlsVisibleAtStart: true,
+      ),
+    );
     super.initState();
   }
 
   @override
-  void dispose() {
-    print('Hello dispose');
-    widget.controller.dispose();
-    widget.controller.value.webViewController?.dispose();
+  void dispose() async {
+    print('Video disposed ');
+    controller.dispose();
     super.dispose();
   }
 
@@ -80,50 +90,48 @@ class _VideoPLayerState extends State<VideoPLayer> {
           children: [
             GestureDetector(
               onTap: () => showHideControl(
-                isPlaying: widget.controller.value.isPlaying,
+                isPlaying: controller.value.isPlaying,
                 clickType: ClickPosition.outside,
               ),
               child: YoutubePlayer(
                 onEnded: widget.onEnded,
                 key: widget.youtubeKey,
                 controller: enabledSound
-                    ? (widget.controller
+                    ? (controller
                       ..addListener(
                         () {
                           setState(
                             () {
-                              remaningDuration =
-                                  widget.controller.value.metaData.duration.inMilliseconds;
-                              currentPosition = widget.controller.value.position.inMilliseconds;
+                              remaningDuration = controller.value.metaData.duration.inMilliseconds;
+                              currentPosition = controller.value.position.inMilliseconds;
                             },
                           );
                           (widget.scrollPosition ?? 0) >= 1100.h &&
                                   (widget.scrollPosition ?? 0) <= 1500.h
                               ? null
-                              : widget.controller.pause();
+                              : controller.pause();
                         },
                       )
                       ..unMute()
-                      ..setPlaybackRate(widget.controller.value.playbackRate)
+                      ..setPlaybackRate(controller.value.playbackRate)
                       ..setVolume(100))
-                    : (widget.controller
+                    : (controller
                       ..addListener(
                         () {
                           setState(
                             () {
-                              remaningDuration =
-                                  widget.controller.value.metaData.duration.inMilliseconds;
-                              currentPosition = widget.controller.value.position.inMilliseconds;
+                              remaningDuration = controller.value.metaData.duration.inMilliseconds;
+                              currentPosition = controller.value.position.inMilliseconds;
                             },
                           );
                           (widget.scrollPosition ?? 0) >= 1100.h &&
                                   (widget.scrollPosition ?? 0) <= 1500.h
                               ? null
-                              : widget.controller.pause();
+                              : controller.pause();
                         },
                       )
                       ..mute()
-                      ..setPlaybackRate(widget.controller.value.playbackRate)
+                      ..setPlaybackRate(controller.value.playbackRate)
                       ..setVolume(0)),
                 thumbnail: Stack(
                   alignment: Alignment.center,
@@ -173,15 +181,13 @@ class _VideoPLayerState extends State<VideoPLayer> {
             ),
             CustomPlayButton(
               ignoreButton: !clickable,
-              controller: widget.controller,
+              controller: controller,
               videoId: widget.videoId,
               opacity: clickable ? 1.0 : 0.0,
               onTapButton: () {
-                widget.controller.value.isPlaying
-                    ? widget.controller.pause()
-                    : widget.controller.play();
+                controller.value.isPlaying ? controller.pause() : controller.play();
                 showHideControl(
-                  isPlaying: widget.controller.value.isPlaying,
+                  isPlaying: controller.value.isPlaying,
                   clickType: ClickPosition.inside,
                 );
               },
@@ -194,15 +200,15 @@ class _VideoPLayerState extends State<VideoPLayer> {
                 CustomProgressBar(
                   opacity: clickable ? 1.0 : 0.0,
                   ignoreButton: !clickable,
-                  controller: widget.controller,
+                  controller: controller,
                   onSeek: (event) => showHideControl(
-                    isPlaying: widget.controller.value.isPlaying,
+                    isPlaying: controller.value.isPlaying,
                     clickType: ClickPosition.inside,
                   ),
                   onTap: (event) {
                     print('Hello 1 $clickable');
                     showHideControl(
-                      isPlaying: widget.controller.value.isPlaying,
+                      isPlaying: controller.value.isPlaying,
                       clickType: ClickPosition.inside,
                     );
                   },
@@ -217,9 +223,9 @@ class _VideoPLayerState extends State<VideoPLayer> {
                         ignoreButton: !clickableSound,
                         opacity: clickableSound ? 1.0 : 0.0,
                         enabledUnmute: enabledUnmute,
-                        controller: widget.controller,
+                        controller: controller,
                         colorButton: displayColor ? greyColor.withOpacity(0.5) : Colors.transparent,
-                        width: widget.controller.value.isPlaying
+                        width: controller.value.isPlaying
                             ? null
                             : enabledUnmute
                                 ? 0
@@ -233,13 +239,11 @@ class _VideoPLayerState extends State<VideoPLayer> {
                         ),
                         onTapButton: () {
                           showHideControl(
-                            isPlaying: widget.controller.value.isPlaying,
+                            isPlaying: controller.value.isPlaying,
                             clickType: ClickPosition.inside,
                           );
                           setState(() => enabledSound = !enabledSound);
-                          enabledSound
-                              ? widget.controller.setVolume(100)
-                              : widget.controller.setVolume(0);
+                          enabledSound ? controller.setVolume(100) : controller.setVolume(0);
                         },
                       ),
                       SizedBox(width: 10.w),
@@ -251,10 +255,10 @@ class _VideoPLayerState extends State<VideoPLayer> {
                           imagePath: IconsPath.backwardIcon.assetName,
                           onTapButton: () {
                             showHideControl(
-                              isPlaying: widget.controller.value.isPlaying,
+                              isPlaying: controller.value.isPlaying,
                               clickType: ClickPosition.inside,
                             );
-                            widget.controller.seekTo(
+                            controller.seekTo(
                               Duration(milliseconds: currentPosition - 10000),
                             );
                           },
@@ -269,10 +273,10 @@ class _VideoPLayerState extends State<VideoPLayer> {
                           imagePath: IconsPath.forwardIcon.assetName,
                           onTapButton: () {
                             showHideControl(
-                              isPlaying: widget.controller.value.isPlaying,
+                              isPlaying: controller.value.isPlaying,
                               clickType: ClickPosition.inside,
                             );
-                            widget.controller.seekTo(
+                            controller.seekTo(
                               Duration(milliseconds: currentPosition + 10000),
                             );
                           },
@@ -299,10 +303,10 @@ class _VideoPLayerState extends State<VideoPLayer> {
                         child: CustomSpeedButton(
                           ignoreButton: !clickable,
                           opacity: clickable ? 1.0 : 0.0,
-                          controller: widget.controller,
-                          onSelected: (value) => widget.controller.setPlaybackRate(value),
+                          controller: controller,
+                          onSelected: (value) => controller.setPlaybackRate(value),
                           onOpened: () => showHideControl(
-                            isPlaying: widget.controller.value.isPlaying,
+                            isPlaying: controller.value.isPlaying,
                             clickType: ClickPosition.inside,
                             isPlaybackSpeedOpened: true,
                           ),

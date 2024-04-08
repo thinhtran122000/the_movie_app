@@ -19,7 +19,7 @@ class ExplorePage extends StatelessWidget {
           builder: (context, state) {
             final bloc = BlocProvider.of<ExploreBloc>(context);
             return Scaffold(
-                backgroundColor: lightGreyColor.withOpacity(0.4),
+                backgroundColor: whiteColor.withOpacity(0.85),
                 appBar: CustomAppBar(
                   customTitle: CustomTextField(
                     focusNode: bloc.focusNode,

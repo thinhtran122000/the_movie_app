@@ -87,7 +87,7 @@ class WatchlistTvView extends StatelessWidget {
                       );
                     }
                     if (state is WatchlistTvSuccess && state.listWatchList.isEmpty) {
-                      return CustomTextRich(
+                      return SecondaryRichText(
                         primaryText: 'Press',
                         secondaryText: 'to add to watchlist tv shows',
                         icon: Icons.bookmark,

@@ -6,8 +6,8 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.5 <3.0.0"
-  # sdk: ">3.0.0"
+  # sdk: ">=2.19.5 <3.0.0"
+  sdk: ">3.0.0"
 dependencies:
   flutter:
     sdk: flutter
@@ -69,6 +69,7 @@ flutter:
     - lib/shared_ui/assets/icons/volume_on_icon.svg
     - lib/shared_ui/assets/images/corgi.jpg
     - lib/shared_ui/assets/images/background.png
+    - lib/shared_ui/assets/images/logo_app_image.svg
     - lib/shared_ui/assets/images/no_image.png
     - lib/shared_ui/assets/images/no_image_man.png
     - lib/shared_ui/assets/images/no_image_woman.png
