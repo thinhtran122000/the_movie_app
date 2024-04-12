@@ -4,35 +4,38 @@ import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CreateAccountButton extends StatelessWidget {
   final void Function()? onTap;
+  final ButtonStyle? buttonStyle;
+  final Color? colorTitle;
   const CreateAccountButton({
     super.key,
     this.onTap,
+    this.buttonStyle,
+    this.colorTitle,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
-      style: darkBlueButtonStyle,
+      style: buttonStyle,
       child: Text(
         'Create an account',
         textScaler: const TextScaler.linear(1),
         style: TextStyle(
-          color: whiteColor,
+          color: colorTitle,
           fontSize: 15.sp,
           fontWeight: FontWeight.w500,
-          height: 0,
         ),
       ),
     );
   }
 }
 
-class LoginButton extends StatelessWidget {
+class OptionLoginButton extends StatelessWidget {
   final String? title;
   final Widget? icon;
   final void Function()? onTap;
-  const LoginButton({
+  const OptionLoginButton({
     this.title,
     super.key,
     this.icon,
@@ -43,16 +46,16 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
-      style: whiteButtonStyle,
+      style: optionPrimaryButtonStyle,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
           icon ?? const SizedBox(),
-          const Spacer(),
-          Flexible(
-            flex: 3,
+          SizedBox(width: 45.w),
+          Expanded(
+            flex: 4,
             child: Text(
               '$title',
               textAlign: TextAlign.left,
@@ -60,13 +63,40 @@ class LoginButton extends StatelessWidget {
               textScaler: const TextScaler.linear(1),
               style: TextStyle(
                 color: blackColor,
-                fontSize: 14.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
           const Spacer(),
         ],
+      ),
+    );
+  }
+}
+
+class LoginButton extends StatelessWidget {
+  final void Function()? onTap;
+  final ButtonStyle? buttonStyle;
+  const LoginButton({
+    super.key,
+    this.onTap,
+    this.buttonStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: buttonStyle,
+      child: Text(
+        'Sign in',
+        textScaler: const TextScaler.linear(1),
+        style: TextStyle(
+          color: whiteColor,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

@@ -27,8 +27,14 @@ enum IconsPath {
   volumeOffIcon('lib/shared_ui/assets/icons/volume_off_icon.svg'),
   volumeOnIcon('lib/shared_ui/assets/icons/volume_on_icon.svg'),
 
-  eyeOpenIcon('lib/shared_ui/assets/icons/eye_open_icon.png'),
-  eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.png');
+  tmdbIcon('lib/shared_ui/assets/icons/tmdb_icon.svg'),
+  amazonIcon('lib/shared_ui/assets/icons/amazon_icon.svg'),
+  googleIcon('lib/shared_ui/assets/icons/google_icon.svg'),
+  appleIcon('lib/shared_ui/assets/icons/apple_icon.svg'),
+  facebookIcon('lib/shared_ui/assets/icons/facebook_icon.svg'),
+
+  eyeOpenIcon('lib/shared_ui/assets/icons/eye_open_icon.svg'),
+  eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.svg');
 
   const IconsPath(this.assetName);
   final String assetName;

@@ -10,3 +10,4 @@ export 'state/state.dart';
 export 'trailer/trailer.dart';
 export 'tv/tv.dart';
 export 'watchlist/watchlist.dart';
+export 'authentication/authentication.dart';

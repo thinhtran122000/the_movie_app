@@ -1,15 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final double? appBarHeight;
   final Widget? leading;
   final Widget? customTitle;
   final String? title;
   final bool? centerTitle;
   final double? titleSpacing;
   final Widget? actions;
-  final double? widthSpace;
   final VoidCallback? onTapLeading;
   final VoidCallback? onTapAction;
 
@@ -22,48 +24,53 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle,
     this.onTapLeading,
     this.title,
-    this.widthSpace,
     this.onTapAction,
+    this.appBarHeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.h,
+      height: appBarHeight ?? 100.h,
       decoration: BoxDecoration(
         color: darkBlueColor,
       ),
       child: customTitle ??
           Padding(
-            padding: EdgeInsets.fromLTRB(15.w, 20.h, 10.w, 0),
+            padding: EdgeInsets.fromLTRB(12.w, 20.h, 12.w, 0),
             child: Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: onTapLeading,
-                  child: leading ?? SizedBox(width: centerTitle ?? false ? 30.w : 0),
+                Flexible(
+                  flex: leading == null ? 0 : 1,
+                  child: GestureDetector(
+                    onTap: onTapLeading,
+                    child: leading ?? const SizedBox(),
+                  ),
                 ),
-                SizedBox(width: widthSpace),
+                leading == null ? const SizedBox() : SizedBox(width: 15.w),
                 Expanded(
-                  child: Container(
-                    alignment: centerTitle ?? false ? Alignment.center : Alignment.centerLeft,
-                    child: Text(
-                      '$title',
-                      textScaler: const TextScaler.linear(1),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w400,
-                        color: whiteColor,
-                      ),
+                  flex: 7,
+                  child: Text(
+                    '$title',
+                    textAlign: centerTitle ?? false ? TextAlign.center : TextAlign.left,
+                    textScaler: const TextScaler.linear(1),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w400,
+                      color: whiteColor,
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: onTapAction,
-                  child: actions ?? SizedBox(width: 30.w),
+                Flexible(
+                  flex: 1,
+                  child: GestureDetector(
+                    onTap: onTapAction,
+                    child: actions ?? SizedBox(width: 30.w),
+                  ),
                 ),
               ],
             ),

@@ -32,6 +32,7 @@ dependencies:
   lottie: ^2.6.0
   flutter_rating_bar: ^4.0.1
   pod_player: ^0.1.5
+  flutter_secure_storage: ^8.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -63,15 +64,23 @@ flutter:
     - lib/shared_ui/assets/icons/backward_icon.svg
     - lib/shared_ui/assets/icons/forward_icon.svg
     - lib/shared_ui/assets/icons/playback_speed_icon.svg
-    - lib/shared_ui/assets/icons/eye_open_icon.png
-    - lib/shared_ui/assets/icons/eye_close_icon.png
     - lib/shared_ui/assets/icons/volume_off_icon.svg
     - lib/shared_ui/assets/icons/volume_on_icon.svg
+    - lib/shared_ui/assets/icons/tmdb_icon.svg
+    - lib/shared_ui/assets/icons/amazon_icon.svg
+    - lib/shared_ui/assets/icons/facebook_icon.svg
+    - lib/shared_ui/assets/icons/google_icon.svg
+    - lib/shared_ui/assets/icons/apple_icon.svg
+    - lib/shared_ui/assets/icons/eye_open_icon.svg
+    - lib/shared_ui/assets/icons/eye_close_icon.svg
     - lib/shared_ui/assets/images/corgi.jpg
     - lib/shared_ui/assets/images/background.png
-    - lib/shared_ui/assets/images/logo_app_image.svg
     - lib/shared_ui/assets/images/no_image.png
     - lib/shared_ui/assets/images/no_image_man.png
     - lib/shared_ui/assets/images/no_image_woman.png
     - lib/shared_ui/assets/images/no_image_other_gender.png
+    - lib/shared_ui/assets/images/tmdb_primary_short.svg
     - lib/shared_ui/assets/animations/loading_animation.json
+    - lib/shared_ui/assets/animations/panda_walk_animation.json
+    - lib/shared_ui/assets/animations/panda_sleep_animation.json
+

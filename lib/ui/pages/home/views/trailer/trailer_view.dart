@@ -221,19 +221,12 @@ class _TrailerViewState extends State<TrailerView> {
         page: DetailsPage(heroTag: heroTag),
         begin: const Offset(1, 0),
       ),
-    )
-        // .then(
-        //   (_) => homeBloc.scrollController.position.extentBefore >= 1100 &&
-        //           homeBloc.scrollController.position.extentBefore <= 1800
-        //       ? playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv)
-        //       : stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv),
-        // )
-        ;
+    );
   }
 
   playTrailer(BuildContext context, int indexMovie, int indexTv) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
-    debouncer.call(
+    debouncer.delay(
       () => bloc.add(PlayTrailer(
         indexMovie: indexMovie,
         indexTv: indexTv,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:movie_app/utils/utils.dart';
 
 part 'navigation_event.dart';
 part 'navigation_state.dart';
@@ -13,16 +14,24 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
             indexPage: 0,
           ),
         ) {
-    on<NavigatePage>(_onNavigateScreen);
+    on<NavigatePage>(_onNavigatePage);
     on<ShowHide>(_onShowHide);
     on<ScrollTop>(_onScrollTop);
   }
 
-  FutureOr<void> _onNavigateScreen(NavigatePage event, Emitter<NavigationState> emit) {
-    emit(NavigationSuccess(
-      visible: state.visible,
-      indexPage: event.indexPage,
-    ));
+  FutureOr<void> _onNavigatePage(NavigatePage event, Emitter<NavigationState> emit) async {
+    final expiresAt = await SecureStorage().getRequestToken(AppKeys.expiresAtKey);
+    if (JwtDecoder.isExpired(expiresAt ?? '')) {
+      emit(NavigationError(
+        visible: state.visible,
+        indexPage: state.indexPage,
+      ));
+    } else {
+      emit(NavigationSuccess(
+        visible: state.visible,
+        indexPage: event.indexPage,
+      ));
+    }
   }
 
   FutureOr<void> _onShowHide(ShowHide event, Emitter<NavigationState> emit) {
