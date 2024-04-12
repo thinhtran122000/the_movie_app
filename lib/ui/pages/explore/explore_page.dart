@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app/shared_ui/shared_ui.dart';
 import 'package:movie_app/ui/components/components.dart';
 import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
@@ -17,24 +18,37 @@ class ExplorePage extends StatelessWidget {
         listener: (context, state) => state is NavigationScrollSuccess ? reloadPage(context) : null,
         child: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
+            print('Hello');
+
             final bloc = BlocProvider.of<ExploreBloc>(context);
             return Scaffold(
-                backgroundColor: whiteColor.withOpacity(0.85),
+                backgroundColor: gainsBoroColor,
                 appBar: CustomAppBar(
                   customTitle: CustomTextField(
                     focusNode: bloc.focusNode,
                     controller: bloc.textController,
                     enabledSearch: state.enabledSearch,
+                    focusedBorder: transparentRadiusBorder,
+                    enabledBorder: transparentRadiusBorder,
                     hintText: 'Search for movies, tv shows, people...'.padLeft(14),
+                    margin: EdgeInsets.fromLTRB(13.w, 30.h, 13.w, 0),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 5.h,
+                    ),
                     suffixIcon: bloc.textController.text.isNotEmpty
-                        ? IconButton(
-                            onPressed: () {
+                        ? GestureDetector(
+                            onTap: () {
                               bloc.focusNode.requestFocus();
                               bloc.add(Clear());
                             },
-                            icon: Icon(
-                              Icons.cancel_rounded,
-                              color: lightGreyColor,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: Icon(
+                                Icons.cancel_rounded,
+                                color: lightGreyColor,
+                                size: 24.sp,
+                              ),
                             ),
                           )
                         : null,

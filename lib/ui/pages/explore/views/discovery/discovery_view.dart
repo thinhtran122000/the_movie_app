@@ -31,7 +31,7 @@ class DiscoveryView extends StatelessWidget {
                   CustomTabBarItem(
                     flex: 0,
                     title: 'Browse',
-                    backgroundColor: whiteColor.withOpacity(0.85),
+                    backgroundColor: whiteColor,
                     textColor: state.indexPage == 0 ? darkBlueColor : greyColor,
                     dividerColor: state.indexPage == 0 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(8.w, 0, 10.w, 0),
@@ -41,7 +41,7 @@ class DiscoveryView extends StatelessWidget {
                   CustomTabBarItem(
                     flex: 0,
                     title: 'Streaming',
-                    backgroundColor: whiteColor.withOpacity(0.85),
+                    backgroundColor: whiteColor,
                     textColor: state.indexPage == 1 ? darkBlueColor : greyColor,
                     dividerColor: state.indexPage == 1 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
@@ -51,7 +51,7 @@ class DiscoveryView extends StatelessWidget {
                   CustomTabBarItem(
                     flex: 1,
                     title: 'Coming soon',
-                    backgroundColor: whiteColor.withOpacity(0.85),
+                    backgroundColor: whiteColor,
                     textColor: state.indexPage == 2 ? darkBlueColor : greyColor,
                     dividerColor: state.indexPage == 2 ? darkBlueColor : Colors.transparent,
                     onTapItem: () =>
@@ -60,7 +60,7 @@ class DiscoveryView extends StatelessWidget {
                   CustomTabBarItem(
                     flex: 0,
                     title: 'In theaters',
-                    backgroundColor: whiteColor.withOpacity(0.85),
+                    backgroundColor: whiteColor,
                     textColor: state.indexPage == 3 ? darkBlueColor : greyColor,
                     dividerColor: state.indexPage == 3 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(10.w, 0, 8.w, 0),

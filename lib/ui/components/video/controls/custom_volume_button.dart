@@ -41,47 +41,43 @@ class CustomVolumeButton extends StatelessWidget {
             alignment: Alignment.centerLeft,
             duration: const Duration(milliseconds: 700),
             curve: Curves.easeInOutSine,
-            child: FractionallySizedBox(
-              child: Container(
-                width: width,
-                decoration: BoxDecoration(
-                  color: colorButton,
-                  borderRadius: BorderRadius.circular(5.r),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: icon,
+            child: Container(
+              width: width,
+              decoration: BoxDecoration(
+                color: colorButton,
+                borderRadius: BorderRadius.circular(5.r),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: icon,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        0,
+                        5.h,
+                        controller.value.position.inMilliseconds <= 5000 && enabledUnmute ? 5.w : 0,
+                        5.h),
+                    child: Text(
+                      controller.value.position.inMilliseconds <= 5000 && enabledUnmute
+                          ? 'Tap to unmute'
+                          : '',
+                      maxLines: 1,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: whiteColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0,
-                          5.h,
-                          controller.value.position.inMilliseconds <= 5000 && enabledUnmute
-                              ? 5.w
-                              : 0,
-                          5.h),
-                      child: Text(
-                        controller.value.position.inMilliseconds <= 5000 && enabledUnmute
-                            ? 'Tap to unmute'
-                            : '',
-                        maxLines: 1,
-                        softWrap: true,
-                        style: TextStyle(
-                          color: whiteColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

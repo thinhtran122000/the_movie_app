@@ -30,6 +30,9 @@ class NavigationScrollSuccess extends NavigationState {
   });
 }
 
-
-
-
+class NavigationError extends NavigationState {
+  NavigationError({
+    required super.indexPage,
+    required super.visible,
+  });
+}

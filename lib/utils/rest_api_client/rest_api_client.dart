@@ -36,6 +36,10 @@ class RestApiClient extends APIClient {
       switch (e.response?.statusCode) {
         case 401:
           throw APIError.fromJson(e.response?.data);
+        case 400:
+          throw APIError.fromJson(e.response?.data);
+        case 500:
+          throw APIError.fromJson(e.response?.data);
         default:
           throw APIError(statusMessage: e.message);
       }

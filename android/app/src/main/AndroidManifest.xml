@@ -13,7 +13,10 @@
     <application
         android:label="@string/APP_NAME"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"> <!-- setup backup flutter security storage exception with back up
+        data on Google Drive -->
         <!-- Set ndroid:lable="@string/APP_NAME" for get app name with enviroment-->
         <activity
             android:name=".MainActivity"

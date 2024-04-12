@@ -28,7 +28,6 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: whiteColor,
         appBar: CustomAppBar(
-          widthSpace: 15.w,
           centerTitle: false,
           title: 'Hello Thinh',
           leading: CircleAvatar(
