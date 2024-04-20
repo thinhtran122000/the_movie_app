@@ -7,27 +7,27 @@ class SecureStorage {
   factory SecureStorage() => _instance;
   FlutterSecureStorage get secureStorage => _secureStorage;
 
-  Future<String?> getRequestToken(String requestTokenKey) async {
+  Future<String?> getValue(String requestTokenKey) async {
     return await secureStorage.read(key: requestTokenKey);
   }
 
-  Future<void> setRequestToken(String requestTokenKey, String requestToken) async {
+  Future<void> setValue(String requestTokenKey, String requestToken) async {
     return await secureStorage.write(key: requestTokenKey, value: requestToken);
   }
 
-  Future<void> deleteRequestToken(String requestTokenKey) async {
+  Future<void> deleteValue(String requestTokenKey) async {
     return await secureStorage.delete(key: requestTokenKey);
   }
 
-  Future<void> deleteAllRequestToken() async {
+  Future<void> deleteAllValues() async {
     return await secureStorage.deleteAll();
   }
 
-  Future<Map<String, String>> getAllValueRequestToken() async {
+  Future<Map<String, String>> getAllValues() async {
     return await secureStorage.readAll();
   }
 
-  Future<bool> checkRequestToken(String requestTokenKey) async {
+  Future<bool> checkValue(String requestTokenKey) async {
     return await secureStorage.containsKey(key: requestTokenKey);
   }
 }

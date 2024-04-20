@@ -1,4 +1,4 @@
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class TrailerRepository {
   final RestApiClient restApiClient;

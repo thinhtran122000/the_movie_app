@@ -6,7 +6,6 @@ export 'bottom_navigation_bar/bottom_navigation_bar.dart';
 export 'bottom_sheet/bottom_sheet.dart';
 export 'button/button.dart';
 export 'dialog/dialog.dart';
-export 'drop_down/drop_down.dart';
 export 'indicator/indicator.dart';
 export 'item/item.dart';
 export 'progress_bar/progress_bar.dart';

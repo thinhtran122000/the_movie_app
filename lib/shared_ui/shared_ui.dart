@@ -5,4 +5,3 @@ export 'decorations/decorations.dart';
 export 'paths/paths.dart';
 export 'strings/strings.dart';
 export 'styles/styles.dart';
-export 'transitions/transitions.dart';

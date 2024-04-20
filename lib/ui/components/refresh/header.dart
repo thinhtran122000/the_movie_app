@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Header extends StatelessWidget {

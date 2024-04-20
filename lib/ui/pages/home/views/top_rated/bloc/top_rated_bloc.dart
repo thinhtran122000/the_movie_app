@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/home/home_repository.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/pages/home/home_repository.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'top_rated_event.dart';
 part 'top_rated_state.dart';

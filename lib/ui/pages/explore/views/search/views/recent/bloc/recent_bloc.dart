@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/ui.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 part 'recent_event.dart';
@@ -25,12 +25,18 @@ class RecentBloc extends Bloc<RecentEvent, RecentState> {
         )) {
     on<FetchData>(_onFetchData);
     on<LoadMore>(_onLoadMore);
-    on<ShowHideButton>(_onShowHideButton);
-    on<LoadShimmer>(_onLoadShimmer);
   }
 
   FutureOr<void> _onFetchData(FetchData event, Emitter<RecentState> emit) async {
     try {
+      if (event.isSearching) {
+        emit(RecentLoading(
+          listSearch: state.listSearch,
+          query: state.query,
+          listTrending: state.listTrending,
+          visible: state.visible,
+        ));
+      }
       page = 1;
       final searchResult = await exploreRepository.getsearchMultiple(
         query: event.query,
@@ -44,7 +50,7 @@ class RecentBloc extends Bloc<RecentEvent, RecentState> {
           listSearch: searchResult.list,
           query: event.query,
           listTrending: state.listTrending,
-          visible: state.visible,
+          visible: false,
         ));
       } else {
         page = 1;
@@ -152,33 +158,5 @@ class RecentBloc extends Bloc<RecentEvent, RecentState> {
         visible: false,
       ));
     }
-  }
-
-  FutureOr<void> _onShowHideButton(ShowHideButton event, Emitter<RecentState> emit) {
-    if (state.listTrending.isNotEmpty || state.listSearch.isNotEmpty) {
-      emit(RecentSuccess(
-        listSearch: state.listSearch,
-        listTrending: state.listTrending,
-        query: state.query,
-        visible: event.visible,
-      ));
-    } else {
-      emit(RecentError(
-        errorMessage: 'An unexpected error occurred.',
-        listSearch: state.listSearch,
-        listTrending: state.listTrending,
-        query: state.query,
-        visible: state.visible,
-      ));
-    }
-  }
-
-  FutureOr<void> _onLoadShimmer(LoadShimmer event, Emitter<RecentState> emit) {
-    emit(RecentInitial(
-      query: '',
-      listSearch: [],
-      listTrending: [],
-      visible: false,
-    ));
   }
 }

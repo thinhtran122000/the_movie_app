@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/home/home.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/pages/home/home.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'upcoming_event.dart';
 part 'upcoming_state.dart';

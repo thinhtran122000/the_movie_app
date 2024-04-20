@@ -2,7 +2,7 @@ part of 'login_bloc.dart';
 
 class LoginEvent {}
 
-class LoadPage extends LoginEvent {}
+class LoadPageLogin extends LoginEvent {}
 
 class ShowClearButton extends LoginEvent {}
 

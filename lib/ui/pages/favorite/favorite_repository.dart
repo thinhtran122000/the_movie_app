@@ -1,6 +1,6 @@
-import 'package:movie_app/api/src/favorite/favorite.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/src/favorite/favorite.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class FavoriteRepository {
   final RestApiClient restApiClient;

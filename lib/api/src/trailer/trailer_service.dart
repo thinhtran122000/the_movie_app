@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api_client/index.dart';
-import 'package:movie_app/api/src/trailer/trailer.dart';
-import 'package:movie_app/models/trailer/media_trailer.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/api_client/index.dart';
+import 'package:tmdb/api/src/trailer/trailer.dart';
+import 'package:tmdb/models/trailer/media_trailer.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class TrailerService {
   TrailerService({required this.apiClient});

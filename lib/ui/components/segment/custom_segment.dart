@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
 
 class CustomSegment extends StatelessWidget {
   final VoidCallback? onTapMovie;
@@ -19,14 +19,14 @@ class CustomSegment extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double paddingRight = const EdgeInsets.all(15).right.w;
-        double paddingLeft = const EdgeInsets.all(15).left.w;
+        double paddingRight = const EdgeInsets.all(10).right.w;
+        double paddingLeft = const EdgeInsets.all(10).left.w;
         double marginLeft = const EdgeInsets.all(5).left.w;
         double marginRight = const EdgeInsets.all(5).right.w;
         double width =
             (constraints.maxWidth - (paddingRight + paddingLeft + marginLeft + marginRight)) / 2;
         return Padding(
-          padding: EdgeInsets.fromLTRB(paddingLeft.w, 15.h, paddingRight.w, 15.h),
+          padding: EdgeInsets.fromLTRB(paddingLeft.w, 10.h, paddingRight.w, 10.h),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -38,10 +38,10 @@ class CustomSegment extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.fromLTRB(marginLeft, 5.h, marginRight, 5.h),
                     width: width,
-                    height: 40.h,
+                    height: 30.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(11.r),
+                      borderRadius: BorderRadius.circular(5.r),
                       color: darkBlueColor,
                       boxShadow: [
                         BoxShadow(
@@ -55,9 +55,9 @@ class CustomSegment extends StatelessWidget {
               ),
               Container(
                 width: widthTabBar,
-                height: 50.h,
+                height: 40.h,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.r),
+                  borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(
                     color: darkBlueColor,
                     width: 2.w,
@@ -71,18 +71,18 @@ class CustomSegment extends StatelessWidget {
                       child: GestureDetector(
                         onTap: onTapMovie,
                         child: Container(
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20.r),
                               bottomLeft: Radius.circular(20.r),
                             ),
                           ),
-                          alignment: Alignment.center,
                           child: Text(
                             'Movies',
                             textScaler: const TextScaler.linear(1),
                             style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize: 14.sp,
                               color: index == 0 ? whiteColor : darkBlueColor,
                             ),
                           ),
@@ -104,7 +104,7 @@ class CustomSegment extends StatelessWidget {
                             'Tv Shows',
                             textScaler: const TextScaler.linear(1.1),
                             style: TextStyle(
-                              fontSize: 15.sp,
+                              fontSize: 14.sp,
                               color: index == 1 ? whiteColor : darkBlueColor,
                             ),
                           ),

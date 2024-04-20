@@ -1,14 +1,14 @@
 part of 'favorite_bloc.dart';
 
 abstract class FavoriteState {
-  final int index;
+  final int indexTab;
   FavoriteState({
-    required this.index,
+    required this.indexTab,
   });
 }
 
 class FavoriteInitial extends FavoriteState {
   FavoriteInitial({
-    required super.index,
+    required super.indexTab,
   });
 }

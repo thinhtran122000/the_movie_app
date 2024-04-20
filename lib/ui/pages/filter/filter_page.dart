@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/ui/components/components.dart';
+import 'package:tmdb/ui/components/components.dart';
 
 class FilterPage extends StatelessWidget {
   const FilterPage({super.key});

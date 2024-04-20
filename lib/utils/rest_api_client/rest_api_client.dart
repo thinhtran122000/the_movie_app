@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:movie_app/api/api.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/api.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class RestApiClient extends APIClient {
   static final RestApiClient _instance = RestApiClient._();

@@ -22,6 +22,15 @@ class RecentInitial extends RecentState {
   });
 }
 
+class RecentLoading extends RecentState {
+  RecentLoading({
+    required super.listSearch,
+    required super.query,
+    required super.listTrending,
+    required super.visible,
+  });
+}
+
 class RecentSuccess extends RecentState {
   RecentSuccess({
     required super.listSearch,
@@ -41,4 +50,3 @@ class RecentError extends RecentState {
     required super.visible,
   });
 }
-

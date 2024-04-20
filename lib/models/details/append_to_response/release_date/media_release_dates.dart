@@ -1,4 +1,4 @@
-import 'package:movie_app/models/models.dart';
+import 'package:tmdb/models/models.dart';
 
 class MediaReleaseDates {
   List<ReleaseDateResult> releaseDates;

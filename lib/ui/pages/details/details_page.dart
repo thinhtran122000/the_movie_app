@@ -1,16 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
 
 class DetailsPage extends StatelessWidget {
   final String? heroTag;
   final String? title;
+  final int? id;
   const DetailsPage({
     super.key,
     this.heroTag,
     this.title,
+    this.id,
   });
 
   @override
@@ -18,11 +20,16 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         centerTitle: true,
-        title: '$title',
+        title: '$id',
+        titleStyle: TextStyle(
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w400,
+          color: whiteColor,
+        ),
         leading: Icon(
           Icons.arrow_back_ios,
           color: whiteColor,
-          size: 30,
+          size: 20.sp,
         ),
         onTapLeading: () => Navigator.of(context).pop(),
       ),
@@ -31,15 +38,7 @@ class DetailsPage extends StatelessWidget {
           Center(
             child: Hero(
               tag: heroTag ?? '',
-              child:
-                  // Container(
-                  //   width: 300,
-                  //   height: 300,
-                  //   decoration: const BoxDecoration(
-                  //     color: Colors.red,
-                  //   ),
-                  // ),
-                  CachedNetworkImage(
+              child: CachedNetworkImage(
                 imageUrl: 'https://image.tmdb.org/t/p/w500/egg7KFi18TSQc1s24RMmR9i2zO6.jpg',
                 filterQuality: FilterQuality.high,
                 width: double.infinity,

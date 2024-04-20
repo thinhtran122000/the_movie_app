@@ -1,4 +1,4 @@
-import 'package:movie_app/models/state/state.dart';
+import 'package:tmdb/models/state/state.dart';
 
 class MediaState {
   int? id;

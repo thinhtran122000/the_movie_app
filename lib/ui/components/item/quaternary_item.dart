@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
 
 class QuaternaryItem extends StatelessWidget {
   final String? imageUrl;
@@ -25,141 +26,172 @@ class QuaternaryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTapItem,
-      child: RepaintBoundary(
-        child: IntrinsicHeight(
-          child: Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: whiteColor,
-              borderRadius: BorderRadius.circular(15.r),
-              boxShadow: [
-                BoxShadow(
-                  color: greyColor,
-                  blurRadius: 5,
-                ),
-              ],
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Flexible(
-                  flex: 3,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(12.w, 11.h, 6.w, 11.h),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          title ?? '',
-                          maxLines: 1,
-                          softWrap: true,
-                          textScaler: const TextScaler.linear(1),
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 21.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+      child: Ink(
+        height: 130.h,
+        color: whiteColor,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 10.h),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Stack(
+                  fit: StackFit.expand,
+                  alignment: Alignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: imageUrl ?? '',
+                      filterQuality: FilterQuality.high,
+                      width: 60.w,
+                      fit: BoxFit.fill,
+                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
+                      errorWidget: (context, url, error) => Image.asset(
+                        ImagesPath.noImage.assetName,
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                        // onTap: onTapBanner,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              // (watchlist ?? false)
+                              // ?
+                              // IconsPath.addedWatchListIcon.assetName
+                              // :
+                              IconsPath.addWatchListIcon.assetName,
+                              alignment: Alignment.topLeft,
+                              width: 50.w,
+                              height: 45.h,
+                              fit: BoxFit.scaleDown,
+                            ),
+                            Positioned(
+                              top: 6.h,
+                              child: Icon(
+                                // (watchlist ?? false) ?
+                                // Icons.check
+                                // :
+                                Icons.add,
+                                color:
+                                    // (watchlist ?? false) ? blackColor
+                                    // :
+                                    whiteColor,
+                                size: 22.sp,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 6.h),
-                        SizedBox(
-                          height: 50.h,
-                          child: Text(
-                            overview ?? 'Coming soon',
-                            maxLines: 3,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textScaler: const TextScaler.linear(1),
-                            style: TextStyle(
-                              color: greyColor,
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Flexible(
+                flex: 6,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        title ?? '',
+                        maxLines: 2,
+                        softWrap: true,
+                        textScaler: const TextScaler.linear(1),
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Flexible(
+                      flex: 3,
+                      child: Text(
+                        'Release: ${releaseDate ?? 'Unknown'}',
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        textScaler: const TextScaler.linear(1),
+                        style: TextStyle(
+                          color: greyColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Flexible(
+                      flex: 1,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Icon(
+                              Icons.star,
+                              color: yellowColor,
+                              size: 16.sp,
+                              applyTextScaling: true,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20.h),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0.w, 0, 6.w, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(
-                                Icons.access_time_rounded,
-                                size: 16.sp,
+                          SizedBox(width: 3.w),
+                          Flexible(
+                            child: Text(
+                              voteAverage ?? '',
+                              textScaler: const TextScaler.linear(1),
+                              style: TextStyle(
+                                color: blackColor,
+                                fontSize: 14.sp,
+                                height: 1,
                               ),
-                              Flexible(
-                                // flex: 5,
-                                child: SizedBox(
-                                  width: 100.w,
-                                  child: Text(
-                                    releaseDate ?? '',
-                                    maxLines: 1,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    textScaler: const TextScaler.linear(1),
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: indigoColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: yellowColor,
-                                size: 17.sp,
-                              ),
-                              Text(
-                                voteAverage ?? '',
-                                textScaler: const TextScaler.linear(1),
-                                style: TextStyle(
-                                  color: yellowColor,
-                                  fontSize: 14.sp,
-                                ),
-                              ),
-                              SizedBox(width: 1.w),
-                              Container(
-                                width: 23.w,
-                                height: 19.h,
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.all(3).w,
-                                decoration: BoxDecoration(
-                                  color: gainsBoroColor,
-                                  borderRadius: BorderRadius.circular(5.r),
-                                ),
-                                child: Text(
-                                  originalLanguage ?? '',
-                                  textScaler: const TextScaler.linear(1),
-                                  style: TextStyle(
-                                    color: whiteColor,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10.w),
+                          Flexible(
+                            flex: 3,
+                            child: Text(
+                              originalLanguage?.toUpperCase() ?? '',
+                              maxLines: 1,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              textScaler: const TextScaler.linear(1),
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: greyColor,
+                                // height: 2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: SvgPicture.asset(
+                    IconsPath.optionIcon.assetName,
+                    width: 2.w,
+                    height: 4.h,
                   ),
                 ),
-                CachedNetworkImage(
-                  imageUrl: imageUrl ?? '',
-                  filterQuality: FilterQuality.high,
-                  width: 100.w,
-                  fit: BoxFit.fill,
-                  progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                  errorWidget: (context, url, error) => Image.asset(
-                    ImagesPath.noImage.assetName,
-                    filterQuality: FilterQuality.high,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

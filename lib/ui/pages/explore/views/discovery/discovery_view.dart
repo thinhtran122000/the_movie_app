@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/explore/explore.dart';
-import 'package:movie_app/ui/pages/explore/views/discovery/bloc/discovery_bloc.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/explore/explore.dart';
+import 'package:tmdb/ui/pages/explore/views/discovery/bloc/discovery_bloc.dart';
+import 'package:tmdb/ui/pages/explore/views/discovery/discovery.dart';
 
 class DiscoveryView extends StatelessWidget {
-  const DiscoveryView({super.key});
+  final int? tabIndexDiscovery;
+  const DiscoveryView({
+    super.key,
+    this.tabIndexDiscovery,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DiscoveryBloc()
         ..add(NavigateTab(
-          indexPage: 0,
+          indexPage: tabIndexDiscovery ?? 0,
         )),
       child: BlocBuilder<DiscoveryBloc, DiscoveryState>(
         builder: (context, state) {
@@ -74,9 +79,9 @@ class DiscoveryView extends StatelessWidget {
                   index: state.indexPage,
                   children: const [
                     BrowseView(),
-                    FlutterLogo(),
-                    FlutterLogo(),
-                    FlutterLogo(),
+                    StreamingView(),
+                    ComingSoonView(),
+                    InTheatersView(),
                   ],
                 ),
               ),

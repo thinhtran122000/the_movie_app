@@ -12,41 +12,54 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   final FocusNode focusNode = FocusNode();
   ExploreBloc()
       : super(ExploreInitial(
+          indexPageExplore: 0,
           visible: false,
           opacity: 0.0,
           statusMessage: '',
           query: '',
           enabledSearch: false,
         )) {
-    on<ChangeAnimationToast>(_onChangeAnimationToast);
-    on<DisplayToast>(_onDisplayToast);
+    // on<ChangeAnimationToast>(_onChangeAnimationToast);
+    // on<DisplayToast>(_onDisplayToast);
+    on<LoadPageExplore>(_onLoadPageExplore);
     on<MoveToSearch>(_onMoveToSearch);
     on<Search>(_onSearch);
     on<Clear>(_onClear);
   }
-
-  FutureOr<void> _onChangeAnimationToast(ChangeAnimationToast event, Emitter<ExploreState> emit) {
+  FutureOr<void> _onLoadPageExplore(LoadPageExplore event, Emitter<ExploreState> emit) {
     emit(ExploreSuccess(
       visible: state.visible,
-      opacity: event.opacity,
+      opacity: state.opacity,
       statusMessage: state.statusMessage,
       query: state.query,
       enabledSearch: state.enabledSearch,
+      indexPageExplore: event.indexPageExplore,
     ));
   }
 
-  FutureOr<void> _onDisplayToast(DisplayToast event, Emitter<ExploreState> emit) {
-    emit(ExploreSuccess(
-      opacity: state.opacity,
-      visible: event.visible,
-      statusMessage: event.statusMessage,
-      query: state.query,
-      enabledSearch: state.enabledSearch,
-    ));
-  }
+  // FutureOr<void> _onChangeAnimationToast(ChangeAnimationToast event, Emitter<ExploreState> emit) {
+  //   emit(ExploreSuccess(
+  //     visible: state.visible,
+  //     opacity: event.opacity,
+  //     statusMessage: state.statusMessage,
+  //     query: state.query,
+  //     enabledSearch: state.enabledSearch,
+  //   ));
+  // }
+
+  // FutureOr<void> _onDisplayToast(DisplayToast event, Emitter<ExploreState> emit) {
+  //   emit(ExploreSuccess(
+  //     opacity: state.opacity,
+  //     visible: event.visible,
+  //     statusMessage: event.statusMessage,
+  //     query: state.query,
+  //     enabledSearch: state.enabledSearch,
+  //   ));
+  // }
 
   FutureOr<void> _onMoveToSearch(MoveToSearch event, Emitter<ExploreState> emit) {
     emit(ExploreSearchSuccess(
+      indexPageExplore: state.indexPageExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
@@ -56,7 +69,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   }
 
   FutureOr<void> _onSearch(Search event, Emitter<ExploreState> emit) {
-    emit(ExploreSuccess(
+    emit(ExploreSearchSuccess(
+      indexPageExplore: state.indexPageExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
@@ -67,7 +81,8 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   FutureOr<void> _onClear(Clear event, Emitter<ExploreState> emit) {
     textController.clear();
-    emit(ExploreSuccess(
+    emit(ExploreSearchSuccess(
+      indexPageExplore: state.indexPageExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,

@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api.dart';
-import 'package:movie_app/api/src/src.dart';
-import 'package:movie_app/models/authentication/authentication.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/api.dart';
+import 'package:tmdb/api/src/src.dart';
+import 'package:tmdb/models/authentication/authentication.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class AuthenticationService {
   AuthenticationService({required this.apiClient});

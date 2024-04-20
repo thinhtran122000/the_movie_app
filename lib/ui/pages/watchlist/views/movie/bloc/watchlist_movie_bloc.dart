@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/ui.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 part 'watchlist_movie_event.dart';

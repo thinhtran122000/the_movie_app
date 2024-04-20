@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/artist/artist.dart';
-import 'package:movie_app/ui/pages/home/views/best_drama/best_drama.dart';
-import 'package:movie_app/ui/pages/home/views/genre/genre.dart';
-import 'package:movie_app/ui/pages/home/views/now_playing/now_playing.dart';
-import 'package:movie_app/ui/pages/home/views/popular/popular.dart';
-import 'package:movie_app/ui/pages/home/views/provider/provider.dart';
-import 'package:movie_app/ui/pages/home/views/top_rated/top_rated.dart';
-import 'package:movie_app/ui/pages/home/views/top_tv/top_tv.dart';
-import 'package:movie_app/ui/pages/home/views/trailer/trailer_view.dart';
-import 'package:movie_app/ui/pages/home/views/trending/trending.dart';
-import 'package:movie_app/ui/pages/home/views/upcoming/upcoming.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/home/bloc/home_bloc.dart';
+import 'package:tmdb/ui/pages/home/views/artist/artist.dart';
+import 'package:tmdb/ui/pages/home/views/best_drama/best_drama.dart';
+import 'package:tmdb/ui/pages/home/views/genre/genre.dart';
+import 'package:tmdb/ui/pages/home/views/now_playing/now_playing.dart';
+import 'package:tmdb/ui/pages/home/views/popular/popular.dart';
+import 'package:tmdb/ui/pages/home/views/provider/provider.dart';
+import 'package:tmdb/ui/pages/home/views/top_rated/top_rated.dart';
+import 'package:tmdb/ui/pages/home/views/top_tv/top_tv.dart';
+import 'package:tmdb/ui/pages/home/views/trailer/trailer_view.dart';
+import 'package:tmdb/ui/pages/home/views/trending/trending.dart';
+import 'package:tmdb/ui/pages/home/views/upcoming/upcoming.dart';
+import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,19 +28,7 @@ class HomePage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: whiteColor,
         appBar: CustomAppBar(
-          centerTitle: false,
-          title: 'Hello Thinh',
-          leading: CircleAvatar(
-            backgroundImage: Image.asset(
-              ImagesPath.corgi.assetName,
-            ).image,
-          ),
-          actions: Icon(
-            Icons.notifications_sharp,
-            size: 30.sp,
-            color: whiteColor,
-          ),
-          onTapLeading: () {},
+          appBarHeight: 30.h,
         ),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {

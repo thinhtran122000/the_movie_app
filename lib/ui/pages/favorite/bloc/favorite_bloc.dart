@@ -8,14 +8,14 @@ part 'favorite_state.dart';
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   FavoriteBloc()
       : super(FavoriteInitial(
-          index: 0,
+          indexTab: 0,
         )) {
-    on<ChangeTab>(_onChangeTab);
+    on<NavigateTabFavorite>(_onNavigateTabFavorite);
   }
 
-  FutureOr<void> _onChangeTab(ChangeTab event, Emitter<FavoriteState> emit) {
+  FutureOr<void> _onNavigateTabFavorite(NavigateTabFavorite event, Emitter<FavoriteState> emit) {
     emit(FavoriteInitial(
-      index: event.index,
+      indexTab: event.indexTab,
     ));
   }
 }

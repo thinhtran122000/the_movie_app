@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/details.dart';
-import 'package:movie_app/ui/pages/home/views/top_tv/bloc/top_tv_bloc.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/router/router.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/details/details.dart';
+import 'package:tmdb/ui/pages/home/views/top_tv/bloc/top_tv_bloc.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class TopTvView extends StatelessWidget {
   const TopTvView({super.key});
@@ -92,8 +93,8 @@ class TopTvView extends StatelessWidget {
           item?.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item?.posterPath}',
       onTapViewAll: () {},
       onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
-          page: DetailsPage(heroTag: '${AppConstants.topTvHeroTag}-$index'),
+        AppPageRoute(
+          builder: (context) => DetailsPage(heroTag: '${AppConstants.topTvHeroTag}-$index'),
           begin: const Offset(1, 0),
         ),
       ),

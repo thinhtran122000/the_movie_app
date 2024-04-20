@@ -17,3 +17,6 @@ class ShowHide extends NavigationEvent {
 }
 
 class ScrollTop extends NavigationEvent {}
+
+class LogoutForExpired extends NavigationEvent {}
+

@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/home/home_repository.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/pages/home/home_repository.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'genre_event.dart';
 part 'genre_state.dart';

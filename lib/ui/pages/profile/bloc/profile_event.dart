@@ -1,3 +1,5 @@
 part of 'profile_bloc.dart';
 
-abstract class ProfileEvent {}
+class ProfileEvent {}
+
+class NotifyLogout extends ProfileEvent {}

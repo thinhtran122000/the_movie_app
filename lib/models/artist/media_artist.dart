@@ -1,4 +1,4 @@
-import 'package:movie_app/models/models.dart';
+import 'package:tmdb/models/models.dart';
 
 class MediaArtist {
   bool? adult;

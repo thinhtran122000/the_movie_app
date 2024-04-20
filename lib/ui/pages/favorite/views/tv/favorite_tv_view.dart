@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/favorite/views/tv/bloc/favorite_tv_bloc.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/favorite/views/tv/bloc/favorite_tv_bloc.dart';
+import 'package:tmdb/utils/app_utils/app_utils.dart';
+import 'package:tmdb/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FavoriteTvView extends StatelessWidget {
@@ -66,10 +66,13 @@ class FavoriteTvView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 5.h),
-                CustomDropDown(
-                  icon: state.status ? Icons.arrow_drop_down : Icons.arrow_drop_up,
-                  title: state.sortBy,
-                  onTap: () => sortList(context, state.status, state.sortBy),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: SortButton(
+                    icon: state.status ? Icons.arrow_drop_down : Icons.arrow_drop_up,
+                    title: state.sortBy,
+                    onTap: () => sortList(context, state.status, state.sortBy),
+                  ),
                 ),
                 BlocBuilder<FavoriteTvBloc, FavoriteTvState>(
                   builder: (context, state) {
@@ -100,7 +103,7 @@ class FavoriteTvView extends StatelessWidget {
                       addAutomaticKeepAlives: false,
                       addRepaintBoundaries: false,
                       controller: ScrollController(),
-                      padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
+                      padding: EdgeInsets.fromLTRB(0.w, 10.h, 0.w, 0),
                       itemBuilder: itemBuilder,
                       separatorBuilder: separatorBuilder,
                       itemCount: state.listFavorite.length,
@@ -126,10 +129,15 @@ class FavoriteTvView extends StatelessWidget {
       overview: itemFavorite.overview != '' ? itemFavorite.overview : 'Coming soon',
       originalLanguage: itemFavorite.originalLanguage,
       imageUrl: '${AppConstants.kImagePathPoster}/${itemFavorite.posterPath}',
+      onTapItem: () {},
     );
   }
 
-  Widget separatorBuilder(BuildContext context, int index) => const SizedBox(height: 18);
+  Widget separatorBuilder(BuildContext context, int index) => Divider(
+        height: 0,
+        thickness: 1,
+        color: gainsBoroColor,
+      );
 
   sortList(BuildContext context, bool status, String sortBy) {
     final bloc = BlocProvider.of<FavoriteTvBloc>(context);

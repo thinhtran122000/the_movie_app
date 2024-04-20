@@ -5,9 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/ui.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/app_utils/app_utils.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPLayer extends StatefulWidget {
