@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/details/details.dart';
-import 'package:movie_app/ui/pages/home/home.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/pages/details/details.dart';
+import 'package:tmdb/ui/pages/home/home.dart';
+import 'package:tmdb/utils/app_utils/app_utils.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'now_playing_event.dart';
 part 'now_playing_state.dart';

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/details/details.dart';
-import 'package:movie_app/ui/pages/home/bloc/home_bloc.dart';
-import 'package:movie_app/ui/pages/home/views/trailer/bloc/trailer_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/utils/constants/constants.dart';
-import 'package:movie_app/utils/debouncer/debouncer.dart';
+import 'package:tmdb/router/router.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/details/details.dart';
+import 'package:tmdb/ui/pages/home/bloc/home_bloc.dart';
+import 'package:tmdb/ui/pages/home/views/trailer/bloc/trailer_bloc.dart';
+import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:tmdb/utils/constants/constants.dart';
+import 'package:tmdb/utils/debouncer/debouncer.dart';
 
 class TrailerView extends StatefulWidget {
   const TrailerView({super.key});
@@ -217,8 +218,8 @@ class _TrailerViewState extends State<TrailerView> {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
     Navigator.of(context).push(
-      CustomPageRoute(
-        page: DetailsPage(heroTag: heroTag),
+      AppPageRoute(
+        builder: (context) => DetailsPage(heroTag: heroTag),
         begin: const Offset(1, 0),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
 
 class CustomTextField extends StatefulWidget {
   final Color? shadowColor;
@@ -10,7 +10,8 @@ class CustomTextField extends StatefulWidget {
   final String? hintText;
   final bool? obscureText;
   final bool? isAuthentication;
-  final bool? enabledSearch;
+  final int? indexPageExplore;
+  // final bool? enabledSearch;
   final bool? isFocused;
   final Widget? suffixIcon;
   final FocusNode? focusNode;
@@ -35,7 +36,7 @@ class CustomTextField extends StatefulWidget {
     this.controller,
     this.suffixIcon,
     this.onTap,
-    this.enabledSearch,
+    // this.enabledSearch,
     this.onTapCancel,
     this.onTapOutside,
     this.isFocused,
@@ -48,6 +49,7 @@ class CustomTextField extends StatefulWidget {
     required this.margin,
     this.backgroundColor,
     this.shadowColor,
+    this.indexPageExplore,
   });
 
   @override
@@ -138,20 +140,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
             ),
           ),
-          SizedBox(width: widget.enabledSearch ?? false ? 15.w : 0),
+          SizedBox(width: (widget.indexPageExplore ?? 0) == 1 ? 15.w : 0),
           GestureDetector(
             onTap: widget.onTapCancel,
             child: AnimatedSize(
               duration: const Duration(milliseconds: 100),
               alignment: Alignment.centerRight,
               child: AnimatedScale(
-                scale: widget.enabledSearch ?? false ? 1.0 : 0,
+                scale: (widget.indexPageExplore ?? 0) == 1 ? 1.0 : 0,
                 curve: Curves.easeInSine,
                 duration: const Duration(milliseconds: 100),
                 alignment: Alignment.centerRight,
                 child: SizedBox(
-                  width: widget.enabledSearch ?? false ? 55 : 0,
-                  height: widget.enabledSearch ?? false ? 20 : 0,
+                  width: (widget.indexPageExplore ?? 0) == 1 ? 55 : 0,
+                  height: (widget.indexPageExplore ?? 0) == 1 ? 20 : 0,
                   child: Text(
                     'Cancel',
                     textScaler: const TextScaler.linear(1),

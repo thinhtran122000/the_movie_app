@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/explore/views/discovery/views/browse/views/movie/bloc/movie_bloc.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/explore/views/discovery/views/browse/views/movie/bloc/movie_bloc.dart';
 
 class MovieView extends StatelessWidget {
   const MovieView({super.key});
@@ -26,7 +26,14 @@ class MovieView extends StatelessWidget {
       child: BlocBuilder<MovieBloc, MovieState>(
         builder: (context, state) {
           if (state is MovieInitial) {
-            return const CustomIndicator();
+            return Center(
+              child: SizedBox(
+                height: 200.h,
+                child: const CustomIndicator(
+                  radius: 10,
+                ),
+              ),
+            );
           }
           return Stack(
             alignment: Alignment.topCenter,
@@ -34,7 +41,7 @@ class MovieView extends StatelessWidget {
               Positioned.fill(
                 child: Container(
                   width: double.infinity,
-                  color: Colors.white,
+                  color: whiteColor,
                 ),
               ),
               Column(
@@ -48,8 +55,23 @@ class MovieView extends StatelessWidget {
                       paddingRight: 15.w,
                       title: 'Movie',
                       visibleIcon: true,
-                      enableRightWidget: false,
-                      onTapViewAll: () {},
+                      enableRightWidget: true,
+                      onTapViewAll: () {
+                        // Navigator.of(context).pushNamed(
+                        //   '/authentication',
+                        //   arguments: {
+                        //     'is_later_login': true,
+                        //     'route': '/navigation/explore',
+                        //   },
+                        // ).then(
+                        //   (results) {
+                        //     PopWithResults popResult = results as PopWithResults;
+                        //     if (popResult.toPage == '/navigation/explore') {
+                        //       log('Hello ${popResult.results?.values.toList()}');
+                        //     }
+                        //   },
+                        // );
+                      },
                       icon: Icon(
                         Icons.local_movies_rounded,
                         color: yellowColor,
@@ -83,6 +105,7 @@ class MovieView extends StatelessWidget {
     return DenariItem(
       title: bloc.state.listTitle[index],
       multipleList: bloc.state.multipleList[index],
+      onTapItem: () {},
     );
   }
 }

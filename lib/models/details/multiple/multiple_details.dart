@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:movie_app/models/details/append_to_response/similar/media_similars.dart';
-import 'package:movie_app/models/models.dart';
+import 'package:tmdb/models/details/append_to_response/similar/media_similars.dart';
+import 'package:tmdb/models/models.dart';
 
 class MultipleDetails {
   // ----------- Movie details -----------

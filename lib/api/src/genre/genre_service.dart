@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api.dart';
-import 'package:movie_app/api/src/genre/genre_request.dart';
-import 'package:movie_app/models/genre/media_genre.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/api.dart';
+import 'package:tmdb/api/src/genre/genre_request.dart';
+import 'package:tmdb/models/genre/media_genre.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class GenreService {
   GenreService({required this.apiClient});

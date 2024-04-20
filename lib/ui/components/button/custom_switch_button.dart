@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
 
 class CustomSwitchButton extends StatelessWidget {
   final String? title;

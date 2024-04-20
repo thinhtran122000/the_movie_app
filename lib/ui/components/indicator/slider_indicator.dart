@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
 
 class SliderIndicator extends StatelessWidget {
   final int length;

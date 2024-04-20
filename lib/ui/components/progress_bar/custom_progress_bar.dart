@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CustomProgressBar extends StatelessWidget {

@@ -2,9 +2,9 @@ part of 'favorite_bloc.dart';
 
 abstract class FavoriteEvent {}
 
-class ChangeTab extends FavoriteEvent {
-  final int index;
-  ChangeTab({
-    required this.index,
+class NavigateTabFavorite extends FavoriteEvent {
+  final int indexTab;
+  NavigateTabFavorite({
+    required this.indexTab,
   });
 }

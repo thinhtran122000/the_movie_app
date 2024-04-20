@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/ui/pages/explore/explore.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/ui/pages/explore/explore.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'movie_event.dart';
 part 'movie_state.dart';
@@ -76,16 +76,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       topRatedResult.list.shuffle();
       upcomingResult.list.shuffle();
       discoveryResult.shuffle();
-
       emit(MovieSuccess(
         listTitle: state.listTitle,
         multipleList: [
-          nowPlayingResult.list.take(3).toList().reversed.toList(),
-          popularResult.list.take(3).toList().reversed.toList(),
-          trendingResult.list.take(3).toList().reversed.toList(),
-          topRatedResult.list.take(3).toList().reversed.toList(),
-          upcomingResult.list.take(3).toList().reversed.toList(),
-          discoveryResult.take(3).toList().reversed.toList(),
+          nowPlayingResult.list.take(3).toList(),
+          popularResult.list.take(3).toList(),
+          trendingResult.list.take(3).toList(),
+          topRatedResult.list.take(3).toList(),
+          upcomingResult.list.take(3).toList(),
+          discoveryResult.take(3).toList(),
         ],
       ));
     } catch (e) {

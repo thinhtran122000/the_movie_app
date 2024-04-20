@@ -16,6 +16,7 @@ enum IconsPath {
 
   addWatchListIcon('lib/shared_ui/assets/icons/add_watch_list_icon.svg'),
   addedWatchListIcon('lib/shared_ui/assets/icons/added_watch_list_icon.svg'),
+  optionIcon('lib/shared_ui/assets/icons/option_icon.svg'),
 
   artistIcon('lib/shared_ui/assets/icons/artist_icon.svg'),
   genreIcon('lib/shared_ui/assets/icons/genre_icon.svg'),

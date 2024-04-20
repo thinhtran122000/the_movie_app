@@ -1,4 +1,4 @@
-import 'package:movie_app/api/api_client/index.dart';
+import 'package:tmdb/api/api_client/index.dart';
 
 class WatchlistRequest {
   WatchlistRequest._();

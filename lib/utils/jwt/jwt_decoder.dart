@@ -8,5 +8,6 @@ class JwtDecoder {
     DateTime formatExpiresAt = dateFormat.parseUTC(expiresAt.substring(0, 19));
     // check if today is after the expires date
     return now.isAtSameMomentAs(formatExpiresAt) || now.isAfter(formatExpiresAt);
+    // return now.isAtSameMomentAs(now) || now.isAfter(now);
   }
 }

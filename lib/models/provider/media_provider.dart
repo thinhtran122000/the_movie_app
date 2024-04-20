@@ -1,4 +1,4 @@
-import 'package:movie_app/models/provider/provider.dart';
+import 'package:tmdb/models/provider/provider.dart';
 
 class MediaProvider {
   DisplayPriorities? displayPriorities;

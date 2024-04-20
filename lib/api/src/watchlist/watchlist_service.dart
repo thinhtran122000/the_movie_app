@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api_client/index.dart';
-import 'package:movie_app/api/src/watchlist/watchlist.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/api/api_client/index.dart';
+import 'package:tmdb/api/src/watchlist/watchlist.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class WatchlistService {
   WatchlistService({required this.apiClient});

@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/home/views/born_today/bloc/born_today_bloc.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/home/views/born_today/bloc/born_today_bloc.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class BornToday extends StatelessWidget {
   const BornToday({super.key});

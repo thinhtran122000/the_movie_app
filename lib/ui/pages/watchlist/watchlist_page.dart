@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/pages/watchlist/bloc/watchlist_bloc.dart';
-import 'package:movie_app/ui/ui.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/pages/watchlist/bloc/watchlist_bloc.dart';
+import 'package:tmdb/ui/ui.dart';
 
 class WatchlistPage extends StatelessWidget {
   const WatchlistPage({super.key});
@@ -17,39 +18,39 @@ class WatchlistPage extends StatelessWidget {
           return Scaffold(
             appBar: CustomAppBar(
               centerTitle: true,
-              leading: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: whiteColor,
-                  size: 30,
-                ),
-              ),
               title: 'Watchlist',
+              titleStyle: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w400,
+                color: whiteColor,
+              ),
+              leading: Icon(
+                Icons.arrow_back_ios,
+                color: whiteColor,
+                size: 20.sp,
+              ),
               onTapLeading: () => Navigator.of(context).pop(),
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  CustomSegment(
-                    widthTabBar: double.infinity,
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CustomSegment(
+                  widthTabBar: double.infinity,
+                  index: state.index,
+                  onTapMovie: () => bloc.add(ChangeTab(index: 0)),
+                  onTapTv: () => bloc.add(ChangeTab(index: 1)),
+                ),
+                Expanded(
+                  child: IndexedStack(
                     index: state.index,
-                    onTapMovie: () => bloc.add(ChangeTab(index: 0)),
-                    onTapTv: () => bloc.add(ChangeTab(index: 1)),
+                    children: const [
+                      WatchlistMovieView(),
+                      WatchlistTvView(),
+                    ],
                   ),
-                  Expanded(
-                    child: IndexedStack(
-                      index: state.index,
-                      children: const [
-                        WatchlistMovieView(),
-                        WatchlistTvView(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

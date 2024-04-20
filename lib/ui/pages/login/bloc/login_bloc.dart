@@ -3,13 +3,15 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/ui/ui.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/utils.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final LoginRepository loginRepository = LoginRepository(restApiClient: RestApiClient());
@@ -19,10 +21,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           statusMessage: '',
           error: false,
         )) {
+    on<LoadPageLogin>(_onLoadPageLogin);
     on<ShowClearButton>(_onShowClearButton);
     on<ShowPassword>(_onShowPassword);
     on<Login>(_onLogin);
-    on<LoadPage>(_onLoadPage);
   }
 
   FutureOr<void> _onShowClearButton(ShowClearButton event, Emitter<LoginState> emit) {
@@ -68,18 +70,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             statusMessage: loginresult.object.statusMessage ?? '',
             error: false,
           ));
-          SecureStorage()
-              .setRequestToken(AppKeys.requestTokenKey, loginresult.object.requestToken ?? '');
-          SecureStorage().setRequestToken(AppKeys.expiresAtKey, loginresult.object.expiresAt ?? '');
-          log('${(await SecureStorage().getRequestToken(AppKeys.requestTokenKey))}');
-          log('${(await SecureStorage().getRequestToken(AppKeys.expiresAtKey))}');
+          SecureStorage().setValue(AppKeys.accessTokenKey, loginresult.object.requestToken ?? '');
+          SecureStorage().setValue(AppKeys.expiresAtKey, loginresult.object.expiresAt ?? '');
+          log('♻️ ${(await SecureStorage().getValue(AppKeys.accessTokenKey))}');
+          log('♻️ ${(await SecureStorage().getValue(AppKeys.expiresAtKey))}');
         } else {
           emit(LoginError(
             statusMessage: loginresult.object.statusMessage ?? '',
             showPassword: state.showPassword,
             error: false,
           ));
-          print('Hello ${state.runtimeType}');
         }
       }
     } catch (e) {
@@ -107,7 +107,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  FutureOr<void> _onLoadPage(LoadPage event, Emitter<LoginState> emit) {
+  FutureOr<void> _onLoadPageLogin(LoadPageLogin event, Emitter<LoginState> emit) {
     emit(LoginLoaded(
       statusMessage: state.statusMessage,
       showPassword: state.showPassword,

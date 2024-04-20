@@ -1,4 +1,4 @@
-import 'package:movie_app/api/api.dart';
+import 'package:tmdb/api/api.dart';
 
 class ArtistRequest {
   ArtistRequest._();

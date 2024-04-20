@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
-import 'package:movie_app/shared_ui/colors/colors.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/colors/colors.dart';
 
 OutlineInputBorder get transparentRadiusBorder => OutlineInputBorder(
       borderRadius: BorderRadius.circular(5.r),

@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api.dart';
-import 'package:movie_app/api/src/movie/movie_request.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/utils/rest_api_client/response_type.dart';
+import 'package:tmdb/api/api.dart';
+import 'package:tmdb/api/src/movie/movie_request.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/utils/rest_api_client/response_type.dart';
 
 class MovieService {
   MovieService({required this.apiClient});

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie_app/shared_ui/paths/icons_path.dart';
-import 'package:movie_app/ui/components/components.dart';
-import 'package:movie_app/ui/pages/home/views/genre/bloc/genre_bloc.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/shared_ui/paths/icons_path.dart';
+import 'package:tmdb/ui/components/components.dart';
+import 'package:tmdb/ui/pages/home/views/genre/bloc/genre_bloc.dart';
+import 'package:tmdb/utils/app_utils/app_utils.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class Genreview extends StatelessWidget {
   const Genreview({

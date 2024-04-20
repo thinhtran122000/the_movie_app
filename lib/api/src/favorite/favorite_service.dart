@@ -1,7 +1,7 @@
-import 'package:movie_app/api/api.dart';
-import 'package:movie_app/api/src/favorite/favorite_request.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/utils/rest_api_client/index.dart';
+import 'package:tmdb/api/api.dart';
+import 'package:tmdb/api/src/favorite/favorite_request.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/utils/rest_api_client/index.dart';
 
 class FavoriteService {
   FavoriteService({required this.apiClient});

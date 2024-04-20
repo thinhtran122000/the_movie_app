@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/ui/ui.dart';
+import 'package:tmdb/router/router.dart';
+import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:tmdb/ui/ui.dart';
 
 class NavigationPage extends StatelessWidget {
-  final bool? isLoginLater;
+  final int? indexPageNavigation;
+  final int? indexPageExplore;
+  final int? indexPageDicovery;
   const NavigationPage({
-    this.isLoginLater = false,
+    this.indexPageNavigation,
     super.key,
+    this.indexPageExplore,
+    this.indexPageDicovery,
   });
 
   @override
@@ -18,10 +23,11 @@ class NavigationPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => NavigationBloc()
         ..add(NavigatePage(
-          indexPage: isLoginLater ?? false ? 3 : 0,
+          indexPage: indexPageNavigation ?? 0,
         )),
       child: BlocConsumer<NavigationBloc, NavigationState>(
         listener: (context, state) async {
+          final bloc = BlocProvider.of<NavigationBloc>(context);
           if (state is NavigationError) {
             await showDialog(
               context: context,
@@ -56,13 +62,15 @@ class NavigationPage extends StatelessWidget {
                     fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                   ),
-                  onTapSingleChoice: () => Navigator.of(context).pushAndRemoveUntil(
-                    CustomPageRoute(
-                      page: const AuthenticationPage(),
-                      begin: const Offset(-1, 0),
-                    ),
-                    (route) => false,
-                  ),
+                  onTapSingleChoice: () {
+                    bloc.add(LogoutForExpired());
+                    Navigator.of(context).push(
+                      AppPageRoute(
+                        builder: (context) => const NavigationPage(),
+                        begin: const Offset(-1, 0),
+                      ),
+                    );
+                  },
                 );
               },
             );
@@ -71,17 +79,37 @@ class NavigationPage extends StatelessWidget {
         builder: (context, state) {
           final bloc = BlocProvider.of<NavigationBloc>(context);
           return Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             extendBody: true,
             resizeToAvoidBottomInset: false,
-            body: IndexedStack(
-              index: state.indexPage,
-              children: const [
-                HomePage(),
-                ExplorePage(),
-                ProfilePage(),
-                ProfilePage(),
-              ],
+            body: BlocBuilder<NavigationBloc, NavigationState>(
+              builder: (context, state) {
+                if (state is NavigationInitial) {
+                  return const Center(
+                    child: CustomIndicator(
+                      radius: 10,
+                    ),
+                  );
+                }
+                if (state is NavigationError) {
+                  return const SizedBox();
+                }
+                return IndexedStack(
+                  index: state.indexPage,
+                  children: [
+                    const HomePage(),
+                    ExplorePage(
+                      indexPageExplore: indexPageExplore,
+                      indexPageDiscovery: indexPageDicovery,
+                    ),
+                    const FlutterLogo(),
+
+                    const ProfilePage(),
+
+                    // const ProfilePage(),
+                  ],
+                );
+              },
             ),
             bottomNavigationBar: CustomNavigationBar(
               visible: state.visible,

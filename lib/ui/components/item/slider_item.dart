@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:movie_app/shared_ui/colors/color.dart';
-import 'package:movie_app/shared_ui/paths/images_path.dart';
-import 'package:movie_app/ui/components/components.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
+import 'package:tmdb/shared_ui/paths/images_path.dart';
+import 'package:tmdb/ui/components/components.dart';
 
 class SliderItem extends StatelessWidget {
   final String? imageUrlPoster;

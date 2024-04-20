@@ -1,5 +1,5 @@
-name: movie_app
-description: A new Flutter project.
+name: tmdb
+description: A movie app project.
 
 publish_to: "none"
 
@@ -33,6 +33,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   pod_player: ^0.1.5
   flutter_secure_storage: ^8.1.0
+  navigation_history_observer: ^1.1.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -73,6 +74,7 @@ flutter:
     - lib/shared_ui/assets/icons/apple_icon.svg
     - lib/shared_ui/assets/icons/eye_open_icon.svg
     - lib/shared_ui/assets/icons/eye_close_icon.svg
+    - lib/shared_ui/assets/icons/option_icon.svg
     - lib/shared_ui/assets/images/corgi.jpg
     - lib/shared_ui/assets/images/background.png
     - lib/shared_ui/assets/images/no_image.png
@@ -83,4 +85,3 @@ flutter:
     - lib/shared_ui/assets/animations/loading_animation.json
     - lib/shared_ui/assets/animations/panda_walk_animation.json
     - lib/shared_ui/assets/animations/panda_sleep_animation.json
-

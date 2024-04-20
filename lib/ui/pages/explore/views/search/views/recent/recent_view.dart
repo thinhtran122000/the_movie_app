@@ -3,15 +3,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:movie_app/models/models.dart';
-import 'package:movie_app/shared_ui/shared_ui.dart';
-import 'package:movie_app/ui/pages/explore/bloc/explore_bloc.dart';
-import 'package:movie_app/ui/pages/explore/views/search/views/recent/bloc/recent_bloc.dart';
-import 'package:movie_app/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:movie_app/ui/ui.dart';
-import 'package:movie_app/utils/app_utils/app_utils.dart';
-import 'package:movie_app/utils/debouncer/debouncer.dart';
-import 'package:movie_app/utils/utils.dart';
+import 'package:tmdb/models/models.dart';
+import 'package:tmdb/router/router.dart';
+import 'package:tmdb/ui/pages/explore/bloc/explore_bloc.dart';
+import 'package:tmdb/ui/pages/explore/views/search/views/recent/bloc/recent_bloc.dart';
+import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
+import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/app_utils/app_utils.dart';
+import 'package:tmdb/utils/debouncer/debouncer.dart';
+import 'package:tmdb/utils/utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RecentView extends StatelessWidget {
@@ -28,13 +28,22 @@ class RecentView extends StatelessWidget {
           mediaType: 'all',
           timeWindow: 'day',
           includeAdult: true,
+          isSearching: false,
         )),
       child: BlocListener<ExploreBloc, ExploreState>(
         listener: (context, state) {
           final bloc = BlocProvider.of<RecentBloc>(context);
+
+          if (state is ExploreSearchSuccess) {
+            debouncer.call(() => fetchSearch(context, state.query, true));
+          }
           if (state is ExploreSuccess) {
-            bloc.add(LoadShimmer());
-            debouncer.call(() => fetchSearch(context, state.query));
+            debouncer.call(() => fetchSearch(context, state.query, false));
+            if (bloc.scrollController.hasClients) {
+              bloc.scrollController.jumpTo(
+                bloc.scrollController.position.minScrollExtent,
+              );
+            }
           }
         },
         child: BlocBuilder<RecentBloc, RecentState>(
@@ -53,106 +62,84 @@ class RecentView extends StatelessWidget {
                 }
                 return false;
               },
-              child: NotificationListener<ScrollNotification>(
-                onNotification: state.visible
-                    ? (notification) {
-                        if (bloc.scrollController.hasClients &&
-                            bloc.scrollController.offset <= 2000) {
-                          hideButton(context);
-                          return false;
-                        }
-                        return false;
-                      }
-                    : (notification) {
-                        if (bloc.scrollController.hasClients &&
-                            bloc.scrollController.offset > 2000) {
-                          showButton(context);
-                          return false;
-                        }
-                        return false;
-                      },
-                child: BlocBuilder<RecentBloc, RecentState>(
-                  builder: (context, state) {
-                    if (state is RecentInitial) {
-                      return const Center(
-                        child: CustomIndicator(
-                          radius: 10,
-                        ),
-                      );
-                    }
-                    if (state is RecentError) {
-                      return Center(
-                        child: Text(
-                          state.errorMessage,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      );
-                    }
-                    return ScrollConfiguration(
-                      behavior: const CupertinoScrollBehavior(),
-                      child: Container(
-                        color: whiteColor,
-                        child: Stack(
-                          children: [
-                            SmartRefresher(
-                              scrollController: bloc.scrollController,
-                              controller: bloc.refreshController,
-                              enablePullUp: enablePull(
-                                state.listSearch,
-                                state.listTrending,
-                                context,
-                              ),
-                              enablePullDown: enablePull(
-                                state.listSearch,
-                                state.listTrending,
-                                context,
-                              ),
-                              header: const Header(),
-                              footer: Footer(
-                                height: 140.h,
-                                noMoreStatus: 'All results was loaded !',
-                                failedStatus: 'Failed to load results !',
-                              ),
-                              onRefresh: () => fetchSearch(
-                                context,
-                                BlocProvider.of<RecentBloc>(context).state.query,
-                              ),
-                              onLoading: () => loadMore(
-                                context,
-                                BlocProvider.of<RecentBloc>(context).state.query,
-                              ),
-                              child: MasonryGridView.count(
-                                addAutomaticKeepAlives: false,
-                                addRepaintBoundaries: false,
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 16.h,
-                                mainAxisSpacing: 16.w,
-                                shrinkWrap: true,
-                                padding: EdgeInsets.fromLTRB(
-                                  13.w,
-                                  state.query.isEmpty ? 50.h : 20.h,
-                                  13.w,
-                                  0,
-                                ),
-                                itemBuilder: itemBuilder,
-                                itemCount: state.listSearch.isNotEmpty
-                                    ? state.listSearch.length
-                                    : state.listTrending.length,
-                              ),
-                            ),
-                            CustomScrollButton(
-                              visible: state.visible,
-                              fallPosition: state.query.isEmpty ? -0.65.h : -0.75.h,
-                              onTap: state.visible ? () => reloadPage(context) : null,
-                            ),
-                          ],
+              child: BlocBuilder<RecentBloc, RecentState>(
+                builder: (context, state) {
+                  final bloc = BlocProvider.of<RecentBloc>(context);
+                  if (state is RecentInitial) {
+                    return const Center(
+                      child: CustomIndicator(
+                        radius: 10,
+                      ),
+                    );
+                  }
+                  if (state is RecentLoading) {
+                    return const Center(
+                      child: CustomIndicator(
+                        radius: 10,
+                      ),
+                    );
+                  }
+                  if (state is RecentError) {
+                    return Center(
+                      child: Text(
+                        state.errorMessage,
+                        style: TextStyle(
+                          fontSize: 14.sp,
                         ),
                       ),
                     );
-                  },
-                ),
+                  }
+                  return ScrollConfiguration(
+                    behavior: const CupertinoScrollBehavior(),
+                    child: SmartRefresher(
+                      scrollController: bloc.scrollController,
+                      controller: bloc.refreshController,
+                      enablePullUp: enablePull(
+                        state.listSearch,
+                        state.listTrending,
+                        context,
+                      ),
+                      enablePullDown: enablePull(
+                        state.listSearch,
+                        state.listTrending,
+                        context,
+                      ),
+                      header: const Header(),
+                      footer: Footer(
+                        height: 140.h,
+                        noMoreStatus: 'All results was loaded !',
+                        failedStatus: 'Failed to load results !',
+                      ),
+                      onRefresh: () => fetchSearch(
+                        context,
+                        bloc.state.query,
+                        false,
+                      ),
+                      onLoading: () => loadMore(
+                        context,
+                        bloc.state.query,
+                      ),
+                      child: MasonryGridView.count(
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16.h,
+                        mainAxisSpacing: 16.w,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.fromLTRB(
+                          13.w,
+                          state.query.isEmpty ? 50.h : 20.h,
+                          13.w,
+                          0,
+                        ),
+                        itemBuilder: itemBuilder,
+                        itemCount: state.listSearch.isNotEmpty
+                            ? state.listSearch.length
+                            : state.listTrending.length,
+                      ),
+                    ),
+                  );
+                },
               ),
             );
           },
@@ -174,9 +161,9 @@ class RecentView extends StatelessWidget {
         item.knownForDepartment,
       )})',
       onTapItem: () => Navigator.of(context).push(
-        CustomPageRoute(
+        AppPageRoute(
           begin: const Offset(1, 0),
-          page: DetailsPage(
+          builder: (context) => DetailsPage(
             title: item.title ?? item.name,
           ),
         ),
@@ -201,8 +188,9 @@ class RecentView extends StatelessWidget {
     }
   }
 
-  fetchSearch(BuildContext context, String query) =>
+  fetchSearch(BuildContext context, String query, bool isSearching) =>
       BlocProvider.of<RecentBloc>(context).add(FetchData(
+        isSearching: isSearching,
         query: query,
         includeAdult: true,
         language: 'en-US',
@@ -224,26 +212,18 @@ class RecentView extends StatelessWidget {
 
   fetchTrending(BuildContext context, String query) {
     final bloc = BlocProvider.of<RecentBloc>(context);
-    fetchSearch(context, query);
+    fetchSearch(context, query, false);
     if (bloc.scrollController.hasClients) {
       bloc.scrollController.jumpTo(0);
     }
   }
 
-  bool showButton(BuildContext context) {
-    BlocProvider.of<RecentBloc>(context).add(ShowHideButton(visible: true));
-    return true;
-  }
-
-  bool hideButton(BuildContext context) {
-    BlocProvider.of<RecentBloc>(context).add(ShowHideButton(visible: false));
-    return true;
-  }
-
   reloadPage(BuildContext context) {
     final bloc = BlocProvider.of<RecentBloc>(context);
     final navigationBloc = BlocProvider.of<NavigationBloc>(context);
-    bloc.state.query.isNotEmpty ? fetchSearch(context, bloc.state.query) : fetchSearch(context, '');
+    bloc.state.query.isNotEmpty
+        ? fetchSearch(context, bloc.state.query, false)
+        : fetchSearch(context, '', false);
     if (bloc.scrollController.hasClients) {
       bloc.scrollController.animateTo(
         bloc.scrollController.position.minScrollExtent,
@@ -254,24 +234,7 @@ class RecentView extends StatelessWidget {
     navigationBloc.add(ShowHide(visible: true));
   }
 
-  // goToFilterPage(BuildContext context) {
-  //   showNavigationBar(context);
-  //   fetchTrending(context);
-  //   Navigator.of(context).push(
-  //     CustomPageRoute(
-  //       page: const FilterPage(),
-  //       begin: const Offset(1, 0),
-  //     ),
-  //   );
-  // }
-
-  showIndicator(BuildContext context) => AppUtils().showCustomDialog(
-        context: context,
-        alignment: const Alignment(0, 0.2),
-        child: const CustomIndicator(
-          radius: 15,
-        ),
-      );
+ 
 
   showNavigationBar(BuildContext context) =>
       BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: true));
