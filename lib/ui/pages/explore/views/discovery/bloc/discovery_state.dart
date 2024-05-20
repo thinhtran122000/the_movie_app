@@ -1,20 +1,20 @@
 part of 'discovery_bloc.dart';
 
 class DiscoveryState {
-  final int indexPage;
+  final int indexTabDiscovery;
   DiscoveryState({
-    required this.indexPage,
+    required this.indexTabDiscovery,
   });
 }
 
 class DiscoveryInitial extends DiscoveryState {
   DiscoveryInitial({
-    required super.indexPage,
+    required super.indexTabDiscovery,
   });
 }
 
 class DiscoverySucess extends DiscoveryState {
   DiscoverySucess({
-    required super.indexPage,
+    required super.indexTabDiscovery,
   });
 }

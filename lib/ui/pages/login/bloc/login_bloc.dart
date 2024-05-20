@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -22,25 +21,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           error: false,
         )) {
     on<LoadPageLogin>(_onLoadPageLogin);
+    on<Login>(_onLogin);
     on<ShowClearButton>(_onShowClearButton);
     on<ShowPassword>(_onShowPassword);
-    on<Login>(_onLogin);
-  }
-
-  FutureOr<void> _onShowClearButton(ShowClearButton event, Emitter<LoginState> emit) {
-    if (state is LoginError) {
-      emit(LoginError(
-        statusMessage: state.statusMessage,
-        showPassword: state.showPassword,
-        error: state.error,
-      ));
-    } else {
-      emit(LoginLoaded(
-        showPassword: state.showPassword,
-        statusMessage: state.statusMessage,
-        error: state.error,
-      ));
-    }
   }
 
   FutureOr<void> _onLogin(Login event, Emitter<LoginState> emit) async {
@@ -58,22 +41,34 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           error: true,
         ));
       } else {
-        final tokenResult = await loginRepository.refreshToken();
+        final accessTokenResult = await loginRepository.refreshToken();
         final loginresult = await loginRepository.login(
           username: event.username,
           password: event.password,
-          requestToken: tokenResult.object.requestToken ?? '',
+          requestToken: accessTokenResult.object.requestToken ?? '',
         );
         if (loginresult.object.success == true) {
+          final sessionResult = await loginRepository.createSession(
+            requestToken: loginresult.object.requestToken ?? '',
+          );
+          if (sessionResult.object.success == true) {
+            await FlutterStorage()
+                .setValue(AppKeys.sessionIdKey, sessionResult.object.sessionId ?? '');
+          }
+          final profileResult = await ProfileRepository(restApiClient: RestApiClient()).getProfile(
+            sessionId: sessionResult.object.sessionId ?? '',
+          );
+          await FlutterStorage().setValue(AppKeys.usernameKey, event.username);
+          await FlutterStorage().setValue(AppKeys.passwordKey, event.password);
+          await FlutterStorage()
+              .setValue(AppKeys.accessTokenKey, loginresult.object.requestToken ?? '');
+          await FlutterStorage().setValue(AppKeys.expiresAtKey, loginresult.object.expiresAt ?? '');
+          await FlutterStorage().setValue(AppKeys.accountIdKey, profileResult.object.id.toString());
           emit(LoginSuccess(
             showPassword: state.showPassword,
             statusMessage: loginresult.object.statusMessage ?? '',
             error: false,
           ));
-          SecureStorage().setValue(AppKeys.accessTokenKey, loginresult.object.requestToken ?? '');
-          SecureStorage().setValue(AppKeys.expiresAtKey, loginresult.object.expiresAt ?? '');
-          log('♻️ ${(await SecureStorage().getValue(AppKeys.accessTokenKey))}');
-          log('♻️ ${(await SecureStorage().getValue(AppKeys.expiresAtKey))}');
         } else {
           emit(LoginError(
             statusMessage: loginresult.object.statusMessage ?? '',
@@ -87,6 +82,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         statusMessage: e.toString(),
         showPassword: state.showPassword,
         error: false,
+      ));
+    }
+  }
+
+  FutureOr<void> _onShowClearButton(ShowClearButton event, Emitter<LoginState> emit) {
+    if (state is LoginError) {
+      emit(LoginError(
+        statusMessage: state.statusMessage,
+        showPassword: state.showPassword,
+        error: state.error,
+      ));
+    } else {
+      emit(LoginLoaded(
+        showPassword: state.showPassword,
+        statusMessage: state.statusMessage,
+        error: state.error,
       ));
     }
   }

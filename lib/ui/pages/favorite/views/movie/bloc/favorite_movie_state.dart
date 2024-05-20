@@ -2,12 +2,18 @@ part of 'favorite_movie_bloc.dart';
 
 abstract class FavoriteMovieState {
   final List<MultipleMedia> listFavorite;
+  final List<MediaState> listState;
   final bool status;
   final String sortBy;
+  final String statusMessage;
+  final int index;
   FavoriteMovieState({
     required this.listFavorite,
+    required this.listState,
     required this.status,
     required this.sortBy,
+    required this.statusMessage,
+    required this.index,
   });
 }
 
@@ -16,6 +22,9 @@ class FavoriteMovieInitial extends FavoriteMovieState {
     required super.listFavorite,
     required super.status,
     required super.sortBy,
+    required super.statusMessage,
+    required super.index,
+    required super.listState,
   });
 }
 
@@ -24,6 +33,9 @@ class FavoriteMovieSuccess extends FavoriteMovieState {
     required super.listFavorite,
     required super.status,
     required super.sortBy,
+    required super.statusMessage,
+    required super.index,
+    required super.listState,
   });
 }
 
@@ -32,6 +44,44 @@ class FavoriteMovieSortSuccess extends FavoriteMovieState {
     required super.listFavorite,
     required super.status,
     required super.sortBy,
+    required super.statusMessage,
+    required super.index,
+    required super.listState,
+  });
+}
+
+class FavoriteMovieAddWatchlistSuccess extends FavoriteMovieState {
+  FavoriteMovieAddWatchlistSuccess({
+    required super.listFavorite,
+    required super.listState,
+    required super.statusMessage,
+    required super.index,
+    required super.status,
+    required super.sortBy,
+  });
+}
+
+class FavoriteMovieAddWatchlistError extends FavoriteMovieState {
+  final String errorMessage;
+  FavoriteMovieAddWatchlistError({
+    required this.errorMessage,
+    required super.listFavorite,
+    required super.listState,
+    required super.statusMessage,
+    required super.index,
+    required super.status,
+    required super.sortBy,
+  });
+}
+
+class FavoriteMovieRemoveSuccess extends FavoriteMovieState {
+  FavoriteMovieRemoveSuccess({
+    required super.listFavorite,
+    required super.listState,
+    required super.status,
+    required super.sortBy,
+    required super.index,
+    required super.statusMessage,
   });
 }
 
@@ -42,72 +92,8 @@ class FavoriteMovieError extends FavoriteMovieState {
     required super.listFavorite,
     required super.status,
     required super.sortBy,
+    required super.listState,
+    required super.statusMessage,
+    required super.index,
   });
 }
-
-// part of 'movie_bloc.dart';
-
-// abstract class MovieState {
-//   final List<MediaSynthesis> listFavorite;
-//   final List<String> listSort = const [ 'created_at.asc', 'created_at.desc'];
-//   final bool isDropDown;
-//   final int indexSelected;
-//   final String itemSelected;
-//   String sortBy;
-//   int page;
-//   MovieState({
-//     required this.listFavorite,
-//     required this.isDropDown,
-//     required this.indexSelected,
-//     required this.itemSelected,
-//     required this.sortBy,
-//     required this.page,
-//   });
-// }
-
-// class MovieInitial extends MovieState {
-//   MovieInitial({
-//     required super.page,
-//     required super.listFavorite,
-//     required super.isDropDown,
-//     required super.indexSelected,
-//     required super.itemSelected,
-//     required super.sortBy,
-//   });
-// }
-
-// class MovieSuccess extends MovieState {
-//   MovieSuccess({
-//     required super.page,
-//     required super.listFavorite,
-//     required super.isDropDown,
-//     required super.indexSelected,
-//     required super.itemSelected,
-//     required super.sortBy,
-//   });
-// }
-
-// class MovieSortSuccess extends MovieState {
-//   MovieSortSuccess({
-//     required super.page,
-//     required super.listFavorite,
-//     required super.isDropDown,
-//     required super.indexSelected,
-//     required super.itemSelected,
-//     required super.sortBy,
-//   });
-// }
-
-// class MovieError extends MovieState {
-//   final String errorMessage;
-//   MovieError({
-//     required super.page,
-//     required this.errorMessage,
-//     required super.listFavorite,
-//     required super.isDropDown,
-//     required super.indexSelected,
-//     required super.itemSelected, required super.sortBy,
-//   });
-// }
-
-

@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/bloc/tmdb_bloc.dart';
 import 'package:tmdb/ui/components/components.dart';
 import 'package:tmdb/ui/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb/ui/pages/home/views/artist/artist.dart';
@@ -24,81 +25,97 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeBloc()..add(RefreshPage()),
       child: Scaffold(
         backgroundColor: whiteColor,
         appBar: CustomAppBar(
           appBarHeight: 30.h,
         ),
-        body: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            final bloc = BlocProvider.of<HomeBloc>(context);
-            return NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (bloc.scrollController.position.userScrollDirection == ScrollDirection.forward) {
-                  showNavigationBar(context);
-                  return false;
-                }
-                if (bloc.scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-                  hideNavigationBar(context);
-                  return false;
-                }
-                return false;
-              },
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    controller: bloc.scrollController,
-                    physics: const BouncingScrollPhysics(
-                      decelerationRate: ScrollDecelerationRate.fast,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: 20.h),
-                        const PopularView(),
-                        SizedBox(height: 30.h),
-                        const Genreview(),
-                        SizedBox(height: 30.h),
-                        const TrendingView(),
-                        SizedBox(height: 30.h),
-                        const TopRatedView(),
-                        SizedBox(height: 30.h),
-                        const TrailerView(),
-                        SizedBox(height: 30.h),
-                        const UpcomingView(),
-                        SizedBox(height: 30.h),
-                        const NowPlayingView(),
-                        SizedBox(height: 30.h),
-                        const TopTvView(),
-                        SizedBox(height: 30.h),
-                        const BestDramaView(),
-                        SizedBox(height: 30.h),
-                        const ArtistView(),
-                        SizedBox(height: 30.h),
-                        // const BornToday(),
-                        // SizedBox(height: 30.h),
-                        const ProviderView(),
-                        SizedBox(height: 110.h),
-                      ],
-                    ),
-                  ),
-                  CustomToast(
-                    statusMessage: state.statusMessage,
-                    opacity: state.opacity,
-                    visible: state.visible,
-                    onEndAnimation: () => state.opacity == 0.0
-                        ? bloc.add(DisplayToast(
-                            visible: false,
-                            statusMessage: state.statusMessage,
-                          ))
-                        : null,
-                  ),
-                ],
-              ),
-            );
+        body: BlocListener<TmdbBloc, TmdbState>(
+          listener: (context, state) {
+            if (state is TmdbLogoutSuccess) {
+              BlocProvider.of<HomeBloc>(context).add(RefreshPage());
+            }
           },
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              final bloc = BlocProvider.of<HomeBloc>(context);
+              if (state is HomeInitial) {
+                return Center(
+                  child: CustomIndicator(
+                    radius: 10.r,
+                  ),
+                );
+              }
+              return NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.forward) {
+                    showNavigationBar(context);
+                    return false;
+                  }
+                  if (bloc.scrollController.position.userScrollDirection ==
+                      ScrollDirection.reverse) {
+                    hideNavigationBar(context);
+                    return false;
+                  }
+                  return false;
+                },
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      controller: bloc.scrollController,
+                      physics: const BouncingScrollPhysics(
+                        decelerationRate: ScrollDecelerationRate.fast,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(height: 20.h),
+                          const PopularView(),
+                          SizedBox(height: 30.h),
+                          const Genreview(),
+                          SizedBox(height: 30.h),
+                          const TrendingView(),
+                          SizedBox(height: 30.h),
+                          const TopRatedView(),
+                          SizedBox(height: 30.h),
+                          const TrailerView(),
+                          SizedBox(height: 30.h),
+                          const UpcomingView(),
+                          SizedBox(height: 30.h),
+                          const NowPlayingView(),
+                          SizedBox(height: 30.h),
+                          const TopTvView(),
+                          SizedBox(height: 30.h),
+                          const BestDramaView(),
+                          SizedBox(height: 30.h),
+                          const ArtistView(),
+                          SizedBox(height: 30.h),
+                          // const BornToday(),
+                          // SizedBox(height: 30.h),
+                          const ProviderView(),
+                          SizedBox(height: 110.h),
+                        ],
+                      ),
+                    ),
+                    CustomToast(
+                      statusMessage: state.statusMessage,
+                      opacity: state.opacity,
+                      visible: state.visible,
+                      onEndAnimation: () => state.opacity == 0.0
+                          ? bloc.add(DisplayToast(
+                              visible: false,
+                              statusMessage: state.statusMessage,
+                            ))
+                          : null,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

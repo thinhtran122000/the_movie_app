@@ -77,46 +77,33 @@ class CustomDialog extends StatelessWidget {
               )
             : Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         image ?? const SizedBox(),
-                        // Lottie.asset(
-                        //   AnimationsPath.pandaSleepAnimation.assetName,
-                        //   repeat: true,
-                        //   width: 120.w,
-                        //   height: 120.h,
-                        //   fit: BoxFit.fill,
-                        //   filterQuality: FilterQuality.high,
-                        // ),
                         (enabledTitle ?? true)
-                            ? Text(
-                                '$title',
-                                style: titleStyle,
-                                // style: TextStyle(
-                                //   color: blackColor,
-                                //   fontSize: 22.sp,
-                                //   fontWeight: FontWeight.bold,
-                                // ),
+                            ? Flexible(
+                                child: Text(
+                                  '$title',
+                                  textScaler: const TextScaler.linear(1),
+                                  style: titleStyle,
+                                  textAlign: TextAlign.center,
+                                ),
                               )
                             : const SizedBox(),
-                        SizedBox(height: 5.h),
+                        // SizedBox(height: 5.h),
                         (enabledContent ?? true)
-                            ? Text(
-                                '$content',
-                                // 'Your session has been expired.\nPlease login again !',
-                                // 'Sign out of TMDb',
-                                textAlign: TextAlign.center,
-                                style: contentStyle,
-                                // style: TextStyle(
-                                //   color: darkBlueColor,
-                                //   fontSize: 14.sp,
-                                //   fontWeight: FontWeight.bold,
-                                //   height: 1.5,
-                                // ),
+                            ? Flexible(
+                                child: Text(
+                                  '$content',
+                                  textScaler: const TextScaler.linear(1),
+                                  textAlign: TextAlign.center,
+                                  style: contentStyle,
+                                ),
                               )
                             : const SizedBox(),
                       ],
@@ -134,12 +121,8 @@ class CustomDialog extends StatelessWidget {
                                   onPressed: onTapFirstChoice,
                                   child: Text(
                                     '$titleFirstChoice',
+                                    textScaler: const TextScaler.linear(1),
                                     style: firstChoiceStyle,
-                                    // style: TextStyle(
-                                    //   color: redColor,
-                                    //   fontSize: 15.sp,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
                                   ),
                                 ),
                               ),
@@ -149,12 +132,8 @@ class CustomDialog extends StatelessWidget {
                                   onPressed: onTapSecondChoice,
                                   child: Text(
                                     '$titleSecondChoice',
+                                    textScaler: const TextScaler.linear(1),
                                     style: secondChoiceStyle,
-                                    // style: TextStyle(
-                                    //   color: redColor,
-                                    //   fontSize: 15.sp,
-                                    //   fontWeight: FontWeight.bold,
-                                    // ),
                                   ),
                                 ),
                               ),
@@ -165,12 +144,8 @@ class CustomDialog extends StatelessWidget {
                           onPressed: onTapSingleChoice,
                           child: Text(
                             '$titleSingleChoice',
+                            textScaler: const TextScaler.linear(1),
                             style: singleChoiceStyle,
-                            // TextStyle(
-                            //   color: redColor,
-                            //   fontSize: 15.sp,
-                            //   fontWeight: FontWeight.bold,
-                            // ),
                           ),
                         ),
                 ],

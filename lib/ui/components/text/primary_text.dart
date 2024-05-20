@@ -29,64 +29,66 @@ class PrimaryText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(paddingLeft ?? 17.w, 0, paddingRight ?? 17.w, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            flex: 0,
-            child: visibleIcon ?? false
-                ? Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
-                    child: icon ?? const SizedBox(),
-                  )
-                : const SizedBox(),
-          ),
-          Expanded(
-            child: Text(
-              title,
-              textScaler: const TextScaler.linear(1),
-              style: TextStyle(
-                height: 0,
-                fontWeight: FontWeight.w500,
-                fontSize: 19.sp,
-                color: blackColor,
+      child: IntrinsicHeight(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              flex: 0,
+              child: visibleIcon ?? false
+                  ? Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 6.w, 0),
+                      child: icon ?? const SizedBox(),
+                    )
+                  : const SizedBox(),
+            ),
+            Expanded(
+              child: Text(
+                title,
+                textScaler: const TextScaler.linear(1),
+                style: TextStyle(
+                  height: 0,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 19.sp,
+                  color: blackColor,
+                ),
               ),
             ),
-          ),
-          enableRightWidget ?? true
-              ? rightWidget ??
-                  GestureDetector(
-                    onTap: onTapViewAll,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 4.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'View all',
-                            textScaler: const TextScaler.linear(1),
-                            style: TextStyle(
-                              height: 0.8,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.sp,
-                              color: darkBlueColor,
+            enableRightWidget ?? true
+                ? rightWidget ??
+                    GestureDetector(
+                      onTap: onTapViewAll,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 3.h),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'View all',
+                              textScaler: const TextScaler.linear(1),
+                              style: TextStyle(
+                                height: 0,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.sp,
+                                color: darkBlueColor,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.arrow_back_ios,
-                            size: 10.sp,
-                            color: darkBlueColor,
-                            textDirection: TextDirection.rtl,
-                          ),
-                        ],
+                            Icon(
+                              Icons.arrow_back_ios,
+                              size: 10.sp,
+                              color: darkBlueColor,
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-              : const SizedBox(),
-        ],
+                    )
+                : const SizedBox(),
+          ],
+        ),
       ),
     );
   }

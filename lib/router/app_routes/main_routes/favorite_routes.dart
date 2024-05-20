@@ -4,8 +4,6 @@ import 'package:tmdb/ui/pages/favorite/favorite.dart';
 
 class FavoritetRoutes {
   static Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
-    AppMainRoutes.favorite: (context, settings) {
-      return const FavoritePage();
-    },
+    AppMainRoutes.favorite: (context, settings) => const FavoritePage(),
   };
 }

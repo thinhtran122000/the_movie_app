@@ -96,4 +96,48 @@ class TvService {
     final objectResponse = MultipleDetails.fromJson(response.toObject());
     return ObjectResponse(object: objectResponse);
   }
+
+  Future<ObjectResponse<MediaImages>> getImagesTv({
+    required String language,
+    required int seriesId,
+    String? includeImageLanguage,
+  }) async {
+    final request = TvRequest.getImagesTv(
+      seriesId: seriesId,
+      language: language,
+      includeImageLanguage: includeImageLanguage,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = MediaImages.fromJson(response.toObject());
+    return ObjectResponse(object: objectResponse);
+  }
+
+  Future<ObjectResponse<MediaCredits>> getTvCredits({
+    required String language,
+    required int seriesId,
+  }) async {
+    final request = TvRequest.getTvCredits(
+      seriesId: seriesId,
+      language: language,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = MediaCredits.fromJson(response.toObject());
+    return ObjectResponse(object: objectResponse);
+  }
+
+  Future<ListResponse<MultipleMedia>> getTvRelated({
+    required String language,
+    required int seriesId,
+    required int page,
+  }) async {
+    final request = TvRequest.getTvRelated(
+      seriesId: seriesId,
+      language: language,
+      page: page,
+    );
+    final response = await apiClient.execute(request: request);
+    final listResponse =
+        response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
+    return ListResponse(list: listResponse);
+  }
 }

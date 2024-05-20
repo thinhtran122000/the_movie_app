@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:tmdb/models/models.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/ui/pages/explore/bloc/explore_bloc.dart';
@@ -12,7 +13,6 @@ import 'package:tmdb/ui/ui.dart';
 import 'package:tmdb/utils/app_utils/app_utils.dart';
 import 'package:tmdb/utils/debouncer/debouncer.dart';
 import 'package:tmdb/utils/utils.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class RecentView extends StatelessWidget {
   const RecentView({super.key});
@@ -152,27 +152,29 @@ class RecentView extends StatelessWidget {
     final state = BlocProvider.of<RecentBloc>(context).state;
     final item = state.listSearch.isNotEmpty ? state.listSearch[index] : state.listTrending[index];
     return GridItem(
+      heroTag: '${AppConstants.recentSearchTag}-${item.id}',
       index: index,
       title: item.title ?? item.name,
       releaseYear: '(${AppUtils().getYearReleaseOrDepartment(
         item.releaseDate,
         item.firstAirDate,
+        item.lastAirDate,
         item.mediaType ?? '',
         item.knownForDepartment,
       )})',
-      onTapItem: () => Navigator.of(context).push(
-        AppPageRoute(
-          begin: const Offset(1, 0),
-          builder: (context) => DetailsPage(
-            title: item.title ?? item.name,
-          ),
-        ),
-      ),
       imageUrl: item.posterPath != null
           ? '${AppConstants.kImagePathPoster}${item.posterPath}'
           : (item.profilePath != null
               ? '${AppConstants.kImagePathPoster}${item.profilePath}'
               : 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTxZYNhrWgfQyqlnGPwzVDe5xv5oPVljnimLLixVAADAItCD6lu'),
+      onTapItem: () => Navigator.of(context).pushNamed(
+        AppMainRoutes.details,
+        arguments: {
+          'id': item.id,
+          'media_type': AppUtils().getMediaType(item.mediaType),
+          'hero_tag': '${AppConstants.recentSearchTag}-${item.id}',
+        },
+      ),
     );
   }
 
@@ -233,8 +235,6 @@ class RecentView extends StatelessWidget {
     }
     navigationBloc.add(ShowHide(visible: true));
   }
-
- 
 
   showNavigationBar(BuildContext context) =>
       BlocProvider.of<NavigationBloc>(context).add(ShowHide(visible: true));

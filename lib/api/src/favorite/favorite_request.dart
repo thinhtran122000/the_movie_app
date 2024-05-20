@@ -40,4 +40,29 @@ class FavoriteRequest {
           'page': page,
         },
       );
+
+  static APIRequest addFavorite({
+    required int accountId,
+    required String sessionId,
+    required String mediaType,
+    required int mediaId,
+    required bool favorite,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.post,
+        path: '/account/$accountId/favorite',
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+        },
+        body: {
+          'media_type': mediaType,
+          'media_id': mediaId,
+          'favorite': favorite,
+        },
+        parameters: {
+          'account_id': accountId,
+          'session_id': sessionId,
+        },
+      );
 }

@@ -2,10 +2,10 @@ part of 'explore_bloc.dart';
 
 abstract class ExploreEvent {}
 
-class LoadPageExplore extends ExploreEvent {
-  final int indexPageExplore;
-  LoadPageExplore({
-    required this.indexPageExplore,
+class NavigateViewExplore extends ExploreEvent {
+  final int indexViewExplore;
+  NavigateViewExplore({
+    required this.indexViewExplore,
   });
 }
 

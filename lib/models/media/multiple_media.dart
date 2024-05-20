@@ -19,6 +19,7 @@ class MultipleMedia {
   String? name;
   String? originalName;
   String? firstAirDate;
+  String? lastAirDate;
   List<String> originCountry;
   // Person
   int? gender;
@@ -55,6 +56,7 @@ class MultipleMedia {
     this.name,
     this.originalName,
     this.firstAirDate,
+    this.lastAirDate,
     this.originCountry = const [],
     this.gender,
     this.knownForDepartment,
@@ -81,6 +83,7 @@ class MultipleMedia {
         name: json['name'],
         originalName: json['original_name'],
         firstAirDate: json['first_air_date'],
+        lastAirDate:json['last_air_date'],
         originCountry: json['origin_country'] == null
             ? []
             : List<String>.from(json['origin_country'].map((x) => x)),

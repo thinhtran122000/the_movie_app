@@ -15,6 +15,7 @@ class AppPageRoute<Object> extends PageRouteBuilder<Object> {
           pageBuilder: (context, animation, secondaryAnimation) => builder(context),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return SlideTransition(
+              transformHitTests: false,
               position: Tween<Offset>(
                 begin: begin,
                 end: Offset.zero,

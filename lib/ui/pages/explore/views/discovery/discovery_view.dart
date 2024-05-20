@@ -9,18 +9,18 @@ import 'package:tmdb/ui/pages/explore/views/discovery/bloc/discovery_bloc.dart';
 import 'package:tmdb/ui/pages/explore/views/discovery/discovery.dart';
 
 class DiscoveryView extends StatelessWidget {
-  final int? tabIndexDiscovery;
+  final int? indexTabDiscovery;
   const DiscoveryView({
     super.key,
-    this.tabIndexDiscovery,
+    this.indexTabDiscovery,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DiscoveryBloc()
-        ..add(NavigateTab(
-          indexPage: tabIndexDiscovery ?? 0,
+        ..add(NavigateTabDiscovery(
+          indexTabDiscovery: indexTabDiscovery ?? 0,
         )),
       child: BlocBuilder<DiscoveryBloc, DiscoveryState>(
         builder: (context, state) {
@@ -37,46 +37,54 @@ class DiscoveryView extends StatelessWidget {
                     flex: 0,
                     title: 'Browse',
                     backgroundColor: whiteColor,
-                    textColor: state.indexPage == 0 ? darkBlueColor : greyColor,
-                    dividerColor: state.indexPage == 0 ? darkBlueColor : Colors.transparent,
+                    textColor: state.indexTabDiscovery == 0 ? darkBlueColor : greyColor,
+                    dividerColor: state.indexTabDiscovery == 0 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(8.w, 0, 10.w, 0),
-                    onTapItem: () =>
-                        state.indexPage != 0 ? bloc.add(NavigateTab(indexPage: 0)) : null,
+                    onTapItem: () => state.indexTabDiscovery != 0
+                        ? bloc.add(NavigateTabDiscovery(
+                            indexTabDiscovery: 0,
+                          ))
+                        : null,
                   ),
                   CustomTabBarItem(
                     flex: 0,
                     title: 'Streaming',
                     backgroundColor: whiteColor,
-                    textColor: state.indexPage == 1 ? darkBlueColor : greyColor,
-                    dividerColor: state.indexPage == 1 ? darkBlueColor : Colors.transparent,
+                    textColor: state.indexTabDiscovery == 1 ? darkBlueColor : greyColor,
+                    dividerColor: state.indexTabDiscovery == 1 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
-                    onTapItem: () =>
-                        state.indexPage != 1 ? bloc.add(NavigateTab(indexPage: 1)) : null,
+                    onTapItem: () => state.indexTabDiscovery != 1
+                        ? bloc.add(NavigateTabDiscovery(
+                            indexTabDiscovery: 1,
+                          ))
+                        : null,
                   ),
                   CustomTabBarItem(
                     flex: 1,
                     title: 'Coming soon',
                     backgroundColor: whiteColor,
-                    textColor: state.indexPage == 2 ? darkBlueColor : greyColor,
-                    dividerColor: state.indexPage == 2 ? darkBlueColor : Colors.transparent,
-                    onTapItem: () =>
-                        state.indexPage != 2 ? bloc.add(NavigateTab(indexPage: 2)) : null,
+                    textColor: state.indexTabDiscovery == 2 ? darkBlueColor : greyColor,
+                    dividerColor: state.indexTabDiscovery == 2 ? darkBlueColor : Colors.transparent,
+                    onTapItem: () => state.indexTabDiscovery != 2
+                        ? bloc.add(NavigateTabDiscovery(indexTabDiscovery: 2))
+                        : null,
                   ),
                   CustomTabBarItem(
                     flex: 0,
                     title: 'In theaters',
                     backgroundColor: whiteColor,
-                    textColor: state.indexPage == 3 ? darkBlueColor : greyColor,
-                    dividerColor: state.indexPage == 3 ? darkBlueColor : Colors.transparent,
+                    textColor: state.indexTabDiscovery == 3 ? darkBlueColor : greyColor,
+                    dividerColor: state.indexTabDiscovery == 3 ? darkBlueColor : Colors.transparent,
                     padding: EdgeInsets.fromLTRB(10.w, 0, 8.w, 0),
-                    onTapItem: () =>
-                        state.indexPage != 3 ? bloc.add(NavigateTab(indexPage: 3)) : null,
+                    onTapItem: () => state.indexTabDiscovery != 3
+                        ? bloc.add(NavigateTabDiscovery(indexTabDiscovery: 3))
+                        : null,
                   ),
                 ],
               ),
               Expanded(
                 child: IndexedStack(
-                  index: state.indexPage,
+                  index: state.indexTabDiscovery,
                   children: const [
                     BrowseView(),
                     StreamingView(),

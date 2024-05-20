@@ -5,12 +5,12 @@ import 'package:tmdb/ui/ui.dart';
 class ExploreSubRoute {
   static Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
     AppSubRoutes.discovery: (context, settings) => const NavigationPage(
-          indexPageNavigation: 1,
-          indexPageExplore: 0,
+          indexPage: 1,
+          indexViewExplore: 0,
         ),
     AppSubRoutes.search: (context, settings) => const NavigationPage(
-          indexPageNavigation: 1,
-          indexPageExplore: 1,
+          indexPage: 1,
+          indexViewExplore: 1,
         ),
   };
 }

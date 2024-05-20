@@ -188,6 +188,18 @@ class MultipleDetails {
             ? []
             : List<Season>.from(json['seasons'].map((x) => Season.fromJson(x))),
         type: json['type'],
+        images: json['images'] == null ? null : MediaImages.fromJson(json['images']),
+        videos: json['videos'] == null ? null : MediaVideos.fromJson(json['videos']),
+        alternativeTitles: json['alternative_titles'] == null
+            ? null
+            : MediaAlternativeTitles.fromJson(json['alternative_titles']),
+        externalIds:
+            json['external_ids'] == null ? null : MediaExternalIds.fromJson(json['external_ids']),
+        releases: json['releases'] == null ? null : MediaReleases.fromJson(json['releases']),
+        translations:
+            json['translations'] == null ? null : MediaTranslations.fromJson(json['translations']),
+        keywords: json['keywords'] == null ? null : MediaKeywords.fromJson(json['keywords']),
+        similar: json['similar'] == null ? null : MediaSimilars.fromJson(json['similar']),
       );
 }
 

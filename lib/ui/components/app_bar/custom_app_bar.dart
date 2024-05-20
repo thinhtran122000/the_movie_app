@@ -46,14 +46,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 0,
+                  flex: 1,
                   child: GestureDetector(
                     onTap: onTapLeading,
                     child: leading ?? const SizedBox(),
                   ),
                 ),
                 Flexible(
-                  flex: 6,
+                  flex: 4,
                   child: Text(
                     title ?? '',
                     textAlign: TextAlign.center,

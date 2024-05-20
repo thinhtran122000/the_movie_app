@@ -10,7 +10,7 @@ class CustomTextField extends StatefulWidget {
   final String? hintText;
   final bool? obscureText;
   final bool? isAuthentication;
-  final int? indexPageExplore;
+  final int? indexViewExplore;
   // final bool? enabledSearch;
   final bool? isFocused;
   final Widget? suffixIcon;
@@ -36,7 +36,6 @@ class CustomTextField extends StatefulWidget {
     this.controller,
     this.suffixIcon,
     this.onTap,
-    // this.enabledSearch,
     this.onTapCancel,
     this.onTapOutside,
     this.isFocused,
@@ -49,7 +48,7 @@ class CustomTextField extends StatefulWidget {
     required this.margin,
     this.backgroundColor,
     this.shadowColor,
-    this.indexPageExplore,
+    this.indexViewExplore,
   });
 
   @override
@@ -63,15 +62,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
       padding: widget.margin,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.transparent,
+                color: noColor,
                 boxShadow: [
                   BoxShadow(
-                    color: widget.shadowColor ?? Colors.transparent,
+                    color: widget.shadowColor ?? noColor,
                     blurRadius: 7,
                   ),
                 ],
@@ -82,18 +82,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 controller: widget.controller,
                 cursorColor: darkBlueColor,
                 obscuringCharacter: '●',
+                cursorHeight: 18.h,
                 obscureText: widget.obscureText ?? false,
                 onChanged: widget.onChanged,
                 onTapOutside: widget.onTapOutside,
                 onTap: widget.onTap,
-                onEditingComplete: () {},
-                onFieldSubmitted: (newValue) {},
                 textAlign: TextAlign.start,
                 textAlignVertical: TextAlignVertical.center,
                 style: TextStyle(
                   color: blackColor,
-                  fontSize: 15.sp,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w400,
+                  height: 1.2.h,
                 ),
                 decoration: InputDecoration(
                   isDense: true,
@@ -103,16 +103,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   hintText: widget.hintText,
                   hintStyle: TextStyle(
                     color: greyColor,
-                    fontSize: 15.sp,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w400,
+                    height: 1.2.h,
                   ),
                   border: widget.border,
                   focusedBorder: widget.focusedBorder,
                   enabledBorder: widget.enabledBorder,
                   suffixIcon: widget.suffixIcon,
-                  suffixIconConstraints: const BoxConstraints(
-                    minHeight: 24,
-                    minWidth: 24,
+                  suffixIconConstraints: BoxConstraints(
+                    minHeight: 24.h,
+                    minWidth: 24.w,
                   ),
                   prefixIconConstraints: BoxConstraints(
                     maxWidth: 40.w,
@@ -140,28 +141,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ),
             ),
           ),
-          SizedBox(width: (widget.indexPageExplore ?? 0) == 1 ? 15.w : 0),
+          SizedBox(width: (widget.indexViewExplore ?? 0) == 1 ? 15.w : 0),
           GestureDetector(
             onTap: widget.onTapCancel,
             child: AnimatedSize(
               duration: const Duration(milliseconds: 100),
               alignment: Alignment.centerRight,
               child: AnimatedScale(
-                scale: (widget.indexPageExplore ?? 0) == 1 ? 1.0 : 0,
+                scale: (widget.indexViewExplore ?? 0) == 1 ? 1.0 : 0,
                 curve: Curves.easeInSine,
                 duration: const Duration(milliseconds: 100),
                 alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: (widget.indexPageExplore ?? 0) == 1 ? 55 : 0,
-                  height: (widget.indexPageExplore ?? 0) == 1 ? 20 : 0,
-                  child: Text(
-                    'Cancel',
-                    textScaler: const TextScaler.linear(1),
-                    style: TextStyle(
-                      color: whiteColor,
-                      inherit: false,
-                      fontSize: 15.sp,
-                    ),
+                child: Text(
+                  (widget.indexViewExplore ?? 0) == 1 ? 'Cancel' : '',
+                  textScaler: const TextScaler.linear(1),
+                  style: TextStyle(
+                    color: whiteColor,
+                    inherit: false,
+                    fontSize: 15.sp,
+                    height: 0,
                   ),
                 ),
               ),

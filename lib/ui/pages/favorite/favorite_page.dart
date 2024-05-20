@@ -6,7 +6,9 @@ import 'package:tmdb/ui/pages/favorite/bloc/favorite_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
 
 class FavoritePage extends StatelessWidget {
-  const FavoritePage({super.key});
+  const FavoritePage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +42,13 @@ class FavoritePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   CustomSegment(
-                    widthTabBar: double.infinity,
+                    widthSegment: double.infinity,
                     index: state.indexTab,
-                    onTapMovie: () => bloc.add(NavigateTabFavorite(
+                    items: const ['Movie', 'TV Shows'],
+                    onTapFirstItem: () => bloc.add(NavigateTabFavorite(
                       indexTab: 0,
                     )),
-                    onTapTv: () => bloc.add(NavigateTabFavorite(
+                    onTapSecondItem: () => bloc.add(NavigateTabFavorite(
                       indexTab: 1,
                     )),
                   ),

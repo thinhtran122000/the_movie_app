@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/components/components.dart';
-import 'package:tmdb/ui/pages/details/details.dart';
 import 'package:tmdb/ui/pages/home/views/artist/bloc/artist_bloc.dart';
 import 'package:tmdb/utils/utils.dart';
 
@@ -76,18 +75,19 @@ class ArtistView extends StatelessWidget {
     final list = state.listArtist;
     final item = index < list.length ? list[index] : null;
     return SecondaryItem(
-      heroTag: '${AppConstants.artistHeroTag}-$index',
+      heroTag: '${AppConstants.artistTag}-${item?.id}',
       title: item?.name,
       imageUrl:
           item?.profilePath == null ? '' : '${AppConstants.kImagePathPoster}${item?.profilePath}',
       errorImageUrl: getErrorImageWithGender(item?.gender ?? 0),
       index: index,
       itemCount: list.length,
-      onTapItem: () => Navigator.of(context).push(
-        AppPageRoute(
-          builder: (context) => DetailsPage(heroTag: '${AppConstants.artistHeroTag}-$index'),
-          begin: const Offset(1, 0),
-        ),
+      onTapItem: () => Navigator.of(context).pushNamed(
+        AppMainRoutes.details,
+        arguments: {
+          'media_type': MediaType.person,
+          'hero_tag': '${AppConstants.artistTag}-${item?.id}'
+        },
       ),
       onTapViewAll: () {},
     );

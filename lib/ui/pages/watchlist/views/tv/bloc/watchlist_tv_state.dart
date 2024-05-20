@@ -1,13 +1,19 @@
 part of 'watchlist_tv_bloc.dart';
 
 abstract class WatchlistTvState {
+  final List<MediaState> listTvState;
   final List<MultipleMedia> listWatchList;
   final bool status;
   final String sortBy;
+  final int index;
+  final String statusMessage;
   WatchlistTvState({
+    required this.listTvState,
     required this.listWatchList,
     required this.status,
     required this.sortBy,
+    required this.index,
+    required this.statusMessage,
   });
 }
 
@@ -16,6 +22,9 @@ class WatchlistTvInitial extends WatchlistTvState {
     required super.listWatchList,
     required super.status,
     required super.sortBy,
+    required super.listTvState,
+    required super.index,
+    required super.statusMessage,
   });
 }
 
@@ -24,6 +33,9 @@ class WatchlistTvSuccess extends WatchlistTvState {
     required super.listWatchList,
     required super.status,
     required super.sortBy,
+    required super.listTvState,
+    required super.index,
+    required super.statusMessage,
   });
 }
 
@@ -32,6 +44,20 @@ class WatchlistTvSortSuccess extends WatchlistTvState {
     required super.listWatchList,
     required super.status,
     required super.sortBy,
+    required super.listTvState,
+    required super.index,
+    required super.statusMessage,
+  });
+}
+
+class WatchlistTvRemoveSuccess extends WatchlistTvState {
+  WatchlistTvRemoveSuccess({
+    required super.listWatchList,
+    required super.status,
+    required super.sortBy,
+    required super.listTvState,
+    required super.index,
+    required super.statusMessage,
   });
 }
 
@@ -42,5 +68,8 @@ class WatchlistTvError extends WatchlistTvState {
     required super.listWatchList,
     required super.status,
     required super.sortBy,
+    required super.listTvState,
+    required super.index,
+    required super.statusMessage,
   });
 }

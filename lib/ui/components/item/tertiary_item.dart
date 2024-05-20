@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/components/components.dart';
 
@@ -45,15 +45,15 @@ class TertiaryItem extends StatelessWidget {
       onTap: index >= itemCount ? onTapViewAll : onTapItem,
       child: RepaintBoundary(
         child: Container(
-          width: 150.w,
+          width: 115.w,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: whiteColor,
             borderRadius: index >= itemCount
-                ? BorderRadius.circular(15.r)
+                ? BorderRadius.circular(10.r)
                 : BorderRadius.only(
-                    bottomRight: Radius.circular(15.r),
-                    bottomLeft: Radius.circular(15.r),
+                    bottomRight: Radius.circular(10.r),
+                    bottomLeft: Radius.circular(10.r),
                   ),
             boxShadow: [
               BoxShadow(
@@ -86,7 +86,7 @@ class TertiaryItem extends StatelessWidget {
                               errorWidget: (context, url, error) => Image.asset(
                                 ImagesPath.noImage.assetName,
                                 width: double.infinity,
-                                height: double.infinity,
+                                height: (enableInfo ?? false) ? 190.h : 210.h,
                                 filterQuality: FilterQuality.high,
                                 fit: BoxFit.fill,
                               ),
@@ -104,12 +104,10 @@ class TertiaryItem extends StatelessWidget {
                                         ? IconsPath.addedWatchListIcon.assetName
                                         : IconsPath.addWatchListIcon.assetName,
                                     alignment: Alignment.topLeft,
-                                    width: 50.w,
-                                    height: 45.h,
                                     fit: BoxFit.fill,
                                   ),
                                   Positioned(
-                                    top: 9.h,
+                                    top: 5.h,
                                     child: Icon(
                                       (watchlist ?? false) ? Icons.check : Icons.add,
                                       color: (watchlist ?? false) ? blackColor : whiteColor,
@@ -155,9 +153,9 @@ class TertiaryItem extends StatelessWidget {
                           Icon(
                             Icons.star_rounded,
                             color: yellowColor,
-                            size: 16.sp,
+                            size: 15.sp,
                           ),
-                          SizedBox(width: 5.w),
+                          SizedBox(width: 2.w),
                           Text(
                             '$voteAverage',
                             maxLines: 1,
@@ -165,7 +163,7 @@ class TertiaryItem extends StatelessWidget {
                             textScaler: const TextScaler.linear(1),
                             style: TextStyle(
                               color: greyColor,
-                              fontSize: 14.sp,
+                              fontSize: 12.sp,
                               overflow: TextOverflow.clip,
                               height: 0,
                             ),
@@ -182,20 +180,24 @@ class TertiaryItem extends StatelessWidget {
                         softWrap: false,
                         textScaler: const TextScaler.linear(1),
                         style: TextStyle(
-                          fontSize: 14.5.sp,
+                          fontSize: 14.sp,
                           overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w400,
                           height: 0,
                         ),
                       ),
                     ),
                     (enableInfo ?? false)
-                        ? GestureDetector(
-                            onTap: onTapInfo,
-                            child: Padding(
-                              padding: EdgeInsets.fromLTRB(120.w, 10.h, 0, 10.h),
-                              child: Icon(
-                                Icons.info_outlined,
-                                color: greyColor,
+                        ? Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: onTapInfo,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(0.w, 8.h, 8.w, 8.h),
+                                child: Icon(
+                                  Icons.info_outlined,
+                                  color: greyColor,
+                                ),
                               ),
                             ),
                           )

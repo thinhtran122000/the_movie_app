@@ -58,6 +58,12 @@ class CreditResult {
     this.knownForDepartment,
     this.profilePath,
     this.castId,
+    this.creditId,
+    this.character,
+    this.order,
+    this.department,
+    this.job,
+    this.episodeCount,
   });
 
   factory CreditResult.fromJson(Map<String, dynamic> json) => CreditResult(
@@ -74,6 +80,12 @@ class CreditResult {
         releaseDate: json['release_date'],
         title: json['title'],
         video: json['video'],
+        character: json['character'],
+        creditId: json['credit_id'],
+        department: json['department'],
+        job: json['job'],
+        order: json['order'],
+        episodeCount: json['episode_count'],
         voteAverage: json['vote_average'],
         voteCount: json['vote_count'],
         name: json['name'],

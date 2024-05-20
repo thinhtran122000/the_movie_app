@@ -5,6 +5,7 @@ class TmdbAuthentication {
   String? statusMessage;
   String? expiresAt;
   String? requestToken;
+  String? sessionId;
 
   TmdbAuthentication({
     this.success,
@@ -13,6 +14,7 @@ class TmdbAuthentication {
     this.statusMessage,
     this.expiresAt,
     this.requestToken,
+    this.sessionId,
   });
 
   factory TmdbAuthentication.fromJson(Map<String, dynamic> json) => TmdbAuthentication(
@@ -22,5 +24,6 @@ class TmdbAuthentication {
         statusMessage: json['status_message'],
         expiresAt: json['expires_at'],
         requestToken: json['request_token'],
+        sessionId: json['session_id'],
       );
 }

@@ -1,14 +1,20 @@
 part of 'watchlist_bloc.dart';
 
 abstract class WatchlistState {
-  final int index;
+  final int indexTab;
   WatchlistState({
-    required this.index,
+    required this.indexTab,
   });
 }
 
 class WatchlistInitial extends WatchlistState {
   WatchlistInitial({
-    required super.index,
+    required super.indexTab,
+  });
+}
+
+class WatchlistSuccess extends WatchlistState {
+  WatchlistSuccess({
+    required super.indexTab,
   });
 }

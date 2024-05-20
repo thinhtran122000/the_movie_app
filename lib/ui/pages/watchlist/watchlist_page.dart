@@ -6,12 +6,17 @@ import 'package:tmdb/ui/pages/watchlist/bloc/watchlist_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
 
 class WatchlistPage extends StatelessWidget {
-  const WatchlistPage({super.key});
+  const WatchlistPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WatchlistBloc()..add(ChangeTab(index: 0)),
+      create: (context) => WatchlistBloc()
+        ..add(NavigateTabWatchlist(
+          indexTab: 0,
+        )),
       child: BlocBuilder<WatchlistBloc, WatchlistState>(
         builder: (context, state) {
           var bloc = BlocProvider.of<WatchlistBloc>(context);
@@ -36,14 +41,19 @@ class WatchlistPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 CustomSegment(
-                  widthTabBar: double.infinity,
-                  index: state.index,
-                  onTapMovie: () => bloc.add(ChangeTab(index: 0)),
-                  onTapTv: () => bloc.add(ChangeTab(index: 1)),
+                  widthSegment: double.infinity,
+                  index: state.indexTab,
+                  items: const ['Movie', 'TV Shows'],
+                  onTapFirstItem: () => bloc.add(NavigateTabWatchlist(
+                    indexTab: 0,
+                  )),
+                  onTapSecondItem: () => bloc.add(NavigateTabWatchlist(
+                    indexTab: 1,
+                  )),
                 ),
                 Expanded(
                   child: IndexedStack(
-                    index: state.index,
+                    index: state.indexTab,
                     children: const [
                       WatchlistMovieView(),
                       WatchlistTvView(),

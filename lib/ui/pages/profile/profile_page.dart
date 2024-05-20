@@ -1,3 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tmdb/router/obsever/navigation_obsever.dart';
+import 'package:tmdb/router/router.dart';
+import 'package:tmdb/shared_ui/colors/color.dart';
+import 'package:tmdb/ui/pages/profile/bloc/profile_bloc.dart';
+import 'package:tmdb/ui/ui.dart';
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ProfileBloc(),
+      child: Scaffold(
+        backgroundColor: gainsBoroColor,
+        appBar: CustomAppBar(
+          appBarHeight: 30.h,
+        ),
+        body: NavigatorPopHandler(
+          onPop: () {
+            final obsever = AppNavigationObsever.profileObserver;
+            if (obsever.history.last.settings.name == AppSubRoutes.general) {
+              SystemNavigator.pop();
+            } else {
+              NavigatorKey.profileKey.currentState?.pop();
+            }
+          },
+          child: Navigator(
+            observers: [AppNavigationObsever.profileObserver],
+            key: NavigatorKey.profileKey,
+            initialRoute: AppSubRoutes.general,
+            onGenerateRoute: AppRouteGenerator.onGenerateSubRoute,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -153,44 +197,3 @@
 //     );
 //   }
 // }
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tmdb/router/obsever/navigation_obsever.dart';
-import 'package:tmdb/router/router.dart';
-import 'package:tmdb/ui/pages/profile/bloc/profile_bloc.dart';
-import 'package:tmdb/ui/ui.dart';
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileBloc(),
-      child: Scaffold(
-        appBar: CustomAppBar(
-          appBarHeight: 30.h,
-        ),
-        body: NavigatorPopHandler(
-          onPop: () {
-            final obsever = NavigationObsever.profileNavigationObserver;
-            if (obsever.history.last.settings.name == AppSubRoutes.general) {
-              SystemNavigator.pop();
-            } else {
-              NavigatorKey.profileKey.currentState?.pop();
-            }
-          },
-          child: Navigator(
-            observers: [NavigationObsever.profileNavigationObserver],
-            key: NavigatorKey.profileKey,
-            initialRoute: AppSubRoutes.general,
-            onGenerateRoute: AppRouteGenerator.onGenerateSubRoute,
-          ),
-        ),
-      ),
-    );
-  }
-}

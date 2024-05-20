@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
-import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
 
 class NavigationPage extends StatelessWidget {
-  final int? indexPageNavigation;
-  final int? indexPageExplore;
-  final int? indexPageDicovery;
+  final int? indexPage;
+  final int? indexViewExplore;
+  final int? indexTabDiscovery;
   const NavigationPage({
-    this.indexPageNavigation,
+    this.indexPage,
     super.key,
-    this.indexPageExplore,
-    this.indexPageDicovery,
+    this.indexViewExplore,
+    this.indexTabDiscovery,
   });
 
   @override
@@ -23,63 +21,13 @@ class NavigationPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => NavigationBloc()
         ..add(NavigatePage(
-          indexPage: indexPageNavigation ?? 0,
+          indexPage: indexPage ?? 0,
         )),
-      child: BlocConsumer<NavigationBloc, NavigationState>(
-        listener: (context, state) async {
-          final bloc = BlocProvider.of<NavigationBloc>(context);
-          if (state is NavigationError) {
-            await showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) {
-                return CustomDialog(
-                  canPopDialog: false,
-                  title: 'Opps!',
-                  content: 'Your session has been expired.\nPlease login again !',
-                  image: Lottie.asset(
-                    AnimationsPath.pandaSleepAnimation.assetName,
-                    repeat: true,
-                    width: 100.w,
-                    height: 100.h,
-                    fit: BoxFit.fill,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  titleStyle: TextStyle(
-                    color: blackColor,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  contentStyle: TextStyle(
-                    color: darkBlueColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                    height: 1.5,
-                  ),
-                  titleSingleChoice: 'Log out',
-                  singleChoiceStyle: TextStyle(
-                    color: redColor,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  onTapSingleChoice: () {
-                    bloc.add(LogoutForExpired());
-                    Navigator.of(context).push(
-                      AppPageRoute(
-                        builder: (context) => const NavigationPage(),
-                        begin: const Offset(-1, 0),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          }
-        },
+      child: BlocBuilder<NavigationBloc, NavigationState>(
         builder: (context, state) {
           final bloc = BlocProvider.of<NavigationBloc>(context);
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: whiteColor,
             extendBody: true,
             resizeToAvoidBottomInset: false,
             body: BlocBuilder<NavigationBloc, NavigationState>(
@@ -91,22 +39,16 @@ class NavigationPage extends StatelessWidget {
                     ),
                   );
                 }
-                if (state is NavigationError) {
-                  return const SizedBox();
-                }
                 return IndexedStack(
                   index: state.indexPage,
                   children: [
                     const HomePage(),
                     ExplorePage(
-                      indexPageExplore: indexPageExplore,
-                      indexPageDiscovery: indexPageDicovery,
+                      indexViewExplore: indexViewExplore,
+                      indexTabDiscovery: indexTabDiscovery,
                     ),
-                    const FlutterLogo(),
-
+                    // const FlutterLogo(),
                     const ProfilePage(),
-
-                    // const ProfilePage(),
                   ],
                 );
               },
@@ -132,20 +74,22 @@ class NavigationPage extends StatelessWidget {
                       : bloc.add(ScrollTop()),
                 ),
                 CustomNavigationBarItem(
-                  imagePath: IconsPath.favoriteIcon.assetName,
+                  imagePath: IconsPath.searchIcon.assetName,
                   onTap: () => state.indexPage != 1
                       ? bloc.add(NavigatePage(indexPage: 1))
                       : bloc.add(ScrollTop()),
                 ),
-                CustomNavigationBarItem(
-                  imagePath: IconsPath.searchIcon.assetName,
-                  onTap: () => state.indexPage != 2
-                      ? bloc.add(NavigatePage(indexPage: 2))
-                      : bloc.add(ScrollTop()),
-                ),
+                // CustomNavigationBarItem(
+                //   imagePath: IconsPath.favoriteIcon.assetName,
+                //   onTap: () => state.indexPage != 2
+                //       ? bloc.add(NavigatePage(indexPage: 2))
+                //       : bloc.add(ScrollTop()),
+                // ),
                 CustomNavigationBarItem(
                   imagePath: IconsPath.profileIcon.assetName,
-                  onTap: () => state.indexPage != 3 ? bloc.add(NavigatePage(indexPage: 3)) : null,
+                  onTap: () => state.indexPage != 3
+                      ? bloc.add(NavigatePage(indexPage: 2))
+                      : bloc.add(ScrollTop()),
                 ),
               ],
             ),

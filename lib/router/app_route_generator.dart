@@ -8,6 +8,8 @@ class AppRouteGenerator {
         ...DetailsRoutes.routes,
         ...WatchlistRoutes.routes,
         ...FavoritetRoutes.routes,
+        ...RatingRoutes.routes,
+        ...RatedRoutes.routes,
       };
 
   static Route onGenerateMainRoute(RouteSettings settings) {
@@ -25,11 +27,13 @@ class AppRouteGenerator {
         settings: settings,
       );
     } catch (e) {
-      throw const FormatException("--- Route doesn't exist");
+      throw const FormatException("Route doesn't exist");
     }
   }
 
   static Map<String, Widget Function(BuildContext, RouteSettings)> resolveSubRoutes() => {
+        ...ExploreSubRoute.routes,
+        ...DiscoverySubRoute.routes,
         ...ProfileSubRoutes.routes,
       };
 
@@ -48,7 +52,7 @@ class AppRouteGenerator {
         settings: settings,
       );
     } catch (e) {
-      throw const FormatException("--- Sub route doesn't exist");
+      throw const FormatException("Sub route doesn't exist");
     }
   }
 }

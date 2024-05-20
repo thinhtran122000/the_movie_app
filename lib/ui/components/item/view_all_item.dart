@@ -18,7 +18,7 @@ class ItemViewAll extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Icon(
-          size: sizeIcon ?? 55.sp,
+          size: sizeIcon ?? 40.sp,
           Icons.arrow_circle_right_sharp,
           color: darkBlueColor,
         ),
@@ -31,7 +31,7 @@ class ItemViewAll extends StatelessWidget {
           maxLines: 2,
           style: TextStyle(
             color: darkBlueColor,
-            fontSize: 14.sp,
+            fontSize: 13.sp,
           ),
         ),
       ],

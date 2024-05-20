@@ -12,7 +12,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   final FocusNode focusNode = FocusNode();
   ExploreBloc()
       : super(ExploreInitial(
-          indexPageExplore: 0,
+          indexViewExplore: 0,
           visible: false,
           opacity: 0.0,
           statusMessage: '',
@@ -21,19 +21,19 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
         )) {
     // on<ChangeAnimationToast>(_onChangeAnimationToast);
     // on<DisplayToast>(_onDisplayToast);
-    on<LoadPageExplore>(_onLoadPageExplore);
+    on<NavigateViewExplore>(_onNavigateViewExplore);
     on<MoveToSearch>(_onMoveToSearch);
     on<Search>(_onSearch);
     on<Clear>(_onClear);
   }
-  FutureOr<void> _onLoadPageExplore(LoadPageExplore event, Emitter<ExploreState> emit) {
+  FutureOr<void> _onNavigateViewExplore(NavigateViewExplore event, Emitter<ExploreState> emit) {
     emit(ExploreSuccess(
       visible: state.visible,
       opacity: state.opacity,
       statusMessage: state.statusMessage,
       query: state.query,
       enabledSearch: state.enabledSearch,
-      indexPageExplore: event.indexPageExplore,
+      indexViewExplore: event.indexViewExplore,
     ));
   }
 
@@ -59,7 +59,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   FutureOr<void> _onMoveToSearch(MoveToSearch event, Emitter<ExploreState> emit) {
     emit(ExploreSearchSuccess(
-      indexPageExplore: state.indexPageExplore,
+      indexViewExplore: state.indexViewExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
@@ -70,7 +70,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
 
   FutureOr<void> _onSearch(Search event, Emitter<ExploreState> emit) {
     emit(ExploreSearchSuccess(
-      indexPageExplore: state.indexPageExplore,
+      indexViewExplore: state.indexViewExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
@@ -82,7 +82,7 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   FutureOr<void> _onClear(Clear event, Emitter<ExploreState> emit) {
     textController.clear();
     emit(ExploreSearchSuccess(
-      indexPageExplore: state.indexPageExplore,
+      indexViewExplore: state.indexViewExplore,
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,

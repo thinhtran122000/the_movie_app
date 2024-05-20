@@ -88,4 +88,47 @@ class TvRequest {
           'append_to_response': appendToResponse,
         },
       );
+
+  static APIRequest getImagesTv({
+    required String language,
+    required int seriesId,
+    String? includeImageLanguage,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/tv/$seriesId/images',
+        parameters: {
+          'language': language,
+          'series_id': seriesId,
+          'include_image_language': includeImageLanguage,
+        },
+      );
+
+  static APIRequest getTvCredits({
+    required String language,
+    required int seriesId,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/tv/$seriesId/credits',
+        parameters: {
+          'language': language,
+          'series_id': seriesId,
+        },
+      );
+
+  static APIRequest getTvRelated({
+    required String language,
+    required int seriesId,
+    required int page,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/tv/$seriesId/similar',
+        parameters: {
+          'series_id': seriesId,
+          'language': language,
+          'page': page,
+        },
+      );
 }

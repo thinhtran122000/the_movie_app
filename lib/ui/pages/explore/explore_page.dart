@@ -8,26 +8,25 @@ import 'package:tmdb/ui/pages/explore/explore.dart';
 import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
 
 class ExplorePage extends StatelessWidget {
-  final int? indexPageDiscovery;
-  final int? indexPageExplore;
+  final int? indexTabDiscovery;
+  final int? indexViewExplore;
   const ExplorePage({
     super.key,
-    this.indexPageExplore,
-    this.indexPageDiscovery,
+    this.indexViewExplore,
+    this.indexTabDiscovery,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ExploreBloc()
-        ..add(LoadPageExplore(
-          indexPageExplore: indexPageExplore ?? 0,
+        ..add(NavigateViewExplore(
+          indexViewExplore: indexViewExplore ?? 0,
         )),
       child: BlocListener<NavigationBloc, NavigationState>(
         listener: (context, state) => state is NavigationScrollSuccess ? reloadPage(context) : null,
         child: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {
-            print('Hello');
             final bloc = BlocProvider.of<ExploreBloc>(context);
             return Scaffold(
               backgroundColor: gainsBoroColor,
@@ -36,14 +35,14 @@ class ExplorePage extends StatelessWidget {
                 customTitle: CustomTextField(
                   focusNode: bloc.focusNode,
                   controller: bloc.textController,
-                  indexPageExplore: state.indexPageExplore,
+                  indexViewExplore: state.indexViewExplore,
                   focusedBorder: transparentRadiusBorder,
                   enabledBorder: transparentRadiusBorder,
                   hintText: 'Search for movies, tv shows, people...'.padLeft(14),
                   margin: EdgeInsets.fromLTRB(13.w, 30.h, 13.w, 0),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 10.w,
-                    vertical: 5.h,
+                    vertical: 7.h,
                   ),
                   suffixIcon: bloc.textController.text.isNotEmpty
                       ? GestureDetector(
@@ -61,11 +60,15 @@ class ExplorePage extends StatelessWidget {
                           ),
                         )
                       : null,
-                  onTap: state.indexPageExplore == 1
+                  onTap: state.indexViewExplore == 1
                       ? null
-                      : () => bloc.add(LoadPageExplore(indexPageExplore: 1)),
+                      : () => bloc.add(NavigateViewExplore(
+                            indexViewExplore: 1,
+                          )),
                   onTapCancel: () {
-                    bloc.add(LoadPageExplore(indexPageExplore: 0));
+                    bloc.add(NavigateViewExplore(
+                      indexViewExplore: 0,
+                    ));
                     bloc.textController.text.isNotEmpty ? bloc.add(Clear()) : null;
                   },
                   onTapOutside: (event) => bloc.focusNode.unfocus(),
@@ -73,9 +76,9 @@ class ExplorePage extends StatelessWidget {
                 ),
               ),
               body: IndexedStack(
-                index: state.indexPageExplore,
+                index: state.indexViewExplore,
                 children: [
-                  DiscoveryView(tabIndexDiscovery: indexPageDiscovery),
+                  DiscoveryView(indexTabDiscovery: indexTabDiscovery),
                   SearchView(query: state.query),
                 ],
               ),

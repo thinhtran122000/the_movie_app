@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:tmdb/models/models.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/components/components.dart';
 
@@ -9,19 +11,26 @@ class QuaternaryItem extends StatelessWidget {
   final String? imageUrl;
   final String? originalLanguage;
   final String? title;
-  final String? overview;
   final String? releaseDate;
   final String? voteAverage;
+  final bool? watchlist;
+  final dynamic rated;
   final VoidCallback? onTapItem;
+  final VoidCallback? onTapBanner;
+  final String heroTag;
+
   const QuaternaryItem({
     super.key,
     this.imageUrl,
     this.originalLanguage,
     this.title,
-    this.overview,
     this.releaseDate,
     this.voteAverage,
     this.onTapItem,
+    this.watchlist,
+    this.onTapBanner,
+    required this.heroTag,
+    this.rated,
   });
 
   @override
@@ -42,47 +51,42 @@ class QuaternaryItem extends StatelessWidget {
                   fit: StackFit.expand,
                   alignment: Alignment.center,
                   children: [
-                    CachedNetworkImage(
-                      imageUrl: imageUrl ?? '',
-                      filterQuality: FilterQuality.high,
-                      width: 60.w,
-                      fit: BoxFit.fill,
-                      progressIndicatorBuilder: (context, url, progress) => const CustomIndicator(),
-                      errorWidget: (context, url, error) => Image.asset(
-                        ImagesPath.noImage.assetName,
+                    Hero(
+                      tag: heroTag,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl ?? '',
                         filterQuality: FilterQuality.high,
+                        width: 60.w,
                         fit: BoxFit.fill,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const CustomIndicator(),
+                        errorWidget: (context, url, error) => Image.asset(
+                          ImagesPath.noImage.assetName,
+                          filterQuality: FilterQuality.high,
+                          width: 60.w,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
                       child: GestureDetector(
-                        // onTap: onTapBanner,
+                        onTap: onTapBanner,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
                             SvgPicture.asset(
-                              // (watchlist ?? false)
-                              // ?
-                              // IconsPath.addedWatchListIcon.assetName
-                              // :
-                              IconsPath.addWatchListIcon.assetName,
+                              (watchlist ?? false)
+                                  ? IconsPath.addedWatchListIcon.assetName
+                                  : IconsPath.addWatchListIcon.assetName,
                               alignment: Alignment.topLeft,
-                              width: 50.w,
-                              height: 45.h,
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.fill,
                             ),
                             Positioned(
-                              top: 6.h,
+                              top: 5.h,
                               child: Icon(
-                                // (watchlist ?? false) ?
-                                // Icons.check
-                                // :
-                                Icons.add,
-                                color:
-                                    // (watchlist ?? false) ? blackColor
-                                    // :
-                                    whiteColor,
+                                (watchlist ?? false) ? Icons.check : Icons.add,
+                                color: (watchlist ?? false) ? blackColor : whiteColor,
                                 size: 22.sp,
                               ),
                             ),
@@ -159,6 +163,37 @@ class QuaternaryItem extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 10.w),
+                          (rated is Rated?)
+                              ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Flexible(
+                                      child: Icon(
+                                        Icons.star,
+                                        color: brightNavyBlue,
+                                        size: 16.sp,
+                                        applyTextScaling: true,
+                                      ),
+                                    ),
+                                    SizedBox(width: 3.w),
+                                    Flexible(
+                                      child: Text(
+                                        double.parse(
+                                          (rated?.value ?? 0).toStringAsFixed(1),
+                                        ).ceil().toString(),
+                                        textScaler: const TextScaler.linear(1),
+                                        style: TextStyle(
+                                          color: blackColor,
+                                          fontSize: 14.sp,
+                                          height: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                  ],
+                                )
+                              : const SizedBox(),
                           Flexible(
                             flex: 3,
                             child: Text(

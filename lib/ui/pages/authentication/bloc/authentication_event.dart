@@ -8,3 +8,4 @@ class LoadPageAuthentication extends AuthenticationEvent {
     required this.isLaterLogin,
   });
 }
+

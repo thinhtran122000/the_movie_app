@@ -21,4 +21,11 @@ class LoginRepository {
 
   Future<ObjectResponse<TmdbAuthentication>> refreshToken() async =>
       AuthenticationService(apiClient: restApiClient).refreshToken();
+
+  Future<ObjectResponse<TmdbAuthentication>> createSession({
+    required String requestToken,
+  }) async =>
+      AuthenticationService(apiClient: restApiClient).createSession(
+        requestToken: requestToken,
+      );
 }

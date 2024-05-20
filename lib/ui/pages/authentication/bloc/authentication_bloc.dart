@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 
 part 'authentication_event.dart';
@@ -15,7 +14,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   FutureOr<void> _onLoadPageAuthentication(
       LoadPageAuthentication event, Emitter<AuthenticationState> emit) {
-    emit(AuthenticationSuccess(
+    emit(AuthenticationLoaded(
       isLaterLogin: event.isLaterLogin,
     ));
   }
