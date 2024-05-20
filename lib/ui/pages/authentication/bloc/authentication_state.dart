@@ -13,8 +13,23 @@ class AuthenticationInitial extends AuthenticationState {
   });
 }
 
+class AuthenticationLoaded extends AuthenticationState {
+  AuthenticationLoaded({
+    required super.isLaterLogin,
+  });
+}
+
+
 class AuthenticationSuccess extends AuthenticationState {
   AuthenticationSuccess({
+    required super.isLaterLogin,
+  });
+}
+
+class AuthenticationError extends AuthenticationState {
+  final String errorMessage;
+  AuthenticationError({
+    required this.errorMessage,
     required super.isLaterLogin,
   });
 }

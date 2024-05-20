@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:intl/intl.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class AppUtils {
   static final AppUtils _instance = AppUtils._();
@@ -138,6 +139,12 @@ class AppUtils {
     return outputDateTime;
   }
 
+  String formatRuntime(int runtime) {
+    final hours = runtime ~/ 60;
+    final remainingMinutes = runtime % 60;
+    return '${hours}h ${remainingMinutes}m';
+  }
+
   String durationFormatter(int milliSeconds) {
     var seconds = milliSeconds ~/ 1000;
     final hours = seconds ~/ 3600;
@@ -171,28 +178,55 @@ class AppUtils {
   String getYearReleaseOrDepartment(
     String? releaseDate,
     String? firstAirDate,
+    String? lastAirDate,
     String mediaType,
     String? knownForDepartment,
   ) {
     switch (mediaType) {
       case 'movie':
         {
-          return releaseDate != '' ? (releaseDate ?? '').substring(0, 4) : 'Unknown';
+          return releaseDate == null || releaseDate.isEmpty
+              ? 'Unknown'
+              : releaseDate.substring(0, 4);
         }
 
       case 'tv':
         {
-          return firstAirDate != '' ? (firstAirDate ?? '').substring(0, 4) : 'Unknown';
+          return firstAirDate == null || firstAirDate.isEmpty
+              ? 'Unknown'
+              : firstAirDate.substring(0, 4);
         }
       case 'person':
         {
-          return knownForDepartment != '' || knownForDepartment != null
-              ? '${(knownForDepartment)}'
-              : '';
+          return knownForDepartment == null || knownForDepartment.isEmpty ? '' : knownForDepartment;
         }
       default:
         {
           return '';
+        }
+    }
+  }
+
+  MediaType getMediaType(
+    String? mediaType,
+  ) {
+    switch (mediaType) {
+      case 'movie':
+        {
+          return MediaType.movie;
+        }
+
+      case 'tv':
+        {
+          return MediaType.tv;
+        }
+      case 'person':
+        {
+          return MediaType.person;
+        }
+      default:
+        {
+          return MediaType.movie;
         }
     }
   }
@@ -371,126 +405,126 @@ class AppUtils {
   }
 }
 
-  // List<Color> generatePalette(Map<String, dynamic> params) {
-  //   List<Color> colors = [];
-  //   List<Color> palette = [];
-  //   colors.addAll(sortColors(params['palette']));
-  //   int numberOfItems = params['numberOfItems'];
-  //   if (numberOfItems <= colors.length) {
-  //     final chunkSize = colors.length ~/ numberOfItems; // 16/16
-  //     for (int i = 0; i < numberOfItems; i++) {
-  //       final sublistColor = colors.sublist(i * chunkSize, (i + 1) * chunkSize);
-  //       final averageColor = getAverageColor(sublistColor);
-  //       palette.add(averageColor);
-  //     }
-  //   }
-  //   return palette;
-  // }
+// List<Color> generatePalette(Map<String, dynamic> params) {
+//   List<Color> colors = [];
+//   List<Color> palette = [];
+//   colors.addAll(sortColors(params['palette']));
+//   int numberOfItems = params['numberOfItems'];
+//   if (numberOfItems <= colors.length) {
+//     final chunkSize = colors.length ~/ numberOfItems; // 16/16
+//     for (int i = 0; i < numberOfItems; i++) {
+//       final sublistColor = colors.sublist(i * chunkSize, (i + 1) * chunkSize);
+//       final averageColor = getAverageColor(sublistColor);
+//       palette.add(averageColor);
+//     }
+//   }
+//   return palette;
+// }
 
-  // List<Color> extractPixelsColors(Uint8List? bytes) {
-  //   List<Color> colors = [];
-  //   //decode image
-  //   final values = bytes!.buffer.asUint8List();
-  //   final image = img.decodeImage(values);
-  //   final pixels = [];
-  //   int width = image?.width ?? 0;
-  //   int height = image?.height ?? 0;
-  //   int xChunk = (width ~/ (pixelsPerAxis + 1));
-  //   int yChunk = (height ~/ (pixelsPerAxis + 1));
-  //   for (int j = 1; j < pixelsPerAxis + 1; j++) {
-  //     for (int i = 1; i < pixelsPerAxis + 1; i++) {
-  //       int? pixel = image?.getPixel(xChunk * i, yChunk * j);
-  //       pixels.add(pixel);
-  //       colors.add(argbToColor(pixel!));
-  //     }
-  //   }
+// List<Color> extractPixelsColors(Uint8List? bytes) {
+//   List<Color> colors = [];
+//   //decode image
+//   final values = bytes!.buffer.asUint8List();
+//   final image = img.decodeImage(values);
+//   final pixels = [];
+//   int width = image?.width ?? 0;
+//   int height = image?.height ?? 0;
+//   int xChunk = (width ~/ (pixelsPerAxis + 1));
+//   int yChunk = (height ~/ (pixelsPerAxis + 1));
+//   for (int j = 1; j < pixelsPerAxis + 1; j++) {
+//     for (int i = 1; i < pixelsPerAxis + 1; i++) {
+//       int? pixel = image?.getPixel(xChunk * i, yChunk * j);
+//       pixels.add(pixel);
+//       colors.add(argbToColor(pixel!));
+//     }
+//   }
 
-  //   return colors;
-  // }
+//   return colors;
+// }
 
-  // double getLuminance(List<Color> paletteColors) {
-  //   double totalLuminance = 0;
-  //   for (final paletteColor in paletteColors) {
-  //     totalLuminance += paletteColor.computeLuminance();
-  //   }
-  //   double averageLuminance = totalLuminance / paletteColors.length;
-  //   return averageLuminance;
-  // }
+// double getLuminance(List<Color> paletteColors) {
+//   double totalLuminance = 0;
+//   for (final paletteColor in paletteColors) {
+//     totalLuminance += paletteColor.computeLuminance();
+//   }
+//   double averageLuminance = totalLuminance / paletteColors.length;
+//   return averageLuminance;
+// }
 
-  // Future<List<MediaTrailer>> getTrailersMovie(Map<String, dynamic> params) async {
-  //   final receivePort = ReceivePort();
-  //   final isolate = await Isolate.spawn(
-  //     getListTrailerMovie,
-  //     [receivePort.sendPort, params],
-  //   );
-  //   final listTrailer = await receivePort.first as List<MediaTrailer>;
-  //   receivePort.close();
-  //   isolate.kill();
-  //   return listTrailer;
-  // }
+// Future<List<MediaTrailer>> getTrailersMovie(Map<String, dynamic> params) async {
+//   final receivePort = ReceivePort();
+//   final isolate = await Isolate.spawn(
+//     getListTrailerMovie,
+//     [receivePort.sendPort, params],
+//   );
+//   final listTrailer = await receivePort.first as List<MediaTrailer>;
+//   receivePort.close();
+//   isolate.kill();
+//   return listTrailer;
+// }
 
-  // void getListTrailerMovie(List<dynamic> arguments) async {
-  //   ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
-  //   List<List<MediaTrailer>> listOfListTrailerMovie = [];
-  //   SendPort sendPort = arguments[0];
-  //   Map<String, dynamic> params = arguments[1];
-  //   for (int i = 0; i < params['list_movie'].length; i++) {
-  //     final resultsTrailerMovie = await exploreRepository.getTrailerMovie(
-  //       movieId: params['list_movie'][i].id ?? 0,
-  //       language: params['language'],
-  //     );
-  //     if (resultsTrailerMovie.list.isEmpty) {
-  //       listOfListTrailerMovie.insert(i, []);
-  //       continue;
-  //     } else {
-  //       listOfListTrailerMovie.add(resultsTrailerMovie.list);
-  //     }
-  //   }
-  //   final listTrailerMovie = listOfListTrailerMovie.map<MediaTrailer>((e) {
-  //     if (e.isNotEmpty) {
-  //       return e.first;
-  //     } else {
-  //       return MediaTrailer(key: '');
-  //     }
-  //   }).toList();
-  //   sendPort.send(listTrailerMovie);
-  // }
+// void getListTrailerMovie(List<dynamic> arguments) async {
+//   ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
+//   List<List<MediaTrailer>> listOfListTrailerMovie = [];
+//   SendPort sendPort = arguments[0];
+//   Map<String, dynamic> params = arguments[1];
+//   for (int i = 0; i < params['list_movie'].length; i++) {
+//     final resultsTrailerMovie = await exploreRepository.getTrailerMovie(
+//       movieId: params['list_movie'][i].id ?? 0,
+//       language: params['language'],
+//     );
+//     if (resultsTrailerMovie.list.isEmpty) {
+//       listOfListTrailerMovie.insert(i, []);
+//       continue;
+//     } else {
+//       listOfListTrailerMovie.add(resultsTrailerMovie.list);
+//     }
+//   }
+//   final listTrailerMovie = listOfListTrailerMovie.map<MediaTrailer>((e) {
+//     if (e.isNotEmpty) {
+//       return e.first;
+//     } else {
+//       return MediaTrailer(key: '');
+//     }
+//   }).toList();
+//   sendPort.send(listTrailerMovie);
+// }
 
-  // Future<List<MediaTrailer>> getTrailersTv(Map<String, dynamic> params) async {
-  //   final receivePort = ReceivePort();
-  //   final isolate = await Isolate.spawn(
-  //     getListTrailerTv,
-  //     [receivePort.sendPort, params],
-  //   );
-  //   final listTrailer = await receivePort.first as List<MediaTrailer>;
-  //   receivePort.close();
-  //   isolate.kill();
-  //   return listTrailer;
-  // }
+// Future<List<MediaTrailer>> getTrailersTv(Map<String, dynamic> params) async {
+//   final receivePort = ReceivePort();
+//   final isolate = await Isolate.spawn(
+//     getListTrailerTv,
+//     [receivePort.sendPort, params],
+//   );
+//   final listTrailer = await receivePort.first as List<MediaTrailer>;
+//   receivePort.close();
+//   isolate.kill();
+//   return listTrailer;
+// }
 
-  // void getListTrailerTv(List<dynamic> arguments) async {
-  //   ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
-  //   List<List<MediaTrailer>> listOfListTrailerTv = [];
-  //   SendPort sendPort = arguments[0];
-  //   Map<String, dynamic> params = arguments[1];
-  //   for (int i = 0; i < params['list_tv'].length; i++) {
-  //     final resultsTrailerTv = await exploreRepository.getTrailerTv(
-  //       seriesId: params['list_tv'][i].id as int,
-  //       language: params['language'],
-  //     );
-  //     if (resultsTrailerTv.list.isEmpty) {
-  //       listOfListTrailerTv.insert(i, []);
-  //       continue;
-  //     } else {
-  //       listOfListTrailerTv.add(resultsTrailerTv.list);
-  //     }
-  //   }
-  //   final listTrailerTv = listOfListTrailerTv.map<MediaTrailer>((e) {
-  //     if (e.isNotEmpty) {
-  //       return e.first;
-  //     } else {
-  //       return MediaTrailer(key: '');
-  //     }
-  //   }).toList();
-  //   sendPort.send(listTrailerTv);
-  // }
+// void getListTrailerTv(List<dynamic> arguments) async {
+//   ExploreRepository exploreRepository = ExploreRepository(restApiClient: RestApiClient());
+//   List<List<MediaTrailer>> listOfListTrailerTv = [];
+//   SendPort sendPort = arguments[0];
+//   Map<String, dynamic> params = arguments[1];
+//   for (int i = 0; i < params['list_tv'].length; i++) {
+//     final resultsTrailerTv = await exploreRepository.getTrailerTv(
+//       seriesId: params['list_tv'][i].id as int,
+//       language: params['language'],
+//     );
+//     if (resultsTrailerTv.list.isEmpty) {
+//       listOfListTrailerTv.insert(i, []);
+//       continue;
+//     } else {
+//       listOfListTrailerTv.add(resultsTrailerTv.list);
+//     }
+//   }
+//   final listTrailerTv = listOfListTrailerTv.map<MediaTrailer>((e) {
+//     if (e.isNotEmpty) {
+//       return e.first;
+//     } else {
+//       return MediaTrailer(key: '');
+//     }
+//   }).toList();
+//   sendPort.send(listTrailerTv);
+// }

@@ -12,3 +12,4 @@ export 'single_item.dart';
 export 'slider_item.dart';
 export 'tertiary_item.dart';
 export 'view_all_item.dart';
+export 'duodenary_item.dart';

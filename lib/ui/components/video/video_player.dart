@@ -106,8 +106,8 @@ class _VideoPLayerState extends State<VideoPLayer> {
                               currentPosition = controller.value.position.inMilliseconds;
                             },
                           );
-                          (widget.scrollPosition ?? 0) >= 1100.h &&
-                                  (widget.scrollPosition ?? 0) <= 1500.h
+                          (widget.scrollPosition ?? 0) >= 1100 &&
+                                  (widget.scrollPosition ?? 0) <= 1550
                               ? null
                               : controller.pause();
                         },
@@ -124,8 +124,8 @@ class _VideoPLayerState extends State<VideoPLayer> {
                               currentPosition = controller.value.position.inMilliseconds;
                             },
                           );
-                          (widget.scrollPosition ?? 0) >= 1100.h &&
-                                  (widget.scrollPosition ?? 0) <= 1500.h
+                          (widget.scrollPosition ?? 0) >= 1100 &&
+                                  (widget.scrollPosition ?? 0) <= 1550
                               ? null
                               : controller.pause();
                         },
@@ -205,13 +205,10 @@ class _VideoPLayerState extends State<VideoPLayer> {
                     isPlaying: controller.value.isPlaying,
                     clickType: ClickPosition.inside,
                   ),
-                  onTap: (event) {
-                    print('Hello 1 $clickable');
-                    showHideControl(
-                      isPlaying: controller.value.isPlaying,
-                      clickType: ClickPosition.inside,
-                    );
-                  },
+                  onTap: (event) => showHideControl(
+                    isPlaying: controller.value.isPlaying,
+                    clickType: ClickPosition.inside,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -294,6 +291,7 @@ class _VideoPLayerState extends State<VideoPLayer> {
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: whiteColor,
+                            height: 0,
                           ),
                         ),
                       ),

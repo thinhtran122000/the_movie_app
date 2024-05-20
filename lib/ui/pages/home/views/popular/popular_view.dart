@@ -104,9 +104,7 @@ class PopularView extends StatelessWidget {
                     CarouselSlider.builder(
                       carouselController: bloc.controller,
                       itemBuilder: itemBuilder,
-                      itemCount: state.listPopular.isNotEmpty
-                          ? (state.listPopular.length / 2).round()
-                          : 10,
+                      itemCount: state.listPopular.length,
                       options: CarouselOptions(
                         autoPlayAnimationDuration: const Duration(milliseconds: 500),
                         autoPlay: state.autoPlay,
@@ -117,15 +115,10 @@ class PopularView extends StatelessWidget {
                             bloc.add(SlidePageView(selectedIndex: index)),
                       ),
                     ),
-                    SliderIndicator(
-                      indexIndicator: state.selectedIndex %
-                          (state.listPopular.isNotEmpty
-                              ? (state.listPopular.length / 2).round()
-                              : 10),
-                      length: state.listPopular.isNotEmpty
-                          ? (state.listPopular.length / 2).round()
-                          : 10,
-                    ),
+                    // SliderIndicator(
+                    //   indexIndicator: state.selectedIndex % state.listPopular.length,
+                    //   length: state.listPopular.length,
+                    // ),
                   ],
                 );
               },
@@ -140,7 +133,7 @@ class PopularView extends StatelessWidget {
     final state = BlocProvider.of<PopularBloc>(context).state;
     final item = state.listPopular.isNotEmpty ? state.listPopular[index] : null;
     return SliderItem(
-      heroTag: '${AppConstants.popularMovieHeroTag}-$index',
+      heroTag: '${AppConstants.popularMovieTag}-${item?.id}',
       isBackdrop: true,
       imageUrlBackdrop: item?.backdropPath == null
           ? ''
@@ -148,8 +141,9 @@ class PopularView extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(
         AppMainRoutes.details,
         arguments: {
-          'hero_tag': '${AppConstants.popularMovieHeroTag}-$index',
+          'hero_tag': '${AppConstants.popularMovieTag}-${item?.id}',
           'id': item?.id,
+          'media_type': MediaType.movie,
         },
       ),
     );

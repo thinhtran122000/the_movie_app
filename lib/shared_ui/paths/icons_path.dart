@@ -13,6 +13,8 @@ enum IconsPath {
   topRatedIcon('lib/shared_ui/assets/icons/top_rated_icon.svg'),
   bornTodayIcon('lib/shared_ui/assets/icons/born_today_icon.svg'),
   trailerIcon('lib/shared_ui/assets/icons/trailer_icon.svg'),
+  relatedIcon('lib/shared_ui/assets/icons/related_icon.svg'),
+
 
   addWatchListIcon('lib/shared_ui/assets/icons/add_watch_list_icon.svg'),
   addedWatchListIcon('lib/shared_ui/assets/icons/added_watch_list_icon.svg'),
@@ -35,7 +37,9 @@ enum IconsPath {
   facebookIcon('lib/shared_ui/assets/icons/facebook_icon.svg'),
 
   eyeOpenIcon('lib/shared_ui/assets/icons/eye_open_icon.svg'),
-  eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.svg');
+  eyeCloseIcon('lib/shared_ui/assets/icons/eye_close_icon.svg'),
+
+  settingsIcon('lib/shared_ui/assets/icons/settings_icon.svg');
 
   const IconsPath(this.assetName);
   final String assetName;

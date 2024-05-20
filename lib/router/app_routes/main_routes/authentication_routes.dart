@@ -7,14 +7,13 @@ class AuthenticationRoutes {
     AppMainRoutes.login: (context, settings) {
       final arguments = settings.arguments as Map<String, dynamic>?;
       return LoginPage(
-        route: arguments?['route'] as String? ?? '',
+        isLaterLogin: arguments?['is_later_login'] as bool? ?? false,
       );
     },
     AppMainRoutes.authentication: (context, settings) {
       final arguments = settings.arguments as Map<String, dynamic>?;
       return AuthenticationPage(
         isLaterLogin: arguments?['is_later_login'] as bool? ?? false,
-        route: arguments?['route'] as String? ?? '',
       );
     }
   };

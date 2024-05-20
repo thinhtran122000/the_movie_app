@@ -1,1 +1,2 @@
-export 'secure_storage.dart';
+export 'flutter_storage.dart';
+export 'preferences_storage.dart';

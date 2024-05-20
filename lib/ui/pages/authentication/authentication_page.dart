@@ -9,24 +9,25 @@ import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
-import 'package:tmdb/utils/storage/secure_storage.dart';
+import 'package:tmdb/utils/storage/flutter_storage.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class AuthenticationPage extends StatelessWidget {
   final bool? isLaterLogin;
-  final String? route;
   const AuthenticationPage({
     super.key,
     this.isLaterLogin,
-    this.route,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthenticationBloc()
-        ..add(LoadPageAuthentication(
-          isLaterLogin: isLaterLogin ?? false,
-        )),
+        ..add(
+          LoadPageAuthentication(
+            isLaterLogin: isLaterLogin ?? false,
+          ),
+        ),
       child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -47,10 +48,12 @@ class AuthenticationPage extends StatelessWidget {
                       'Cancel',
                       textAlign: TextAlign.left,
                       softWrap: false,
+                      textScaler: const TextScaler.linear(1),
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                         color: whiteColor,
+                        height: 0,
                       ),
                     ),
                     onTapLeading: () => Navigator.of(context).pop(),
@@ -101,7 +104,7 @@ class AuthenticationPage extends StatelessWidget {
                           colorTitle: whiteColor,
                           buttonStyle: registerPrimaryStyle,
                           onTap: () async {
-                            final b = await SecureStorage().getAllValues();
+                            final b = await FlutterStorage().getAllValues();
                             log('$b');
                           },
                         ),
@@ -130,22 +133,12 @@ class AuthenticationPage extends StatelessWidget {
                             width: 20.w,
                             height: 20.h,
                           ),
-                          onTap: () async {
-                            Navigator.of(context).pushNamed(
-                              AppMainRoutes.login,
-                              arguments: {'route': route},
-                            ).then(
-                              (results) {
-                                if (results != null) {
-                                  PopResults popResult = results as PopResults;
-                                  if (popResult.toPage == AppMainRoutes.authentication) {
-                                  } else {
-                                    Navigator.of(context).pop(results);
-                                  }
-                                }
-                              },
-                            );
-                          },
+                          onTap: () => Navigator.of(context).pushNamed(
+                            AppMainRoutes.login,
+                            arguments: {
+                              'is_later_login': isLaterLogin,
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.h),
@@ -227,8 +220,8 @@ class AuthenticationPage extends StatelessWidget {
                                     '/navigation/home',
                                     ModalRoute.withName('/navigation/home'),
                                   );
-                                  await SecureStorage().deleteAllValues();
-                                  print('Hello ${await SecureStorage().getAllValues()}');
+                                  await FlutterStorage().deleteAllValues();
+                                  print('Hello ${await FlutterStorage().getAllValues()}');
                                 },
                                 child: Text(
                                   'Not now',

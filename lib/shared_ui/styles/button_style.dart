@@ -145,3 +145,82 @@ ButtonStyle get sortPrimaryStyle => ButtonStyle(
         ),
       ),
     );
+
+ButtonStyle get addWatchlistPrimaryStyle => ButtonStyle(
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      backgroundColor: MaterialStateProperty.all<Color>(yellowColor),
+      overlayColor: MaterialStateProperty.all<Color>(lightGreyColor.withOpacity(0.95)),
+      shadowColor: MaterialStateProperty.all<Color>(lightGreyColor),
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          side: BorderSide(
+            color: noColor,
+            strokeAlign: BorderSide.strokeAlignInside,
+          ),
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+      ),
+    );
+
+ButtonStyle get addWatchlistSecondaryStyle => ButtonStyle(
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      backgroundColor: MaterialStateProperty.all<Color>(whiteColor),
+      overlayColor: MaterialStateProperty.all<Color>(lightGreyColor.withOpacity(0.95)),
+      shadowColor: MaterialStateProperty.all<Color>(whiteColor),
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          side: BorderSide(
+            color: greyColor,
+            strokeAlign: BorderSide.strokeAlignInside,
+            width: 1.w,
+          ),
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+      ),
+    );
+
+ButtonStyle get ratingPrimaryStyle => ButtonStyle(
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      backgroundColor: MaterialStateProperty.all<Color>(yellowColor),
+      overlayColor: MaterialStateProperty.all<Color>(blackColor.withOpacity(0.85)),
+      shadowColor: MaterialStateProperty.all<Color>(noColor),
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          side: BorderSide(
+            color: yellowColor,
+            strokeAlign: BorderSide.strokeAlignInside,
+            width: 1.w,
+          ),
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+      ),
+    );
+
+ButtonStyle get ratingSecondaryStyle => ButtonStyle(
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      backgroundColor: MaterialStateProperty.all<Color>(blackColor.withOpacity(0.4)),
+      overlayColor: MaterialStateProperty.all<Color>(blackColor.withOpacity(0.4)),
+      shadowColor: MaterialStateProperty.all<Color>(noColor),
+      padding: MaterialStateProperty.all<EdgeInsets>(
+        EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+      ),
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          side: BorderSide(
+            color: noColor,
+            strokeAlign: BorderSide.strokeAlignInside,
+            width: 1.w,
+          ),
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+      ),
+    );

@@ -1,26 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/bloc/tmdb_bloc.dart';
 import 'package:tmdb/ui/components/components.dart';
 import 'package:tmdb/ui/pages/watchlist/views/tv/bloc/watchlist_tv_bloc.dart';
+import 'package:tmdb/ui/ui.dart';
 import 'package:tmdb/utils/app_utils/app_utils.dart';
 import 'package:tmdb/utils/utils.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class WatchlistTvView extends StatelessWidget {
-  const WatchlistTvView({super.key});
+  const WatchlistTvView({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String sessionId = '566e05bbb7e5ce24132f9aa1b1e2cdf3cb0bf1fb';
-    int accountId = 11429392;
     return BlocProvider(
       create: (context) => WatchlistTvBloc()
         ..add(FetchData(
           language: 'en-US',
-          accountId: accountId,
-          sessionId: sessionId,
           sortBy: 'created_at.desc',
         )),
       child: BlocConsumer<WatchlistTvBloc, WatchlistTvState>(
@@ -30,9 +32,16 @@ class WatchlistTvView extends StatelessWidget {
             bloc.add(LoadShimmer());
             bloc.add(FetchData(
               language: 'en-US',
-              accountId: accountId,
-              sessionId: sessionId,
               sortBy: state.sortBy,
+            ));
+          }
+          if (state is WatchlistTvRemoveSuccess) {
+            bloc.add(FetchData(
+              language: 'en-US',
+              sortBy: state.sortBy,
+            ));
+            BlocProvider.of<TmdbBloc>(context).add(NotifyStateChange(
+              notificationTypes: NotificationTypes.watchlist,
             ));
           }
         },
@@ -52,14 +61,10 @@ class WatchlistTvView extends StatelessWidget {
             ),
             onRefresh: () => bloc.add(FetchData(
               language: 'en-US',
-              accountId: accountId,
-              sessionId: sessionId,
               sortBy: state.sortBy,
             )),
             onLoading: () => bloc.add(LoadMore(
               language: 'en-US',
-              accountId: accountId,
-              sessionId: sessionId,
               sortBy: state.sortBy,
             )),
             child: Column(
@@ -119,17 +124,41 @@ class WatchlistTvView extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    final itemWatchList = BlocProvider.of<WatchlistTvBloc>(context).state.listWatchList[index];
+    final bloc = BlocProvider.of<WatchlistTvBloc>(context);
+    final item = bloc.state.listWatchList[index];
+    final itemState = bloc.state.listTvState[index];
     return QuaternaryItem(
-      title: itemWatchList.title ?? itemWatchList.name,
-      voteAverage: itemWatchList.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
-      releaseDate: itemWatchList.firstAirDate!.isNotEmpty
-          ? AppUtils().formatDate(itemWatchList.firstAirDate ?? '')
+      heroTag: '${AppConstants.watchlistTvTag}-${item.id}',
+      watchlist: itemState.watchlist,
+      rated: itemState.rated,
+      title: item.title ?? item.name,
+      voteAverage: item.voteAverage?.toStringAsFixed(1) ?? 0.toStringAsFixed(1),
+      releaseDate: item.firstAirDate!.isNotEmpty
+          ? AppUtils().formatDate(item.firstAirDate ?? '')
           : '00-00-0000',
-      overview: itemWatchList.overview != '' ? itemWatchList.overview : 'Coming soon',
-      originalLanguage: itemWatchList.originalLanguage,
-      imageUrl: '${AppConstants.kImagePathPoster}/${itemWatchList.posterPath}',
-      onTapItem: () {},
+      originalLanguage: item.originalLanguage,
+      imageUrl: '${AppConstants.kImagePathPoster92}/${item.posterPath}',
+      onTapBanner: () => itemState.watchlist ?? true
+          ? showCupertinoModalPopup(
+              context: context,
+              builder: (secondaryContext) => CustomBottomSheet(
+                title:
+                    '${item.name} (${(item.firstAirDate ?? '').isEmpty ? 'Unknown' : item.firstAirDate?.substring(0, 4)})',
+                titleConfirm: 'Remove from Watchlist',
+                titleCancel: 'Cancel',
+                onPressCancel: () => Navigator.of(secondaryContext).pop(),
+                onPressConfirm: () => removeWatchlist(context, secondaryContext, index),
+              ),
+            )
+          : null,
+      onTapItem: () => Navigator.of(context).pushNamed(
+        AppMainRoutes.details,
+        arguments: {
+          'id': item.id,
+          'media_type': MediaType.tv,
+          'hero_tag': '${AppConstants.watchlistTvTag}-${item.id}',
+        },
+      ),
     );
   }
 
@@ -144,5 +173,15 @@ class WatchlistTvView extends StatelessWidget {
     status
         ? bloc.add(Sort(status: false, sortBy: sortBy))
         : bloc.add(Sort(status: true, sortBy: sortBy));
+  }
+
+  removeWatchlist(BuildContext firstContext, BuildContext secondaryContext, int index) {
+    final bloc = BlocProvider.of<WatchlistTvBloc>(firstContext);
+    bloc.add(RemoveWatchlist(
+      mediaType: 'tv',
+      mediaId: bloc.state.listWatchList[index].id ?? 0,
+      index: index,
+    ));
+    Navigator.of(secondaryContext).pop();
   }
 }

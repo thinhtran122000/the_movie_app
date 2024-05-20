@@ -10,3 +10,5 @@ export 'navigation/navigation.dart';
 export 'profile/profile.dart';
 export 'trailer/trailer.dart';
 export 'watchlist/watchlist.dart';
+export 'rated/rated.dart';
+export 'rating/rating.dart';

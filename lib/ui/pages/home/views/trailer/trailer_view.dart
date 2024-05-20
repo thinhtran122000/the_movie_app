@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/components/components.dart';
-import 'package:tmdb/ui/pages/details/details.dart';
 import 'package:tmdb/ui/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb/ui/pages/home/views/trailer/bloc/trailer_bloc.dart';
 import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:tmdb/utils/constants/constants.dart';
 import 'package:tmdb/utils/debouncer/debouncer.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class TrailerView extends StatefulWidget {
   const TrailerView({super.key});
@@ -38,8 +37,8 @@ class _TrailerViewState extends State<TrailerView> {
               switch (state.runtimeType) {
                 case NavigationSuccess:
                   state.indexPage == 0
-                      ? homeBloc.scrollController.position.pixels >= 1100.h &&
-                              homeBloc.scrollController.position.pixels <= 1500.h
+                      ? homeBloc.scrollController.position.pixels > 1100 &&
+                              homeBloc.scrollController.position.pixels < 1550
                           ? checkDisplayVideo(context)
                               ? null
                               : playTrailer(context, trailerState.indexMovie, trailerState.indexTv)
@@ -55,14 +54,16 @@ class _TrailerViewState extends State<TrailerView> {
                       ? checkDisplayVideo(context)
                           ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
                           : null
-                      : stopTrailer(context, trailerState.indexMovie, trailerState.indexTv);
+                      : checkDisplayVideo(context)
+                          ? stopTrailer(context, trailerState.indexMovie, trailerState.indexTv)
+                          : null;
                   break;
                 default:
                   break;
               }
             },
           ),
-          //disable trailer when tap other list type homepage
+          // disable trailer when tap other list type homepage
           BlocListener<HomeBloc, HomeState>(
             listener: (context, state) {
               final trailerState = BlocProvider.of<TrailerBloc>(context).state;
@@ -165,7 +166,7 @@ class _TrailerViewState extends State<TrailerView> {
     final item = bloc.state.listMovie[index];
     final itemTrailer = bloc.state.listTrailerMovie[index];
     return NonaryItem(
-      heroTag: '${AppConstants.trailerMovieHeroTag}-$index',
+      heroTag: '${AppConstants.trailerMovieTag}-${item.id}',
       videoId: itemTrailer.key ?? '',
       enableVideo: bloc.state.visibleVideoMovie[index],
       title: item.title,
@@ -174,7 +175,12 @@ class _TrailerViewState extends State<TrailerView> {
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, index, bloc.state.indexTv),
-      onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerMovieHeroTag}-$index'),
+      onTapItem: () => navigateDetailPage(
+        context,
+        '${AppConstants.trailerMovieTag}-${item.id}',
+        MediaType.movie,
+        item.id ?? 0,
+      ),
       onTapVideo: () => bloc.state.visibleVideoMovie[index]
           ? stopTrailer(context, index, bloc.state.indexTv)
           : playTrailer(context, index, bloc.state.indexTv),
@@ -186,7 +192,7 @@ class _TrailerViewState extends State<TrailerView> {
     final item = bloc.state.listTv[index];
     final itemTrailer = bloc.state.listTrailerTv[index];
     return NonaryItem(
-      heroTag: '${AppConstants.trailerTvHeroTag}-$index',
+      heroTag: '${AppConstants.trailerTvTag}-${item.id}',
       videoId: itemTrailer.key ?? '',
       enableVideo: bloc.state.visibleVideoTv[index],
       title: item.name,
@@ -195,7 +201,12 @@ class _TrailerViewState extends State<TrailerView> {
       imageUrl:
           item.backdropPath == null ? '' : '${AppConstants.kImagePathBackdrop}${item.backdropPath}',
       onEnded: (metdaData) => stopTrailer(context, bloc.state.indexMovie, index),
-      onTapItem: () => navigateDetailPage(context, '${AppConstants.trailerTvHeroTag}-$index'),
+      onTapItem: () => navigateDetailPage(
+        context,
+        '${AppConstants.trailerTvTag}-${item.id}',
+        MediaType.tv,
+        item.id ?? 0,
+      ),
       onTapVideo: () => bloc.state.visibleVideoTv[index]
           ? stopTrailer(context, bloc.state.indexMovie, index)
           : playTrailer(context, bloc.state.indexMovie, index),
@@ -214,14 +225,16 @@ class _TrailerViewState extends State<TrailerView> {
     playTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
   }
 
-  navigateDetailPage(BuildContext context, String heroTag) {
+  navigateDetailPage(BuildContext context, String heroTag, MediaType mediaType, int id) {
     final bloc = BlocProvider.of<TrailerBloc>(context);
     stopTrailer(context, bloc.state.indexMovie, bloc.state.indexTv);
-    Navigator.of(context).push(
-      AppPageRoute(
-        builder: (context) => DetailsPage(heroTag: heroTag),
-        begin: const Offset(1, 0),
-      ),
+    Navigator.of(context).pushNamed(
+      AppMainRoutes.details,
+      arguments: {
+        'id': id,
+        'media_type': mediaType,
+        'hero_tag': heroTag,
+      },
     );
   }
 

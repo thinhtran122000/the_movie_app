@@ -8,14 +8,14 @@ part 'watchlist_state.dart';
 class WatchlistBloc extends Bloc<WatchlistEvent, WatchlistState> {
   WatchlistBloc()
       : super(WatchlistInitial(
-          index: 0,
+          indexTab: 0,
         )) {
-    on<ChangeTab>(_onChangeTab);
+    on<NavigateTabWatchlist>(_onNavigateTabWatchlist);
   }
 
-  FutureOr<void> _onChangeTab(ChangeTab event, Emitter<WatchlistState> emit) {
-    emit(WatchlistInitial(
-      index: event.index,
+  FutureOr<void> _onNavigateTabWatchlist(NavigateTabWatchlist event, Emitter<WatchlistState> emit) {
+    emit(WatchlistSuccess(
+      indexTab: event.indexTab,
     ));
   }
 }

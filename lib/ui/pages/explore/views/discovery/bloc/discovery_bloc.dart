@@ -8,14 +8,14 @@ part 'discovery_state.dart';
 class DiscoveryBloc extends Bloc<DiscoveryEvent, DiscoveryState> {
   DiscoveryBloc()
       : super(DiscoveryInitial(
-          indexPage: 0,
+          indexTabDiscovery: 0,
         )) {
-    on<NavigateTab>(_onNavigateTab);
+    on<NavigateTabDiscovery>(_onNavigateTab);
   }
 
-  FutureOr<void> _onNavigateTab(NavigateTab event, Emitter<DiscoveryState> emit) {
+  FutureOr<void> _onNavigateTab(NavigateTabDiscovery event, Emitter<DiscoveryState> emit) {
     emit(DiscoverySucess(
-      indexPage: event.indexPage,
+      indexTabDiscovery: event.indexTabDiscovery,
     ));
   }
 }

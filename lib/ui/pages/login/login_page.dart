@@ -5,12 +5,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/bloc/tmdb_bloc.dart';
 import 'package:tmdb/ui/pages/login/bloc/login_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class LoginPage extends StatelessWidget {
-  final String? route;
-  const LoginPage({super.key, this.route});
+  final bool? isLaterLogin;
+  const LoginPage({
+    super.key,
+    this.isLaterLogin,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,33 +63,31 @@ class LoginPage extends StatelessWidget {
                 );
               case LoginSuccess:
                 {
-                  if ((route ?? '').isEmpty) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      AppMainRoutes.home,
-                      (route) => false,
-                    );
+                  if (isLaterLogin ?? false) {
+                    Navigator.of(context)
+                      ..pop<bool>(isLaterLogin)
+                      ..pop<bool>(isLaterLogin);
+                    BlocProvider.of<TmdbBloc>(context).add(NotifyStateChange(
+                      notificationTypes: NotificationTypes.login,
+                    ));
                   } else {
-                    Navigator.of(context).pop(
-                      PopResults(
-                        fromPage: AppMainRoutes.login,
-                        toPage: route ?? '',
-                        results: {'pop_result': "this is the pop's result"},
-                      ),
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppMainRoutes.navigation,
+                      (route) => false,
                     );
                   }
                 }
                 break;
               default:
-                {
-                  return;
-                }
+                return;
             }
           },
           builder: (context, state) {
+            final bloc = BlocProvider.of<LoginBloc>(context);
             if (state is LoginInitial) {
-              return const Center(
+              return Center(
                 child: CustomIndicator(
-                  radius: 10,
+                  radius: 10.r,
                 ),
               );
             }
@@ -185,116 +188,105 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10.h),
-                        BlocBuilder<LoginBloc, LoginState>(
-                          builder: (context, state) {
-                            final bloc = BlocProvider.of<LoginBloc>(context);
-                            return CustomTextField(
-                              controller: bloc.emailController,
-                              focusNode: bloc.emailFocusNode,
-                              margin: EdgeInsets.zero,
-                              isAuthentication: true,
-                              hintText: 'TMDb username',
-                              shadowColor: lightGreyColor,
-                              backgroundColor: whiteColor,
-                              border: transparentRadiusBorder,
-                              enabledBorder: state.error ? redRadiusBorder : lightGreyRadiusBorder,
-                              focusedBorder: skyBlueRadiusInputBorder,
-                              contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
-                              suffixIcon: bloc.emailController.text.isNotEmpty
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        bloc.emailController.clear();
-                                        bloc.add(ShowClearButton());
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                        child: Icon(
-                                          Icons.clear,
-                                          color: darkBlueColor,
-                                          size: 20.sp,
-                                        ),
-                                      ),
-                                    )
-                                  : null,
-                              onTap: () {},
-                              onChanged: (value) => bloc.add(ShowClearButton()),
-                              onTapOutside: (event) => bloc.emailFocusNode.unfocus(),
-                            );
-                          },
+                        CustomTextField(
+                          controller: bloc.emailController,
+                          focusNode: bloc.emailFocusNode,
+                          margin: EdgeInsets.zero,
+                          isAuthentication: true,
+                          hintText: 'TMDb username',
+                          shadowColor: lightGreyColor,
+                          backgroundColor: whiteColor,
+                          border: transparentRadiusBorder,
+                          enabledBorder: state.error ? redRadiusBorder : lightGreyRadiusBorder,
+                          focusedBorder: skyBlueRadiusInputBorder,
+                          contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                          suffixIcon: bloc.emailController.text.isNotEmpty
+                              ? GestureDetector(
+                                  onTap: () {
+                                    bloc.emailController.clear();
+                                    bloc.add(ShowClearButton());
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                    child: Icon(
+                                      Icons.clear,
+                                      color: darkBlueColor,
+                                      size: 20.sp,
+                                    ),
+                                  ),
+                                )
+                              : null,
+                          onTap: () {},
+                          onChanged: (value) => bloc.add(ShowClearButton()),
+                          onTapOutside: (event) => bloc.emailFocusNode.unfocus(),
                         ),
                         SizedBox(height: 10.h),
-                        BlocBuilder<LoginBloc, LoginState>(
-                          builder: (context, state) {
-                            final bloc = BlocProvider.of<LoginBloc>(context);
-                            return CustomTextField(
-                              focusNode: bloc.passwordFocusNode,
-                              controller: bloc.passwordController,
-                              margin: EdgeInsets.zero,
-                              isAuthentication: true,
-                              hintText: 'TMDb password',
-                              obscureText: state.showPassword,
-                              shadowColor: lightGreyColor,
-                              backgroundColor: whiteColor,
-                              border: transparentRadiusBorder,
-                              enabledBorder: state.error ? redRadiusBorder : lightGreyRadiusBorder,
-                              focusedBorder: skyBlueRadiusInputBorder,
-                              contentPadding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 10.w),
-                              suffixIcon: GestureDetector(
-                                onTap: () {},
-                                child: IntrinsicHeight(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      bloc.passwordController.text.isNotEmpty
-                                          ? Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  bloc.passwordController.clear();
-                                                  bloc.add(ShowClearButton());
-                                                },
-                                                child: Icon(
-                                                  Icons.clear,
-                                                  color: darkBlueColor,
-                                                  size: 20.sp,
-                                                ),
-                                              ),
-                                            )
-                                          : const SizedBox(),
-                                      VerticalDivider(
-                                        width: 5,
-                                        color: lightGreyColor,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                        child: GestureDetector(
-                                          onTap: () => bloc.add(ShowPassword(
-                                            showPassword: state.showPassword,
-                                          )),
-                                          child: SvgPicture.asset(
-                                            state.showPassword
-                                                ? IconsPath.eyeCloseIcon.assetName
-                                                : IconsPath.eyeOpenIcon.assetName,
-                                            fit: BoxFit.fill,
-                                            width: 15.w,
-                                            height: 15.h,
+                        CustomTextField(
+                          focusNode: bloc.passwordFocusNode,
+                          controller: bloc.passwordController,
+                          margin: EdgeInsets.zero,
+                          isAuthentication: true,
+                          hintText: 'TMDb password',
+                          obscureText: state.showPassword,
+                          shadowColor: lightGreyColor,
+                          backgroundColor: whiteColor,
+                          border: transparentRadiusBorder,
+                          enabledBorder: state.error ? redRadiusBorder : lightGreyRadiusBorder,
+                          focusedBorder: skyBlueRadiusInputBorder,
+                          contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                          suffixIcon: GestureDetector(
+                            onTap: () {},
+                            child: IntrinsicHeight(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  bloc.passwordController.text.isNotEmpty
+                                      ? Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              bloc.passwordController.clear();
+                                              bloc.add(ShowClearButton());
+                                            },
+                                            child: Icon(
+                                              Icons.clear,
+                                              color: darkBlueColor,
+                                              size: 20.sp,
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                        )
+                                      : const SizedBox(),
+                                  VerticalDivider(
+                                    width: 5,
+                                    color: lightGreyColor,
                                   ),
-                                ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                    child: GestureDetector(
+                                      onTap: () => bloc.add(ShowPassword(
+                                        showPassword: state.showPassword,
+                                      )),
+                                      child: SvgPicture.asset(
+                                        state.showPassword
+                                            ? IconsPath.eyeCloseIcon.assetName
+                                            : IconsPath.eyeOpenIcon.assetName,
+                                        fit: BoxFit.fill,
+                                        width: 15.w,
+                                        height: 15.h,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              onTap: () {},
-                              onTapOutside: (event) => bloc.passwordFocusNode.unfocus(),
-                              onChanged: (p0) => bloc.add(ShowClearButton()),
-                            );
-                          },
+                            ),
+                          ),
+                          onTap: () {},
+                          onTapOutside: (event) => bloc.passwordFocusNode.unfocus(),
+                          onChanged: (value) => bloc.add(ShowClearButton()),
                         ),
                         SizedBox(height: 20.h),
                         BlocBuilder<LoginBloc, LoginState>(
                           builder: (context, state) {
-                            final bloc = BlocProvider.of<LoginBloc>(context);
                             return LoginButton(
                               buttonStyle: loginPrimaryStyle,
                               onTap: () => bloc.add(Login(

@@ -2,9 +2,9 @@ part of 'discovery_bloc.dart';
 
 class DiscoveryEvent {}
 
-class NavigateTab extends DiscoveryEvent {
-  final int indexPage;
-  NavigateTab({
-    required this.indexPage,
+class NavigateTabDiscovery extends DiscoveryEvent {
+  final int indexTabDiscovery;
+  NavigateTabDiscovery({
+    required this.indexTabDiscovery,
   });
 }

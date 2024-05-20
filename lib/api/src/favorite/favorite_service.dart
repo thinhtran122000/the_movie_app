@@ -45,4 +45,23 @@ class FavoriteService {
         response.toList().map<MultipleMedia>((e) => MultipleMedia.fromJson(e)).toList();
     return ListResponse(list: listResponse);
   }
+
+  Future<ObjectResponse<APIResponse>> addFavorite({
+    required int accountId,
+    required String sessionId,
+    required String mediaType,
+    required int mediaId,
+    required bool favorite,
+  }) async {
+    final request = FavoriteRequest.addFavorite(
+      accountId: accountId,
+      sessionId: sessionId,
+      mediaType: mediaType,
+      mediaId: mediaId,
+      favorite: favorite,
+    );
+    final response = await apiClient.execute(request: request);
+    final objectResponse = APIResponse.fromJson(response.toObject());
+    return ObjectResponse(object: objectResponse);
+  }
 }

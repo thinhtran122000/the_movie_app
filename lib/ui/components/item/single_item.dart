@@ -47,7 +47,7 @@ class SingleItem extends StatelessWidget {
           margin: EdgeInsets.fromLTRB(17.w, 0, 17.w, 0),
           decoration: BoxDecoration(
             color: whiteColor,
-            borderRadius: BorderRadius.circular(15.r),
+            borderRadius: BorderRadius.circular(10.r),
             boxShadow: [
               BoxShadow(
                 color: lightGreyColor,
@@ -89,8 +89,8 @@ class SingleItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: whiteColor,
                     borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(15.r),
-                      bottomRight: Radius.circular(15.r),
+                      topRight: Radius.circular(10.r),
+                      bottomRight: Radius.circular(10.r),
                     ),
                     gradient: colors.length >= 2 && colors.length == stops.length
                         ? LinearGradient(
@@ -107,9 +107,9 @@ class SingleItem extends StatelessWidget {
                     children: [
                       SizedBox(height: 10.h),
                       Flexible(
-                        flex: 1,
+                        flex: 2,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(10.w, 0, 12.w, 0),
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -129,6 +129,9 @@ class SingleItem extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 3.w,
+                              ),
                               GestureDetector(
                                 onTap: onTapFavor,
                                 child: Icon(
@@ -147,7 +150,6 @@ class SingleItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 1.h),
                       Flexible(
                         flex: 1,
                         child: Padding(
@@ -167,14 +169,14 @@ class SingleItem extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 1.h),
+                      SizedBox(height: 3.h),
                       Expanded(
                         flex: 4,
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(10.w, 0, 20.w, 0),
+                          padding: EdgeInsets.fromLTRB(10.w, 0, 10.w, 0),
                           child: Text(
                             '$overview',
-                            maxLines: 5,
+                            maxLines: 4,
                             softWrap: true,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.ellipsis,

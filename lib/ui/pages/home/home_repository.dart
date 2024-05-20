@@ -244,4 +244,20 @@ class HomeRepository {
       watchlist: watchlist,
     );
   }
+
+  Future<ObjectResponse<APIResponse>> addFavorite({
+    required int accountId,
+    required String sessionId,
+    required String mediaType,
+    required int mediaId,
+    required bool favorite,
+  }) async {
+    return FavoriteService(apiClient: restApiClient).addFavorite(
+      accountId: accountId,
+      sessionId: sessionId,
+      mediaType: mediaType,
+      mediaId: mediaId,
+      favorite: favorite,
+    );
+  }
 }

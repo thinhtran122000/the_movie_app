@@ -118,7 +118,7 @@ class DenariItem extends StatelessWidget {
                       style: TextStyle(
                         height: 1.h,
                         fontSize: 15.sp,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.normal,
                         color: blackColor,
                       ),
                     ),

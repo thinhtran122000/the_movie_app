@@ -4,8 +4,6 @@ import 'package:tmdb/ui/pages/pages.dart';
 
 class WatchlistRoutes {
   static Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
-    AppMainRoutes.watchlist: (context, settings) {
-      return const WatchlistPage();
-    },
+    AppMainRoutes.watchlist: (context, settings) => const WatchlistPage(),
   };
 }

@@ -4,6 +4,8 @@ class AppSubRoutes {
   // Sub routes Exlore Page
   static const String discovery = '${AppMainRoutes.explore}/discovery';
   static const String search = '${AppMainRoutes.explore}/search';
+  // Sub routes Discovery View
+
   static const String browse = '$discovery/browse';
   static const String streaming = '$discovery/streaming';
   static const String comingSoon = '$discovery/coming_soon';

@@ -37,7 +37,7 @@ class SenaryItem extends StatelessWidget {
       onTap: onTapItem,
       child: RepaintBoundary(
         child: Container(
-          width: 150.w,
+          width: 115.w,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: whiteColor,
@@ -93,12 +93,10 @@ class SenaryItem extends StatelessWidget {
                                     ? IconsPath.addedWatchListIcon.assetName
                                     : IconsPath.addWatchListIcon.assetName,
                                 alignment: Alignment.topLeft,
-                                width: 50.w,
-                                height: 45.h,
                                 fit: BoxFit.fill,
                               ),
                               Positioned(
-                                top: 9.h,
+                                top: 5.h,
                                 child: Icon(
                                   (watchlist ?? false) ? Icons.check : Icons.add,
                                   color: (watchlist ?? false) ? blackColor : whiteColor,
@@ -144,7 +142,7 @@ class SenaryItem extends StatelessWidget {
                     textScaler: const TextScaler.linear(1),
                     style: TextStyle(
                       color: greyColor,
-                      fontSize: 20.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -159,9 +157,9 @@ class SenaryItem extends StatelessWidget {
                       Icon(
                         Icons.star_rounded,
                         color: yellowColor,
-                        size: 16.sp,
+                        size: 15.sp,
                       ),
-                      SizedBox(width: 5.w),
+                      SizedBox(width: 2.w),
                       Text(
                         '$voteAverage',
                         maxLines: 1,
@@ -169,14 +167,15 @@ class SenaryItem extends StatelessWidget {
                         textScaler: const TextScaler.linear(1),
                         style: TextStyle(
                           color: greyColor,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           overflow: TextOverflow.clip,
+                          height: 0,
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 2.h),
+                SizedBox(height: 5.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Text(
@@ -187,6 +186,7 @@ class SenaryItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14.sp,
                       overflow: TextOverflow.ellipsis,
+                      height: 0,
                     ),
                   ),
                 ),

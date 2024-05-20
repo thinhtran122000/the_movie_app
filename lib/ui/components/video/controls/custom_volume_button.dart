@@ -68,6 +68,7 @@ class CustomVolumeButton extends StatelessWidget {
                       controller.value.position.inMilliseconds <= 5000 && enabledUnmute
                           ? 'Tap to unmute'
                           : '',
+                      textScaler: const TextScaler.linear(1),
                       maxLines: 1,
                       softWrap: true,
                       style: TextStyle(

@@ -24,8 +24,10 @@ class CustomBottomSheet extends StatelessWidget {
     return CupertinoActionSheet(
       title: Text(
         title ?? '',
+        textScaler: const TextScaler.linear(1),
         style: TextStyle(
           fontSize: 14.sp,
+          color: greyColor,
         ),
       ),
       actions: [
@@ -34,6 +36,7 @@ class CustomBottomSheet extends StatelessWidget {
           onPressed: onPressConfirm ?? () {},
           child: Text(
             titleConfirm ?? '',
+            textScaler: const TextScaler.linear(1),
             style: TextStyle(
               color: Colors.red,
               fontSize: 18.sp,
@@ -46,9 +49,11 @@ class CustomBottomSheet extends StatelessWidget {
         onPressed: onPressCancel ?? () {},
         child: Text(
           titleCancel ?? '',
+          textScaler: const TextScaler.linear(1),
           style: TextStyle(
             color: blackColor,
             fontSize: 18.sp,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

@@ -2,28 +2,33 @@ part of 'top_rated_bloc.dart';
 
 class TopRatedEvent {}
 
-class FetcData extends TopRatedEvent {
+class FetchDataTopRated extends TopRatedEvent {
   final int page;
   final String language;
   final String region;
-  final String sessionId;
-  FetcData({
+  FetchDataTopRated({
     required this.page,
     required this.language,
     required this.region,
-    required this.sessionId,
   });
 }
 
-class AddWatchList extends TopRatedEvent {
-  final int accountId;
-  final String sessionId;
+class AddWatchlist extends TopRatedEvent {
   final String mediaType;
   final int mediaId;
   final int index;
-  AddWatchList({
-    required this.accountId,
-    required this.sessionId,
+  AddWatchlist({
+    required this.mediaType,
+    required this.mediaId,
+    required this.index,
+  });
+}
+
+class AddFavorites extends TopRatedEvent {
+  final String mediaType;
+  final int mediaId;
+  final int index;
+  AddFavorites({
     required this.mediaType,
     required this.mediaId,
     required this.index,

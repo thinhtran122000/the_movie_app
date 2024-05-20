@@ -10,6 +10,7 @@ class GridItem extends StatelessWidget {
   final String? releaseYear;
   final VoidCallback? onTapItem;
   final int index;
+  final String heroTag;
   const GridItem({
     super.key,
     required this.imageUrl,
@@ -17,6 +18,7 @@ class GridItem extends StatelessWidget {
     this.title,
     this.releaseYear,
     required this.index,
+    required this.heroTag,
   });
 
   @override
@@ -27,7 +29,7 @@ class GridItem extends StatelessWidget {
         child: IntrinsicHeight(
           child: index % 2 != 0
               ? SizedBox(
-                  height: 215.h,
+                  height: 225.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -44,20 +46,23 @@ class GridItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.fill,
-                          height: 170.h,
-                          width: double.infinity,
-                          progressIndicatorBuilder: (context, url, prgress) =>
-                              const CustomIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(
-                            ImagesPath.noImage.assetName,
-                            width: double.infinity,
-                            height: 170.h,
+                        child: Hero(
+                          tag: heroTag,
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.fill,
+                            height: 175.h,
+                            width: double.infinity,
+                            progressIndicatorBuilder: (context, url, prgress) =>
+                                const CustomIndicator(),
+                            errorWidget: (context, url, error) => Image.asset(
+                              ImagesPath.noImage.assetName,
+                              width: double.infinity,
+                              height: 170.h,
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),
@@ -98,7 +103,7 @@ class GridItem extends StatelessWidget {
                   ),
                 )
               : SizedBox(
-                  height: 285.h,
+                  height: 295.h,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -114,20 +119,23 @@ class GridItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.fill,
-                          height: 240.h,
-                          width: double.infinity,
-                          progressIndicatorBuilder: (context, url, prgress) =>
-                              const CustomIndicator(),
-                          errorWidget: (context, url, error) => Image.asset(
-                            ImagesPath.noImage.assetName,
-                            width: double.infinity,
-                            height: 240.h,
+                        child: Hero(
+                          tag: heroTag,
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.fill,
+                            height: 245.h,
+                            width: double.infinity,
+                            progressIndicatorBuilder: (context, url, prgress) =>
+                                const CustomIndicator(),
+                            errorWidget: (context, url, error) => Image.asset(
+                              ImagesPath.noImage.assetName,
+                              width: double.infinity,
+                              height: 240.h,
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
                       ),

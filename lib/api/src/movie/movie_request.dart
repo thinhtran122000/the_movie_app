@@ -77,4 +77,62 @@ class MovieRequest {
           // 'region': region,
         },
       );
+
+  static APIRequest getDetailsMovie({
+    required String language,
+    required int movieId,
+    String? appendToResponse,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/$movieId',
+        parameters: {
+          'language': language,
+          'movie_id': movieId,
+          'append_to_response': appendToResponse,
+        },
+      );
+
+  static APIRequest getImagesMovie({
+    required String language,
+    required int movieId,
+    String? includeImageLanguage,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/$movieId/images',
+        parameters: {
+          'language': language,
+          'movie_id': movieId,
+          'include_image_language': includeImageLanguage,
+        },
+      );
+
+  static APIRequest getMovieCredits({
+    required String language,
+    required int movieId,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/$movieId/credits',
+        parameters: {
+          'language': language,
+          'movie_id': movieId,
+        },
+      );
+
+  static APIRequest getMovieRelated({
+    required String language,
+    required int movieId,
+    required int page,
+  }) =>
+      APIRequest(
+        method: HTTPMethods.get,
+        path: '/movie/$movieId/similar',
+        parameters: {
+          'movie_id': movieId,
+          'language': language,
+          'page': page,
+        },
+      );
 }

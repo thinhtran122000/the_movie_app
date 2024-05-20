@@ -79,10 +79,12 @@ class OptionLoginButton extends StatelessWidget {
 class LoginButton extends StatelessWidget {
   final void Function()? onTap;
   final ButtonStyle? buttonStyle;
+  final String? title;
   const LoginButton({
     super.key,
     this.onTap,
     this.buttonStyle,
+    this.title,
   });
 
   @override
@@ -91,7 +93,7 @@ class LoginButton extends StatelessWidget {
       onPressed: onTap,
       style: buttonStyle,
       child: Text(
-        'Sign in',
+        title ?? 'Sign in',
         textScaler: const TextScaler.linear(1),
         style: TextStyle(
           color: whiteColor,
@@ -126,6 +128,7 @@ class OptionSettingsButton extends StatelessWidget {
         children: [
           Text(
             '$title',
+            textScaler: const TextScaler.linear(1),
             style: TextStyle(
               color: blackColor,
               fontSize: 15.sp,
@@ -166,13 +169,11 @@ class LogOutButton extends StatelessWidget {
           color: colorTitle,
           fontSize: 15.sp,
           fontWeight: FontWeight.w500,
-          
         ),
       ),
     );
   }
 }
-
 
 class SortButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -216,6 +217,112 @@ class SortButton extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AddWatchlistButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String? title;
+  final String? content;
+  final IconData? icon;
+  final ButtonStyle? buttonStyle;
+  const AddWatchlistButton({
+    super.key,
+    this.onTap,
+    this.title,
+    this.icon,
+    this.buttonStyle,
+    this.content,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: buttonStyle,
+      onPressed: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: blackColor,
+            size: 25.sp,
+          ),
+          SizedBox(width: 10.w),
+          Expanded(
+            flex: 9,
+            child: Text(
+              title ?? '',
+              textScaler: const TextScaler.linear(1),
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: blackColor,
+                fontSize: 15.sp,
+                height: 0,
+              ),
+            ),
+            //   Column(
+            //     crossAxisAlignment: CrossAxisAlignment.stretch,
+            //     children: [
+            //       Text(
+            //         title,
+            //         textScaler: const TextScaler.linear(1),
+            //         textAlign: TextAlign.left,
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.normal,
+            //           color: blackColor,
+            //           fontSize: 15.sp,
+            //           height: 0,
+            //         ),
+            //       ),
+            //       SizedBox(
+            //         height: 2.h,
+            //       ),
+            //       Text(
+            //         '$content',
+            //         textScaler: const TextScaler.linear(1),
+            //         textAlign: TextAlign.left,
+            //         style: TextStyle(
+            //           color: blackColor,
+            //           fontSize: 13.sp,
+            //           fontWeight: FontWeight.normal,
+            //           height: 0,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RateButton extends StatelessWidget {
+  final void Function()? onTap;
+  final ButtonStyle? buttonStyle;
+  const RateButton({
+    super.key,
+    this.onTap,
+    this.buttonStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: buttonStyle,
+      child: Text(
+        'Rate',
+        textScaler: const TextScaler.linear(1),
+        style: TextStyle(
+          color: whiteColor,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

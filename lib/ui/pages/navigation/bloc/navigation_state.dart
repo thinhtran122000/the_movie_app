@@ -16,6 +16,13 @@ class NavigationInitial extends NavigationState {
   });
 }
 
+class NavigationLoading extends NavigationState {
+  NavigationLoading({
+    required super.indexPage,
+    required super.visible,
+  });
+}
+
 class NavigationSuccess extends NavigationState {
   NavigationSuccess({
     required super.indexPage,

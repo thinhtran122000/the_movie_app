@@ -4,16 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
+import 'package:tmdb/ui/bloc/tmdb_bloc.dart';
 import 'package:tmdb/ui/pages/navigation/bloc/navigation_bloc.dart';
-import 'package:tmdb/ui/pages/profile/bloc/profile_bloc.dart';
 import 'package:tmdb/ui/pages/profile/views/account/bloc/account_bloc.dart';
 import 'package:tmdb/ui/ui.dart';
+import 'package:tmdb/utils/utils.dart';
 
 class AccountView extends StatelessWidget {
+  final int? id;
+  final String? username;
   final GlobalKey<NavigatorState>? navigatorKey;
-
   const AccountView({
     super.key,
+    this.id,
+    this.username,
     this.navigatorKey,
   });
 
@@ -22,7 +26,7 @@ class AccountView extends StatelessWidget {
     return BlocProvider(
       create: (context) => AccountBloc()
         ..add(
-          LoadPageAccount(),
+          FetchData(),
         ),
       child: BlocConsumer<AccountBloc, AccountState>(
         listener: (context, state) async {
@@ -33,9 +37,9 @@ class AccountView extends StatelessWidget {
             BlocProvider.of<NavigationBloc>(context).add(
               NavigatePage(indexPage: 0),
             );
-            BlocProvider.of<ProfileBloc>(context).add(
-              NotifyLogout(),
-            );
+            BlocProvider.of<TmdbBloc>(context).add(NotifyStateChange(
+              notificationTypes: NotificationTypes.logout,
+            ));
           }
         },
         builder: (context, state) {
@@ -84,7 +88,7 @@ class AccountView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'thinhtran-151220',
+                            '$username-$id',
                             style: TextStyle(
                               color: greyColor,
                               fontSize: 14.sp,
@@ -105,9 +109,7 @@ class AccountView extends StatelessWidget {
                 OptionSettingsButton(
                   title: 'Edit profile',
                   buttonStyle: optionSettingPrimaryStyle,
-                  onTap: () {
-                    // navigatorKey?.currentState?.pushNamed(AppSubRoutes.account);
-                  },
+                  onTap: () {},
                 ),
                 Divider(
                   height: 0.h,
@@ -153,7 +155,6 @@ class AccountView extends StatelessWidget {
                   colorTitle: venetianRedColor,
                   buttonStyle: logoutPrimaryStyle,
                   onTap: () async {
-                    // bloc.add(Logout());
                     await showDialog(
                       context: context,
                       builder: (dialogContext) => CustomDialog(

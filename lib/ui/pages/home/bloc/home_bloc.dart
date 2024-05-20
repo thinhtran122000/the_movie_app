@@ -17,6 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<ChangeAnimationToast>(_onChangeAnimationToast);
     on<DisplayToast>(_onDisplayToast);
     on<DisableTrailer>(_onDisableTrailer);
+    on<RefreshPage>(_onRefreshPage);
   }
 
   FutureOr<void> _onChangeAnimationToast(ChangeAnimationToast event, Emitter<HomeState> emit) {
@@ -36,10 +37,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _onDisableTrailer(DisableTrailer event, Emitter<HomeState> emit) {
-     emit(HomeDisableSuccess(
+    emit(HomeDisableSuccess(
       opacity: state.opacity,
       visible: state.visible,
       statusMessage: state.statusMessage,
     ));
+  }
+
+  FutureOr<void> _onRefreshPage(RefreshPage event, Emitter<HomeState> emit) async {
+    emit(HomeInitial(
+      visible: false,
+      opacity: 0,
+      statusMessage: '',
+    ));
+    await Future.delayed(const Duration(seconds: 1), () {
+      emit(HomeSuccess(
+        opacity: 0,
+        visible: false,
+        statusMessage: '',
+      ));
+    });
   }
 }

@@ -13,69 +13,111 @@ class TopRatedBloc extends Bloc<TopRatedEvent, TopRatedState> {
   TopRatedBloc()
       : super(TopRatedInitial(
           listTopRated: [],
-          listMovieState: [],
+          listState: [],
           statusMessage: '',
           index: 0,
         )) {
-    on<FetcData>(_onFetcData);
-    on<AddWatchList>(_onAddWatchList);
+    on<FetchDataTopRated>(_onFetchDataTopRated);
+    on<AddWatchlist>(_onAddWatchlist);
+    on<AddFavorites>(_onAddFavorites);
   }
 
-  FutureOr<void> _onFetcData(FetcData event, Emitter<TopRatedState> emit) async {
+  FutureOr<void> _onFetchDataTopRated(FetchDataTopRated event, Emitter<TopRatedState> emit) async {
     try {
+      final accessToken = await FlutterStorage().getValue(AppKeys.accessTokenKey);
+      final sessionId = await FlutterStorage().getValue(AppKeys.sessionIdKey) ?? '';
       final result = await homeRepository.getTopRatedMovie(
         language: event.language,
         page: event.page,
         region: event.region,
       );
-      final movieStateList = await Future.wait(result.list.map<Future<MediaState>>(
-        (e) async {
-          final movieStateResult = await homeRepository.getMovieState(
-            movieId: e.id ?? 0,
-            sessionId: event.sessionId,
-          );
-          return movieStateResult.object;
-        },
-      ).toList());
-      emit(TopRatedSuccess(
-        listTopRated: result.list,
-        listMovieState: movieStateList,
-        statusMessage: state.statusMessage,
-        index: state.index,
-      ));
+      if (accessToken == null) {
+        emit(TopRatedSuccess(
+          listTopRated: result.list,
+          listState: [],
+          statusMessage: state.statusMessage,
+          index: state.index,
+        ));
+      } else {
+        final listState = await Future.wait(result.list.map<Future<MediaState>>(
+          (e) async {
+            final stateResult = await homeRepository.getMovieState(
+              movieId: e.id ?? 0,
+              sessionId: sessionId,
+            );
+            return stateResult.object;
+          },
+        ).toList());
+        emit(TopRatedSuccess(
+          listTopRated: result.list,
+          listState: listState,
+          statusMessage: state.statusMessage,
+          index: state.index,
+        ));
+      }
     } catch (e) {
       emit(TopRatedError(
         errorMessage: e.toString(),
         listTopRated: state.listTopRated,
-        listMovieState: state.listMovieState,
+        listState: state.listState,
         statusMessage: state.statusMessage,
         index: state.index,
       ));
     }
   }
 
-  FutureOr<void> _onAddWatchList(AddWatchList event, Emitter<TopRatedState> emit) async {
+  FutureOr<void> _onAddWatchlist(AddWatchlist event, Emitter<TopRatedState> emit) async {
     try {
-      state.listMovieState[event.index].watchlist =
-          !(state.listMovieState[event.index].watchlist ?? false);
+      final accountId = int.parse(await FlutterStorage().getValue(AppKeys.accountIdKey) ?? '');
+      final sessionId = await FlutterStorage().getValue(AppKeys.sessionIdKey) ?? '';
+      state.listState[event.index].watchlist = !(state.listState[event.index].watchlist ?? false);
       final result = await homeRepository.addWatchList(
-        accountId: event.accountId,
-        sessionId: event.sessionId,
+        accountId: accountId,
+        sessionId: sessionId,
         mediaType: event.mediaType,
         mediaId: event.mediaId,
-        watchlist: state.listMovieState[event.index].watchlist ?? false,
+        watchlist: state.listState[event.index].watchlist ?? false,
       );
-      emit(TopRatedAddWatchListSuccess(
+      emit(TopRatedAddWatchlistSuccess(
         listTopRated: state.listTopRated,
-        listMovieState: state.listMovieState,
+        listState: state.listState,
         statusMessage: result.object.statusMessage ?? '',
         index: event.index,
       ));
     } catch (e) {
-      emit(TopRatedAddWatchListError(
+      emit(TopRatedAddWatchlistError(
         errorMessage: e.toString(),
         listTopRated: state.listTopRated,
-        listMovieState: state.listMovieState,
+        listState: state.listState,
+        statusMessage: state.statusMessage,
+        index: state.index,
+      ));
+    }
+  }
+
+  FutureOr<void> _onAddFavorites(AddFavorites event, Emitter<TopRatedState> emit) async {
+    try {
+      final accountId = int.parse(await FlutterStorage().getValue(AppKeys.accountIdKey) ?? '');
+      final sessionId = await FlutterStorage().getValue(AppKeys.sessionIdKey) ?? '';
+      state.listState[event.index].favorite = !(state.listState[event.index].favorite ?? false);
+      final result = await homeRepository.addFavorite(
+        accountId: accountId,
+        sessionId: sessionId,
+        mediaType: event.mediaType,
+        mediaId: event.mediaId,
+        favorite: state.listState[event.index].favorite ?? false,
+      );
+      emit(TopRatedAddFavoritesSuccess(
+        listTopRated: state.listTopRated,
+        listState: state.listState,
+        statusMessage: result.object.statusMessage ?? '',
+        index: event.index,
+      ));
+    } catch (e) {
+      emit(TopRatedAddFavoritesError(
+        errorMessage: e.toString(),
+        listTopRated: state.listTopRated,
+        listState: state.listState,
         statusMessage: state.statusMessage,
         index: state.index,
       ));

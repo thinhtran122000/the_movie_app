@@ -9,4 +9,6 @@ class AppMainRoutes {
   static const String details = '/details';
   static const String watchlist = '/watchlist';
   static const String favorite = '/favorite';
+  static const String rated = '/rated';
+  static const String rating = '/rating';
 }

@@ -1,8 +1,8 @@
 class Rated {
-  int? value;
+  double? value;
 
   Rated({
-    required this.value,
+    this.value,
   });
 
   factory Rated.fromJson(Map<String, dynamic> json) => Rated(

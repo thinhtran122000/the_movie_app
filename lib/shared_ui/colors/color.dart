@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+Color get noColor => const Color(0xFFFFFFFF).withOpacity(0);
 Color get darkWhiteColor => const Color(0xFFF5F5F5);
 Color get whiteColor => const Color(0xFFFFFFFF);
 Color get whiteSmokeColor => const Color(0xFFf7f7f7);
@@ -20,3 +21,4 @@ Color get pinkColor => const Color(0xFFF50057);
 Color get venetianRedColor => const Color(0xFFc60000);
 Color get redColor => const Color(0xFFFF0000);
 Color get skyBlueColor => const Color(0xFF87CEEB);
+Color get brightNavyBlue => const Color(0xFF0468BA);

@@ -1,14 +1,14 @@
 part of 'explore_bloc.dart';
 
 abstract class ExploreState {
-  final int indexPageExplore;
+  final int indexViewExplore;
   final bool visible;
   final double opacity;
   final String statusMessage;
   final String query;
   final bool enabledSearch;
   ExploreState({
-    required this.indexPageExplore,
+    required this.indexViewExplore,
     required this.visible,
     required this.opacity,
     required this.statusMessage,
@@ -24,7 +24,7 @@ class ExploreInitial extends ExploreState {
     required super.statusMessage,
     required super.query,
     required super.enabledSearch,
-    required super.indexPageExplore,
+    required super.indexViewExplore,
   });
 }
 
@@ -36,7 +36,7 @@ class ExploreSuccess extends ExploreState {
     required super.statusMessage,
     required super.query,
     required super.enabledSearch,
-    required super.indexPageExplore,
+    required super.indexViewExplore,
   });
 }
 
@@ -47,6 +47,6 @@ class ExploreSearchSuccess extends ExploreState {
     required super.statusMessage,
     required super.query,
     required super.enabledSearch,
-    required super.indexPageExplore,
+    required super.indexViewExplore,
   });
 }

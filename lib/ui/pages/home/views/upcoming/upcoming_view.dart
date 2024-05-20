@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tmdb/router/router.dart';
 import 'package:tmdb/shared_ui/shared_ui.dart';
 import 'package:tmdb/ui/components/components.dart';
-import 'package:tmdb/ui/pages/details/details.dart';
 import 'package:tmdb/ui/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb/ui/pages/home/views/upcoming/bloc/upcoming_bloc.dart';
 import 'package:tmdb/utils/utils.dart';
@@ -77,7 +76,7 @@ class UpcomingView extends StatelessWidget {
     final state = BlocProvider.of<UpcomingBloc>(context).state;
     final item = state.listUpcoming[index];
     return SliderItem(
-      heroTag: 'upcoming_movie_$index',
+      heroTag: '${AppConstants.upcomingMovieTag}-${item.id}',
       isBackdrop: false,
       title: item.title,
       voteAverage: double.parse(item.voteAverage?.toStringAsFixed(1) ?? ''),
@@ -85,13 +84,13 @@ class UpcomingView extends StatelessWidget {
           item.posterPath == null ? '' : '${AppConstants.kImagePathPoster}${item.posterPath}',
       onTap: () {
         BlocProvider.of<HomeBloc>(context).add(DisableTrailer());
-        Navigator.of(context).push(
-          AppPageRoute(
-            builder: (context) => DetailsPage(
-              heroTag: 'upcoming_movie_$index',
-            ),
-            begin: const Offset(1, 0),
-          ),
+        Navigator.of(context).pushNamed(
+          AppMainRoutes.details,
+          arguments: {
+            'id': item.id,
+            'hero_tag': '${AppConstants.upcomingMovieTag}-${item.id}',
+            'media_type': MediaType.movie,
+          },
         );
       },
     );

@@ -2,18 +2,22 @@ part of 'now_playing_bloc.dart';
 
 abstract class NowPlayingEvent {}
 
-class FetchData extends NowPlayingEvent {
+class FetchDataNowPlaying extends NowPlayingEvent {
   final String language;
   final int page;
-  FetchData({
+  final bool fetchFeature;
+  FetchDataNowPlaying({
     required this.language,
     required this.page,
+    required this.fetchFeature,
   });
 }
 
-class ChangeColor extends NowPlayingEvent {
-  final String posterPath;
-  ChangeColor({
-    required this.posterPath,
+class AddFavorites extends NowPlayingEvent {
+  final String mediaType;
+  final int mediaId;
+  AddFavorites({
+    required this.mediaType,
+    required this.mediaId,
   });
 }

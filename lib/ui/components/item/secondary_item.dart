@@ -54,7 +54,7 @@ class SecondaryItem extends StatelessWidget {
                 ),
                 child: index >= itemCount
                     ? ItemViewAll(
-                        sizeIcon: 45.sp,
+                        sizeIcon: 40.sp,
                       )
                     : Hero(
                         tag: heroTag,
@@ -85,7 +85,7 @@ class SecondaryItem extends StatelessWidget {
                   softWrap: true,
                   maxLines: 2,
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 13.sp,
                     height: 0,
                   ),
                 ),
